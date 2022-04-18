@@ -2,7 +2,7 @@
 
 @section('content')
    
-    <div class="page-wrapper unselectable">
+    <div class="page-wrapper ">
         <div class="container-fluid" id="container-fluid">
            
             <center>
