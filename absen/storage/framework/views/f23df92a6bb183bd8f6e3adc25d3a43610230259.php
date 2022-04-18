@@ -26,7 +26,10 @@
 
                                 </h2>
                             </div>
-                            
+                            <div>
+                               
+                                <a href="<?php echo e(url('/selesai',[$ibadah,$tanggal])); ?>" class="btn btn-primary">Selesai</a>
+                            </div>
                         </div>
                         <!-- title -->
                     </div>
