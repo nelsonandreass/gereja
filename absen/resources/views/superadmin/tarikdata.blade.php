@@ -66,11 +66,24 @@
 
         function printData(){
             var divToPrint = document.getElementById("table-absen");
+            var htmlToPrint = '' +
+                '<style type="text/css">' +
+                'table th, table td {' +
+                'padding :0.5 rem;'+
+                'background-color: #FFFFFF;'+
+                'border-collapse: collapse;'+
+                'border-width: 2px;'+
+                'border-color: #000000;'+
+                'border-style: solid;'+
+                'color: #000000;'+
+                '}' +
+                '</style>';
+            htmlToPrint += divToPrint.outerHTML;
             newWin = window.open("");
-            newWin.document.write(divToPrint.outerHTML);
+            newWin.document.write(htmlToPrint);
             newWin.print();
             newWin.close();
-        } 
+        }  	
        
         function change(){
             tanggal = $("#tanggal").val();
