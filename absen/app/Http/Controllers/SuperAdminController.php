@@ -12,11 +12,15 @@ Use App\Berita;
 Use App\Counter;
 
 use App\Imports\UsersImport;
+use Illuminate\Foundation\Auth\User as AuthUser;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+use Symfony\Component\VarDumper\VarDumper;
 
 class SuperAdminController extends Controller
 {
@@ -90,6 +94,15 @@ class SuperAdminController extends Controller
         return view('superadmin.absen' , ['absens' => $absens]);
     }
 
+    public function getBirthdayThisWeek(){
+      
+        $users = User::whereRaw('DAYOFYEAR(curdate()) <= DAYOFYEAR(tanggal_lahir) AND DAYOFYEAR(curdate()) + 7 >=  dayofyear(tanggal_lahir)')
+        ->orderByRaw('DAYOFYEAR(tanggal_lahir)')->select("name","tanggal_lahir")->get();
+        foreach ($users as $user) {
+            print($user." / ");
+        }
+    }
+
     //end of home
 
 
@@ -108,7 +121,7 @@ class SuperAdminController extends Controller
     
         $checkUser = User::where('kartu','LIKE',"%$cardshort%")->orWhere('fingerprint','LIKE',"%$cardshort%")->first();
       
-        $response;
+        $response="";
         if(!is_null($checkUser)){
             // $checkAbsen = Absen::where('user_id', $checkUser['kartu'])->where('jenis' , $jenis)->where('tanggal' , $date)->first();
             // if(is_null($checkAbsen)){

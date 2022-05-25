@@ -69,13 +69,8 @@
             var htmlToPrint = '' +
                 '<style type="text/css">' +
                 'table th, table td {' +
-                'padding :0.5 rem;'+
-                'background-color: #FFFFFF;'+
-                'border-collapse: collapse;'+
-                'border-width: 2px;'+
-                'border-color: #000000;'+
-                'border-style: solid;'+
-                'color: #000000;'+
+                'border:1px solid #000;' +
+                'padding:0.5em;' +
                 '}' +
                 '</style>';
             htmlToPrint += divToPrint.outerHTML;
