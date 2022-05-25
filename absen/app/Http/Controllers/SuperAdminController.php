@@ -12,11 +12,15 @@ Use App\Berita;
 Use App\Counter;
 
 use App\Imports\UsersImport;
+use Illuminate\Foundation\Auth\User as AuthUser;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+use Symfony\Component\VarDumper\VarDumper;
 
 class SuperAdminController extends Controller
 {
@@ -88,6 +92,15 @@ class SuperAdminController extends Controller
     public function getAllAbsen(){
         $absens = Absen::select('jenis','tanggal')->distinct('tanggal','jenis')->orderBy('tanggal',"desc")->get();
         return view('superadmin.absen' , ['absens' => $absens]);
+    }
+
+    public function getBirthdayThisWeek(){
+      
+        $users = User::whereRaw('DAYOFYEAR(curdate()) <= DAYOFYEAR(tanggal_lahir) AND DAYOFYEAR(curdate()) + 7 >=  dayofyear(tanggal_lahir)')
+        ->orderByRaw('DAYOFYEAR(tanggal_lahir)')->select("name","tanggal_lahir")->get();
+        foreach ($users as $user) {
+            print($user." / ");
+        }
     }
 
     //end of home

@@ -55,6 +55,7 @@ Route::group(['middleware' => 'role'],function(){
     //home
     Route::get('/adminhome' , 'SuperAdminController@index');
     Route::get('/allabsen' , 'SuperAdminController@getAllAbsen');
+    Route::get('/birthday' , 'SuperAdminController@getBirthdayThisWeek');
     //absen
     Route::get('/ibadah' , 'SuperAdminController@ibadah');
     // Route::post('/buatibadah' , 'SuperAdminController@buatIbadah');

@@ -64,11 +64,19 @@
 
         function printData(){
             var divToPrint = document.getElementById("table-absen");
+            var htmlToPrint = '' +
+                '<style type="text/css">' +
+                'table th, table td {' +
+                'border:1px solid #000;' +
+                'padding:0.5em;' +
+                '}' +
+                '</style>';
+            htmlToPrint += divToPrint.outerHTML;
             newWin = window.open("");
-            newWin.document.write(divToPrint.outerHTML);
+            newWin.document.write(htmlToPrint);
             newWin.print();
             newWin.close();
-        } 
+        }  	
        
         function change(){
             tanggal = $("#tanggal").val();
