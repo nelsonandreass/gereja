@@ -108,7 +108,7 @@ class SuperAdminController extends Controller
     
         $checkUser = User::where('kartu','LIKE',"%$cardshort%")->orWhere('fingerprint','LIKE',"%$cardshort%")->first();
       
-        $response;
+        $response="";
         if(!is_null($checkUser)){
             // $checkAbsen = Absen::where('user_id', $checkUser['kartu'])->where('jenis' , $jenis)->where('tanggal' , $date)->first();
             // if(is_null($checkAbsen)){
