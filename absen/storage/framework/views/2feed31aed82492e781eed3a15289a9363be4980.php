@@ -54,20 +54,22 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Berita</h4>
+                                <h4 class="card-title">Ulang Tahun</h4>
                                 <div class="feed-widget">
                                     <ul class="list-style-none feed-body m-0 p-b-20">
-                                        <?php $__currentLoopData = $beritas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $berita): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        
+                                        <?php $no = 1;?>
+                                        <?php $__currentLoopData = $birthdays; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $birthday): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <?php if($loop->odd): ?>
                                                 <li class="feed-item">
-                                                    <div class="feed-icon bg-info"><i class="mdi mdi-newspaper"></i></div> <?php echo e($berita->judul); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($berita->wadah); ?></span>
+                                                   <?php echo e($no); ?>. <?php echo e($birthday->name); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($birthday->tanggal_lahir); ?></span>
                                                 </li>
                                             <?php else: ?>
                                                 <li class="feed-item">
-                                                    <div class="feed-icon bg-success"><i class="mdi mdi-newspaper"></i></div> <?php echo e($berita->judul); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($berita->wadah); ?></span>
+                                                    <?php echo e($no); ?>. <?php echo e($birthday->name); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($birthday->tanggal_lahir); ?></span>
                                                 </li>
                                             <?php endif; ?>
-                                            
+                                            <?php $no += 1;?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                       
                                     </ul>
@@ -280,10 +282,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+   
+
     var tanggal = document.getElementById('tanggal').value;
     var ibadah1 = document.getElementById('ibadah1').value;
     var ibadah2 = document.getElementById('ibadah2').value;
-    console.log(ibadah1);
+    
+
     tanggal = tanggal.replace('[','');
     tanggal = tanggal.replace(']','');
     var tanggalsplit = tanggal.split(',');

@@ -21,6 +21,7 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use Symfony\Component\VarDumper\VarDumper;
+use DateTime;
 
 class SuperAdminController extends Controller
 {
@@ -49,8 +50,9 @@ class SuperAdminController extends Controller
         }
         
         //$absens = DB::table('absens')->select('tanggal',DB::raw('count(id) as total'))->orderBy('tanggal','asc')->groupBy('tanggal')->get();
-      
-        return view('superadmin.index' , ['beritas' => $beritas , 'absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2)]);
+        $birthday = $this->getBirthdayThisWeek();
+       
+        return view('superadmin.index' , ['beritas' => $beritas , 'absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
     }
 
     public function tarikDataPage(){
@@ -94,13 +96,33 @@ class SuperAdminController extends Controller
         return view('superadmin.absen' , ['absens' => $absens]);
     }
 
-    public function getBirthdayThisWeek(){
+    function getStartAndEndDate($week, $year) {
+        $dto = new DateTime();
+        $dto->setISODate($year, $week);
+        $ret['day_start'] = $dto->format('d');
+        $dto->modify('+6 days');
+        $ret['day_end'] = $dto->format('d');
+        $ret['month'] = $dto->format('m');
+        return $ret;
+      }
       
-        $users = User::whereRaw('DAYOFYEAR(curdate()) <= DAYOFYEAR(tanggal_lahir) AND DAYOFYEAR(curdate()) + 7 >=  dayofyear(tanggal_lahir)')
-        ->orderByRaw('DAYOFYEAR(tanggal_lahir)')->select("name","tanggal_lahir")->get();
-        foreach ($users as $user) {
-            print($user." / ");
-        }
+      
+
+    public function getBirthdayThisWeek(){
+        $curDate = date("Y-m-d");
+        $curYear = date("Y");
+        $date = new DateTime($curDate);
+        $week = $date->format("W");
+        $week_array = $this->getStartAndEndDate($week,$curYear);
+
+        //set
+        $start_date = $week_array["day_start"] ;
+        $end_date = $week_array["day_end"];
+        $cur_month = $week_array["month"];
+       
+        $users = User::whereMonth("tanggal_lahir","=",$cur_month)->whereDay("tanggal_lahir",">=",$start_date)->whereDay("tanggal_lahir","<=",$end_date)->select("name","tanggal_lahir")->orderBy("tanggal_lahir")->get();
+     
+        return $users;
     }
 
     //end of home

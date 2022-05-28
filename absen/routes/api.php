@@ -28,3 +28,5 @@ Route::post('/users' , function(){
 Route::get('/users/{id}' , function($id){
     return User::find($id);
 });
+
+Route::get('/birthday' , 'SuperAdminController@getBirthdayThisWeek');
