@@ -14,19 +14,3 @@ use App\User;
 |
 */
 
-Route::get('/users', function(){
-    return User::get();
-});
-Route::post('/users' , function(){
-    $data = array(
-        'name' => "testing",
-        'email' => "testing@gmail.com",
-        'password' => "password"
-    );
-    User::create($data);
-});
-Route::get('/users/{id}' , function($id){
-    return User::find($id);
-});
-
-Route::get('/birthday' , 'SuperAdminController@getBirthdayThisWeek');
