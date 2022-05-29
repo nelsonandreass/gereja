@@ -17,10 +17,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Concerns\WithDrawings;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
-use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
-use Symfony\Component\VarDumper\VarDumper;
 use DateTime;
 
 class SuperAdminController extends Controller
@@ -278,22 +274,20 @@ class SuperAdminController extends Controller
 
     public function searchJemaat(Request $request){
         $username = $request->input('jemaat');
-        $datas = User::where('name' , 'LIKE' , $username.'%')->get();
-        $response = array();
-        foreach($datas as $data){
-            $datajemaat = array(
-                'id' => $data->id,
-                'name' => $data->name
-            ); 
-            array_push($response,$datajemaat);
+        
+        if(!is_null($username)){
+            $datas = User::where('name' , 'LIKE' , $username.'%')->get();
+            return $datas;
         }
-        return json_encode($response);
+      
     }
 
     public function jemaatbaru(){
         return view('superadmin.jemaatbaru');
     }
-    public function simpanjemaatbaru(Request $request){
+    public function savejemaatbaru(Request $request){
+        var_dump($request);
+        die("");
         
     }
     //end of jemaat

@@ -14,3 +14,6 @@ use App\User;
 |
 */
 
+Route::post('/searchjemaat' , 'SuperAdminController@searchJemaat');
+Route::post('/tarikdataprocess' , 'SuperAdminController@tarikDataProcess');
+Route::post('/absenprocess' , 'SuperAdminController@absenProcess');
