@@ -35,7 +35,7 @@
                                     <td>{{$user->nomor_telepon}}</td>
                                     <td>{{$user->alamat}}</td>
                                     <td>{{$user->kartu}}</td>
-                                    <td><img src="{{asset('storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
+                                    <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
                                     <td>
                                         <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Edit</a>
                                     </td>
@@ -68,7 +68,14 @@
                             $(".default-table").hide();
                             $('.row-table').remove();
                                 for(var i = 0; i < data.length ; i++){
-                                    $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+data[i].nomor_telepon+'</td><td>'+data[i].alamat+'</td></tr>');
+                                    if(data[i].foto == null){
+                                        var photo = "";
+                                    }
+                                    else{
+                                        var photo = 'http://localhost/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
+
+                                    }
+                                    $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+data[i].nomor_telepon+'</td><td>'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
                                 }
                                 if(data == ""){
                                     $(".default-table").show();
@@ -81,7 +88,6 @@
 
     </script>
 @endsection
-
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

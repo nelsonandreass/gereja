@@ -86,9 +86,7 @@
                 var tanggal = $("#tanggal").val();
                 var string = "/absen/selesai/"+jenisibadah+"/"+tanggal;
               
-                //console.log(string);
                 var url = $("#url").attr('href',string);
-                //console.log(tanggal);
                 if(jenisibadah != 'default'){
                     $("#option").hide();
                     $("#absen").show();
@@ -127,12 +125,11 @@
                     http.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
                             //Call a function when the state changes.'
-                            console.log(http.responseText);
                             var data = JSON.parse(http.responseText);
                             if(data.error_code == '0000'){
                                 $("#userid").val("");
                                 $("#userid").focus();
-                                var foto = '/absen/storage/app/public/'+data.foto;
+                                var foto = '/absen/absen/storage/app/public/'+data.foto;
                                 $("#foto-jemaat").attr("src",foto);
                                 $("#greeting").text("Selamat Beribadah " + data.name);
                                 $("#greeting").show();
@@ -156,44 +153,6 @@
                        
                       
                     }
-
-                    // $.ajax({
-                    //     url: "/absen/api/absenprocess",
-                    //     datatype: "application/x-www-form-urlencoded",
-                    //     method:"POST",
-                    //     data:{
-                    //         user_id: userid,
-                    //         jenis: $("#option-ibadah").val()
-                    //     },
-                    //     success:function (data)
-                    //     {
-                    //         if(data.error_code == '0000'){
-                    //             $("#userid").val("");
-                    //             $("#userid").focus();
-                    //             var foto = '/absen/storage/app/public/'+data.foto;
-                    //             $("#foto-jemaat").attr("src",foto);
-                    //             $("#greeting").text("Selamat Beribadah " + data.name);
-                    //             $("#greeting").show();
-                    //             setInterval(function() {
-                    //                 var foto = '/absen/assets/img/user-black.png';
-                    //                 $("#foto-jemaat").attr("src",foto);
-                    //                 $("#greeting").hide();
-                    //             }, 9000);
-                                
-                    //         }
-                    //         else if(data.error_code != '0000'){
-                    //             $("#userid").val("");
-                    //             $("#userid").focus();
-                    //             $("#greeting").text(data.greet);
-                    //             $("#greeting").show();
-                    //             setInterval(function(){
-                    //                 $("#greeting").hide();
-                    //             }, 5000);
-                    //     }
-                    //     }
-                    // });
-                    
-                   
                 }
             });
           

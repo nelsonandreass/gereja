@@ -131,7 +131,7 @@
                             if(data.error_code == '0000'){
                                 $("#userid").val("");
                                 $("#userid").focus();
-                                var foto = '/absen/storage/app/public/'+data.foto;
+                                var foto = '/absen/absen/storage/app/public/'+data.foto;
                                 $("#foto-jemaat").attr("src",foto);
                                 $("#greeting").text("Selamat Beribadah " + data.name);
                                 $("#greeting").show();

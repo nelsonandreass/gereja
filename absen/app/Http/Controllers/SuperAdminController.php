@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use DateTime;
+use Symfony\Component\VarDumper\VarDumper;
 
 class SuperAdminController extends Controller
 {
@@ -235,7 +236,6 @@ class SuperAdminController extends Controller
         $nokartu = $request->input('nokartu');
         $tanggallahir = $request->input('tgllahir');
         $status_pernikahan = $request->input('status_pernikahan');
-
         $tempatlahir = $request->input('tempatlahir');
         $name = $request->input('name');
         $foto = $request->file('foto');
@@ -286,8 +286,33 @@ class SuperAdminController extends Controller
         return view('superadmin.jemaatbaru');
     }
     public function savejemaatbaru(Request $request){
-        var_dump($request);
-        die("");
+        $email = $request->input('email');
+        $telepon = $request->input('telepon');
+        $alamat = $request->input('alamat');
+        $nokartu = $request->input('nokartu');
+        $tanggallahir = $request->input('tgllahir');
+        $status_pernikahan = $request->input('status_pernikahan');
+        $tempatlahir = $request->input('tempatlahir');
+        $name = $request->input('name');
+        $jenisKelamin = $request->input('jenis_kelamin');
+        $foto = $request->file('foto');
+        $date = date("d-m-Y");
+        $namaFoto = $name.$date.'.' . $foto->getClientOriginalExtension();
+        $saveFoto = Storage::putFileAs('public',$foto, $namaFoto);
+
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->foto = $namaFoto;
+        $user->jenis_kelamin = $jenisKelamin;
+        $user->status_pernikahan = $status_pernikahan;
+        $user->tanggal_lahir = $tanggallahir;
+        $user->tempat_lahir = $tempatlahir;
+        $user->nomor_telepon = $telepon;
+        $user->alamat = $alamat;
+        $user->kartu = $nokartu;
+        $user->save();
+        return redirect('/listjemaat');
         
     }
     //end of jemaat

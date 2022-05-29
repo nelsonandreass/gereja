@@ -17,7 +17,19 @@
                 <div class="form-group row">
                     <label for="" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                     <div class="col-sm-10">
-                    <input type="text"  class="form-control" name="jenis_kelamin" >
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="jeniskelamin" id="jeniskelaminpria">
+                            <label class="form-check-label" for="jeniskelaminpria">
+                                Pria
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="jeniskelamin" id="jeniskelaminwanita">
+                            <label class="form-check-label" for="jeniskelaminwanita">
+                                Wanita
+                            </label>
+                        </div>
+                    <!-- <input type="text"  class="form-control" name="jenis_kelamin" > -->
                     </div>
                 </div>
                 <div class="form-group row">
