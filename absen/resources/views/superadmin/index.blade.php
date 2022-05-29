@@ -54,20 +54,22 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Berita</h4>
+                                <h4 class="card-title">Ulang Tahun</h4>
                                 <div class="feed-widget">
                                     <ul class="list-style-none feed-body m-0 p-b-20">
-                                        @foreach($beritas as $berita)
+                                        
+                                        <?php $no = 1;?>
+                                        @foreach($birthdays as $birthday)
                                             @if($loop->odd)
                                                 <li class="feed-item">
-                                                    <div class="feed-icon bg-info"><i class="mdi mdi-newspaper"></i></div> {{$berita->judul}}.<span class="ms-auto font-12 text-muted">{{$berita->wadah}}</span>
+                                                   {{$no}}. {{$birthday->name}}.<span class="ms-auto font-12 text-muted">{{$birthday->tanggal_lahir}}</span>
                                                 </li>
                                             @else
                                                 <li class="feed-item">
-                                                    <div class="feed-icon bg-success"><i class="mdi mdi-newspaper"></i></div> {{$berita->judul}}.<span class="ms-auto font-12 text-muted">{{$berita->wadah}}</span>
+                                                    {{$no}}. {{$birthday->name}}.<span class="ms-auto font-12 text-muted">{{$birthday->tanggal_lahir}}</span>
                                                 </li>
                                             @endif
-                                            
+                                            <?php $no += 1;?>
                                         @endforeach
                                       
                                     </ul>
@@ -278,10 +280,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+   
+
     var tanggal = document.getElementById('tanggal').value;
     var ibadah1 = document.getElementById('ibadah1').value;
     var ibadah2 = document.getElementById('ibadah2').value;
-    console.log(ibadah1);
+    
+
     tanggal = tanggal.replace('[','');
     tanggal = tanggal.replace(']','');
     var tanggalsplit = tanggal.split(',');

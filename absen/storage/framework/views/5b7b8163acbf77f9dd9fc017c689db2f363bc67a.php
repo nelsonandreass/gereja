@@ -86,9 +86,7 @@
                 var tanggal = $("#tanggal").val();
                 var string = "/absen/selesai/"+jenisibadah+"/"+tanggal;
               
-                console.log(string);
                 var url = $("#url").attr('href',string);
-                //console.log(tanggal);
                 if(jenisibadah != 'default'){
                     $("#option").hide();
                     $("#absen").show();
@@ -114,7 +112,7 @@
 
             $("#userid").on('input',function(e){
                 e.preventDefault();
-		var temp = $("#userid").val();
+		        var temp = $("#userid").val();
                 var userid = temp.substring(0,10);
                 if(userid.length >= 7){
                     var http = new XMLHttpRequest();
@@ -123,37 +121,38 @@
                     http.open('POST', url, true);
                     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     http.send(params);
+                    http.responseType = 'text';
                     http.onreadystatechange = function() {
-                        //Call a function when the state changes.'
-                        var data= JSON.parse(http.responseText);
-                        if(data.error_code == '0000'){
-                            $("#userid").val("");
-                            $("#userid").focus();
-                            var data= JSON.parse(http.responseText);
-                            var foto = '/absen/storage/app/public/'+data.foto;
-                            $("#foto-jemaat").attr("src",foto);
-                            $("#greeting").text("Selamat Beribadah " + data.name);
-                            $("#greeting").show();
-                            setInterval(function() {
-                                var foto = '/absen/assets/img/user-black.png';
+                        if (this.readyState == 4 && this.status == 200) {
+                            //Call a function when the state changes.'
+                            var data = JSON.parse(http.responseText);
+                            if(data.error_code == '0000'){
+                                $("#userid").val("");
+                                $("#userid").focus();
+                                var foto = '/absen/absen/storage/app/public/'+data.foto;
                                 $("#foto-jemaat").attr("src",foto);
-                                $("#greeting").hide();
-                            }, 9000);
-                            
+                                $("#greeting").text("Selamat Beribadah " + data.name);
+                                $("#greeting").show();
+                                setInterval(function() {
+                                    var foto = '/absen/assets/img/user-black.png';
+                                    $("#foto-jemaat").attr("src",foto);
+                                    $("#greeting").hide();
+                                }, 9000);
+                                
+                            }
+                            else if(data.error_code != '0000'){
+                                $("#userid").val("");
+                                $("#userid").focus();
+                                $("#greeting").text(data.greet);
+                                $("#greeting").show();
+                                setInterval(function(){
+                                    $("#greeting").hide();
+                                }, 5000);
+                            }
                         }
-                        else if(data.error_code != '0000'){
-                            $("#userid").val("");
-                            $("#userid").focus();
-                            $("#greeting").text(data.greet);
-                            $("#greeting").show();
-                            setInterval(function(){
-                                $("#greeting").hide();
-                            }, 5000);
-                        }
+                       
                       
                     }
-                    
-                   
                 }
             });
           

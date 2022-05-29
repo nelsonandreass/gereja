@@ -12,11 +12,13 @@ Use App\Berita;
 Use App\Counter;
 
 use App\Imports\UsersImport;
+use Illuminate\Foundation\Auth\User as AuthUser;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Concerns\WithDrawings;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
-use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
+use DateTime;
+
 
 class SuperAdminController extends Controller
 {
@@ -45,8 +47,9 @@ class SuperAdminController extends Controller
         }
         
         //$absens = DB::table('absens')->select('tanggal',DB::raw('count(id) as total'))->orderBy('tanggal','asc')->groupBy('tanggal')->get();
-      
-        return view('superadmin.index' , ['beritas' => $beritas , 'absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2)]);
+        $birthday = $this->getBirthdayThisWeek();
+       
+        return view('superadmin.index' , ['beritas' => $beritas , 'absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
     }
 
     public function tarikDataPage(){
@@ -90,6 +93,35 @@ class SuperAdminController extends Controller
         return view('superadmin.absen' , ['absens' => $absens]);
     }
 
+    function getStartAndEndDate($week, $year) {
+        $dto = new DateTime();
+        $dto->setISODate($year, $week);
+        $ret['day_start'] = $dto->format('d');
+        $dto->modify('+6 days');
+        $ret['day_end'] = $dto->format('d');
+        $ret['month'] = $dto->format('m');
+        return $ret;
+      }
+      
+      
+
+    public function getBirthdayThisWeek(){
+        $curDate = date("Y-m-d");
+        $curYear = date("Y");
+        $date = new DateTime($curDate);
+        $week = $date->format("W");
+        $week_array = $this->getStartAndEndDate($week,$curYear);
+
+        //set
+        $start_date = $week_array["day_start"] ;
+        $end_date = $week_array["day_end"];
+        $cur_month = $week_array["month"];
+       
+        $users = User::whereMonth("tanggal_lahir","=",$cur_month)->whereDay("tanggal_lahir",">=",$start_date)->whereDay("tanggal_lahir","<=",$end_date)->select("name","tanggal_lahir")->orderBy("tanggal_lahir")->get();
+     
+        return $users;
+    }
+
     //end of home
 
 
@@ -108,7 +140,7 @@ class SuperAdminController extends Controller
     
         $checkUser = User::where('kartu','LIKE',"%$cardshort%")->orWhere('fingerprint','LIKE',"%$cardshort%")->first();
       
-        $response;
+        $response="";
         if(!is_null($checkUser)){
             // $checkAbsen = Absen::where('user_id', $checkUser['kartu'])->where('jenis' , $jenis)->where('tanggal' , $date)->first();
             // if(is_null($checkAbsen)){
@@ -150,7 +182,12 @@ class SuperAdminController extends Controller
     }
 
     public function absenDetail($ibadah,$tanggal){
-        $datas = Absen::with('users')->select('user_id','jenis','tanggal','created_at')->where('jenis',$ibadah)->where('tanggal',$tanggal)->distinct('user_id')->get();
+        $datas = Absen::with('users')->select('user_id','jenis','tanggal')->where('jenis',$ibadah)->where('tanggal',$tanggal)->distinct('user_id')->get();
+    
+        // $absen = DB::table('absens as a')->select('a.user_id','a.jenis','a.tanggal')->join('users as u' , 'u.kartu' , '=' , 'a.user_id')->where('jenis' , '=' , $ibadah)->where('tanggal' , '=' , $tanggal)->distinct('user_id')->get();
+        
+        // var_dump(json_encode($absen));
+        // die("");
         return view('superadmin.absendetail' , ['datas' => $datas, 'ibadah' => $ibadah , 'tanggal' => $tanggal]);
     }
 
@@ -204,7 +241,6 @@ class SuperAdminController extends Controller
         $nokartu = $request->input('nokartu');
         $tanggallahir = $request->input('tgllahir');
         $status_pernikahan = $request->input('status_pernikahan');
-
         $tempatlahir = $request->input('tempatlahir');
         $name = $request->input('name');
         $foto = $request->file('foto');
@@ -243,22 +279,45 @@ class SuperAdminController extends Controller
 
     public function searchJemaat(Request $request){
         $username = $request->input('jemaat');
-        $datas = User::where('name' , 'LIKE' , $username.'%')->get();
-        $response = array();
-        foreach($datas as $data){
-            $datajemaat = array(
-                'id' => $data->id,
-                'name' => $data->name
-            ); 
-            array_push($response,$datajemaat);
+        
+        if(!is_null($username)){
+            $datas = User::where('name' , 'LIKE' , $username.'%')->get();
+            return $datas;
         }
-        return json_encode($response);
+      
     }
 
     public function jemaatbaru(){
         return view('superadmin.jemaatbaru');
     }
-    public function simpanjemaatbaru(Request $request){
+    public function savejemaatbaru(Request $request){
+        $email = $request->input('email');
+        $telepon = $request->input('telepon');
+        $alamat = $request->input('alamat');
+        $nokartu = $request->input('nokartu');
+        $tanggallahir = $request->input('tgllahir');
+        $status_pernikahan = $request->input('status_pernikahan');
+        $tempatlahir = $request->input('tempatlahir');
+        $name = $request->input('name');
+        $jenisKelamin = $request->input('jenis_kelamin');
+        $foto = $request->file('foto');
+        $date = date("d-m-Y");
+        $namaFoto = $name.$date.'.' . $foto->getClientOriginalExtension();
+        $saveFoto = Storage::putFileAs('public',$foto, $namaFoto);
+
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->foto = $namaFoto;
+        $user->jenis_kelamin = $jenisKelamin;
+        $user->status_pernikahan = $status_pernikahan;
+        $user->tanggal_lahir = $tanggallahir;
+        $user->tempat_lahir = $tempatlahir;
+        $user->nomor_telepon = $telepon;
+        $user->alamat = $alamat;
+        $user->kartu = $nokartu;
+        $user->save();
+        return redirect('/listjemaat');
         
     }
     //end of jemaat
