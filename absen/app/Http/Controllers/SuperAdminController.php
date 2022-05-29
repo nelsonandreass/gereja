@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use DateTime;
+
 use Symfony\Component\VarDumper\VarDumper;
 
 class SuperAdminController extends Controller
@@ -182,7 +183,12 @@ class SuperAdminController extends Controller
     }
 
     public function absenDetail($ibadah,$tanggal){
-        $datas = Absen::with('users')->select('user_id','jenis','tanggal','created_at')->where('jenis',$ibadah)->where('tanggal',$tanggal)->distinct('user_id')->get();
+        $datas = Absen::with('users')->select('user_id','jenis','tanggal')->where('jenis',$ibadah)->where('tanggal',$tanggal)->distinct('user_id')->get();
+    
+        // $absen = DB::table('absens as a')->select('a.user_id','a.jenis','a.tanggal')->join('users as u' , 'u.kartu' , '=' , 'a.user_id')->where('jenis' , '=' , $ibadah)->where('tanggal' , '=' , $tanggal)->distinct('user_id')->get();
+        
+        // var_dump(json_encode($absen));
+        // die("");
         return view('superadmin.absendetail' , ['datas' => $datas, 'ibadah' => $ibadah , 'tanggal' => $tanggal]);
     }
 

@@ -41,7 +41,6 @@
                                     <th class="border-top-0">Nama</th>
                                     <th class="border-top-0">Nomor Telepon</th>
                                     <th class="border-top-0">Foto</th>
-                                    <th class="border-top-0">Jam Kehadiran</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,8 +51,8 @@
                                             <td><?php echo e($i); ?></td>
                                             <td><?php echo e($user->name); ?></td>
                                             <td><?php echo e($user->nomor_telepon); ?></td>
-                                            <td><img src="<?php echo e(asset('absen/storage/app/public/'.$user->foto)); ?>" class="icon" alt="<?php echo e($user->foto); ?>"></td>
-                                            <td><?php echo e($data->created_at); ?></td>
+                                            <td><img src="<?php echo e(asset('/absen/storage/app/public/'.$user->foto)); ?>" class="icon" alt="<?php echo e($user->foto); ?>"></td>
+                                            
                                         </tr>
                                         <?php $i++?>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

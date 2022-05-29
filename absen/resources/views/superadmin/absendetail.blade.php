@@ -42,7 +42,6 @@
                                     <th class="border-top-0">Nama</th>
                                     <th class="border-top-0">Nomor Telepon</th>
                                     <th class="border-top-0">Foto</th>
-                                    <th class="border-top-0">Jam Kehadiran</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,8 +52,8 @@
                                             <td>{{$i}}</td>
                                             <td>{{$user->name}}</td>
                                             <td>{{$user->nomor_telepon}}</td>
-                                            <td><img src="{{asset('absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
-                                            <td>{{$data->created_at}}</td>
+                                            <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
+                                            
                                         </tr>
                                         <?php $i++?>
                                     @endforeach
