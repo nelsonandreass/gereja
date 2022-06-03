@@ -116,11 +116,29 @@ class SuperAdminController extends Controller
         $start_date = $week_array["day_start"] ;
         $end_date = $week_array["day_end"];
         $cur_month = $week_array["month"];
-       
-        $users = User::whereMonth("tanggal_lahir","=",$cur_month)->whereDay("tanggal_lahir",">=",$start_date)->whereDay("tanggal_lahir","<=",$end_date)->select("name","tanggal_lahir")->orderBy("tanggal_lahir")->get();
-     
-        return $users;
+        
+        //$users = User::whereMonth("tanggal_lahir","=",$cur_month)->whereDay("tanggal_lahir",">=",$start_date)->whereDay("tanggal_lahir","<=",$end_date)->select("name","tanggal_lahir")->orderBy("tanggal_lahir")->get();
+        $users = User::select("name","tanggal_lahir")->whereRaw('WEEKOFYEAR(tanggal_lahir) = WEEKOFYEAR(curdate())')->orderBy('tanggal_lahir')->get();
+        
+        foreach($users as $user){
+            $user->tanggal_lahir = date("d-m-Y",strtotime($user->tanggal_lahir));
+        }
+      
+        // $arr = json_decode($users,true);
+        
+        // usort($arr,array($this,'date_compare'));
+        
+        // dd($arr);
+        // die("");
+        return ($users);
     }
+
+    function date_compare($element1, $element2) {
+        $datetime1 = strtotime($element1['tanggal_lahir']);
+        $datetime2 = strtotime($element2['tanggal_lahir']);
+       
+        return $datetime1 - $datetime2;
+    } 
 
     //end of home
 
@@ -143,7 +161,7 @@ class SuperAdminController extends Controller
         $response="";
         if(!is_null($checkUser)){
             // $checkAbsen = Absen::where('user_id', $checkUser['kartu'])->where('jenis' , $jenis)->where('tanggal' , $date)->first();
-            // if(is_null($checkAbsen)){
+            //if(is_null($checkAbsen)){
                 $data = new Absen();
                 $data->user_id = $checkUser['kartu'];
                 $data->user_name = $user_name;
@@ -162,7 +180,7 @@ class SuperAdminController extends Controller
                         "greet" => "Selamat Beribadah"
                     );
                 }
-           
+            //}
             // else{
             //     $response = array(
             //         "error_code" => '0001',
