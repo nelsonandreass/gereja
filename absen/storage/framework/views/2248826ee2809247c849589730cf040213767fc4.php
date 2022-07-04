@@ -18,6 +18,7 @@
                         <thead>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Panggilan</th>
                             <th>No Telepon</th>
                             <th>Alamat</th>
                             <th>No Kartu</th>
@@ -31,6 +32,7 @@
                                 <tr class="default-table">
                                     <td><?php echo e($i); ?></td>
                                     <td><?php echo e($user->name); ?></td>
+                                    <td><?php echo e($user->nama_panggilan); ?></td>
                                     <td><?php echo e($user->nomor_telepon); ?></td>
                                     <td><?php echo e($user->alamat); ?></td>
                                     <td><?php echo e($user->kartu); ?></td>

@@ -19,6 +19,7 @@
                         <thead>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Panggilan</th>
                             <th>No Telepon</th>
                             <th>Alamat</th>
                             <th>No Kartu</th>
@@ -32,6 +33,7 @@
                                 <tr class="default-table">
                                     <td>{{$i}}</td>
                                     <td>{{$user->name}}</td>
+                                    <td>{{$user->nama_panggilan}}</td>
                                     <td>{{$user->nomor_telepon}}</td>
                                     <td>{{$user->alamat}}</td>
                                     <td>{{$user->kartu}}</td>

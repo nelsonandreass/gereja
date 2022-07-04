@@ -16,6 +16,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">Nama Panggilan</label>
+                    <div class="col-sm-10">
+                    <input type="text"  class="form-control" name="nama_panggilan" >
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                     <div class="col-sm-10">
                         <div class="form-check">

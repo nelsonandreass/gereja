@@ -118,15 +118,15 @@ class SuperAdminController extends Controller
         $cur_month = $week_array["month"];
         
         //$users = User::whereMonth("tanggal_lahir","=",$cur_month)->whereDay("tanggal_lahir",">=",$start_date)->whereDay("tanggal_lahir","<=",$end_date)->select("name","tanggal_lahir")->orderBy("tanggal_lahir")->get();
-        $users = User::select("name","tanggal_lahir")->whereRaw('WEEKOFYEAR(tanggal_lahir) = WEEKOFYEAR(curdate())')->orderBy('tanggal_lahir')->get();
+        $users = User::select("name","tanggal_lahir")->whereRaw('WEEKOFYEAR(tanggal_lahir) = WEEKOFYEAR(curdate())')->get();
         
         foreach($users as $user){
-            $user->tanggal_lahir = date("d-m-Y",strtotime($user->tanggal_lahir));
+            $user->tanggal_lahir = date("m-d",strtotime($user->tanggal_lahir));
         }
       
-        // $arr = json_decode($users,true);
+        $arr = json_decode($users,true);
         
-        // usort($arr,array($this,'date_compare'));
+        usort($arr,array($this,'date_compare'));
         
         // dd($arr);
         // die("");
@@ -239,14 +239,14 @@ class SuperAdminController extends Controller
     public function listjemaat(){
         //$users = User::where('role' , 'user')->orderBy('name','asc')->paginate(50);
         //$users = User::where('role' , 'user')->where('name' , 'LIKE' , 'y%')->orderBy('name','asc')->get();
-        $users = User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto')->orderBy('name','asc')->paginate(100);
+        $users = User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->orderBy('name','asc')->paginate(100);
 
       
         return view('superadmin.listjemaat' , ['users' => $users, 'json' => json_encode($users)]);
     }
 
     public function showjemaat($id){
-        $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto')->find($id);
+        $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto','nama_panggilan')->find($id);
 
         return view('superadmin.showjemaat' , ['datas' => $data]);
     }
@@ -261,9 +261,10 @@ class SuperAdminController extends Controller
         $status_pernikahan = $request->input('status_pernikahan');
         $tempatlahir = $request->input('tempatlahir');
         $name = $request->input('name');
+        $nama_panggilan = $request->input('nama_panggilan');
         $foto = $request->file('foto');
-       
-
+        
+     
         if(!is_null($foto)){
             //$namafoto = $foto->getClientOriginalName();
             $namafoto = $name.'.' . $foto->getClientOriginalExtension();
@@ -276,7 +277,8 @@ class SuperAdminController extends Controller
                 'foto' => $namafoto,
                 'tanggal_lahir' => $tanggallahir,
                 'tempat_lahir' => $tempatlahir,
-                'status_pernikahan' => $status_pernikahan
+                'status_pernikahan' => $status_pernikahan,
+                'nama_panggilan' => $nama_panggilan
             );
         }
         else{
@@ -287,10 +289,11 @@ class SuperAdminController extends Controller
                 'kartu' => $nokartu,
                 'tanggal_lahir' => $tanggallahir,
                 'tempat_lahir' => $tempatlahir,
-                'status_pernikahan' => $status_pernikahan
+                'status_pernikahan' => $status_pernikahan,
+                'nama_panggilan' => $nama_panggilan
             );
         }
-        
+   
         $user = User::where('id', $id)->update($array);
         return redirect('/listjemaat');
     }
@@ -299,7 +302,7 @@ class SuperAdminController extends Controller
         $username = $request->input('jemaat');
         
         if(!is_null($username)){
-            $datas = User::where('name' , 'LIKE' , $username.'%')->get();
+            $datas = User::where('name' , 'LIKE' , $username.'%')->where('nama_panggilan' , 'LIKE' , $username.'%')->get();
             return $datas;
         }
       
@@ -317,6 +320,7 @@ class SuperAdminController extends Controller
         $status_pernikahan = $request->input('status_pernikahan');
         $tempatlahir = $request->input('tempatlahir');
         $name = $request->input('name');
+        $nama_panggilan = $request->input('nama_panggilan');
         $jenisKelamin = $request->input('jenis_kelamin');
         $foto = $request->file('foto');
         $date = date("d-m-Y");
@@ -325,6 +329,7 @@ class SuperAdminController extends Controller
 
         $user = new User();
         $user->name = $name;
+        $user->nama_panggilan = $nama_panggilan;
         $user->email = $email;
         $user->foto = $namaFoto;
         $user->jenis_kelamin = $jenisKelamin;
@@ -334,9 +339,17 @@ class SuperAdminController extends Controller
         $user->nomor_telepon = $telepon;
         $user->alamat = $alamat;
         $user->kartu = $nokartu;
+        
         $user->save();
         return redirect('/listjemaat');
         
+    }
+
+    public function deleteJemaat($id){
+        var_dump($id);
+        die("");
+        User::where('id',$id)->delete();
+        return redirect()->back();
     }
     //end of jemaat
 
