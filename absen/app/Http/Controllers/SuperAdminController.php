@@ -25,15 +25,15 @@ class SuperAdminController extends Controller
     //home
     
     public function index(){
-        //$beritas = Berita::select('judul','wadah')->orderBy('created_at','desc')->distinct('wadah')->take('4')->get();
         $absens = Absen::select('jenis','tanggal')->orderBy('tanggal','DESC')->distinct('tanggal','jenis')->take('5')->get();
         $tanggalDB = Absen::select('tanggal')->distinct('tanggal')->orderBy('tanggal','DESC')->take('6')->get()->toArray();
+       
         $this->selesaiProcess('ibadah1');
         $this->selesaiProcess('ibadah2');
 
         $arrayTanggal = array();
 
-        foreach($tanggalDB as $key => $dataTanggal){
+        foreach($tanggalDB as $dataTanggal){
             array_push($arrayTanggal,$dataTanggal['tanggal']);
         }
         sort($arrayTanggal);
@@ -209,7 +209,16 @@ class SuperAdminController extends Controller
     }
 
     public function selesaiProcess($jenis){
-        $getLastInserted = Absen::select("tanggal")->orderBy("created_at","desc")->first()->toArray();
+        try {
+            //code...
+            $getLastInserted = Absen::select("tanggal")->orderBy("created_at","desc")->first();
+            if(!is_null($getLastInserted)){
+                $getLastInserted->toArray();
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return false;
+        }
         $count = Absen::where('jenis',$jenis)->where('tanggal',$getLastInserted['tanggal'])->distinct('user_id')->count();
         $checkCount = Counter::where('jenis',$jenis)->where('tanggal',$getLastInserted['tanggal'])->exists();
        
