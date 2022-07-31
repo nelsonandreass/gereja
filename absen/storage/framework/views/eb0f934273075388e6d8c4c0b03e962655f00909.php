@@ -58,20 +58,22 @@
                                 <div class="feed-widget">
                                     <ul class="list-style-none feed-body m-0 p-b-20">
                                         
-                                        <?php $no = 1;?>
-                                        <?php $__currentLoopData = $birthdays; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $birthday): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $no = 1;?>
+                                        <?php $__currentLoopData = $birthdays; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $birthdayKey => $birthdayDate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $explodeBirthdayDate = explode(";",$birthdayDate);?>
                                             <?php if($loop->odd): ?>
                                                 <li class="feed-item">
-                                                   <?php echo e($no); ?>. <?php echo e($birthday->name); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($birthday->tanggal_lahir); ?></span>
+                                                   <?php echo e($no); ?>. <?php echo e($birthdayKey); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($explodeBirthdayDate[0]); ?></span>
                                                 </li>
                                             <?php else: ?>
                                                 <li class="feed-item">
-                                                    <?php echo e($no); ?>. <?php echo e($birthday->name); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($birthday->tanggal_lahir); ?></span>
+                                                    <?php echo e($no); ?>. <?php echo e($birthdayKey); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($explodeBirthdayDate[0]); ?></span>
                                                 </li>
                                             <?php endif; ?>
                                             <?php $no += 1;?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                      
+                                        
+                                       
                                     </ul>
                                 </div>
                             </div>

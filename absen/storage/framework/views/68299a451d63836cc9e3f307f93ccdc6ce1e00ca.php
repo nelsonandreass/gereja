@@ -12,9 +12,10 @@
         content="Xtreme Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
     <title>GPdI Sahabat Allah</title>
+
     <link rel="canonical" href="https://www.wrappixel.com/templates/xtreme-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="icon" type="image/x-icon" href="<?php echo e(asset('assets/img/favicons/favicon-32x32.png')); ?>">
     <!-- Custom CSS -->
     <!-- <link href="<?php echo e(asset('superadmin/libs/chartist/dist/chartist.min.css')); ?>" rel="stylesheet"> -->
     <!-- Custom CSS -->
@@ -23,9 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <!-- roboto -->
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> -->
+ 
 
     <link href="<?php echo e(asset('superadmin/dist/css/style.min.css')); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo e(asset('dist/css/custom.css')); ?>">
@@ -33,12 +32,7 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+  
 <style>
     body{
         font-family: 'Poppins', sans-serif !important;
@@ -77,9 +71,7 @@
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
-                            <!-- dark Logo text -->
-                           
-                            <!-- Light Logo text -->
+                         
                             
                         </span>
                     </a>
@@ -98,16 +90,7 @@
                     <!-- toggle and nav items -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-start me-auto">
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <!-- <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark"
-                                href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search position-absolute">
-                                <input type="text" class="form-control" placeholder="Search &amp; enter"> <a
-                                    class="srh-btn"><i class="ti-close"></i></a>
-                            </form>
-                        </li> -->
+                       
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
@@ -151,16 +134,7 @@
                         
                         
                         <div id="wrapper-sidebar">
-                            <!-- <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                    href="<?php echo e(url('/adminhome')); ?>" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
-                                        class="hide-menu">Dashboard</span></a></li>
-                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                    href="<?php echo e(url('/ibadah')); ?>" aria-expanded="false"><i
-                                        class="mdi mdi-account-plus"></i><span class="hide-menu">Absen</span></a></li>
-                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                    href="<?php echo e(url('/listjemaat')); ?>" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span
-                                        class="hide-menu">Jemaat</span></a></li>
-                             -->
+                          
                              <li class="sidebar-item"> 
                                  <a class="sidebar-link waves-effect waves-dark " href="<?php echo e(url('/adminhome')); ?>" aria-expanded="false"><img class="col-1" src="<?php echo e(asset('/assets/img/011-house-black.png')); ?>"></img>
                                  <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dashboard</span>

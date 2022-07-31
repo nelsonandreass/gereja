@@ -7,7 +7,7 @@
         <title>GPdI Sahabat Allah</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="icon" type="image/x-icon" href="<?php echo e(asset('assets/img/favicons/favicon-32x32.png')); ?>">
         <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com">

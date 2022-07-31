@@ -25,9 +25,12 @@ class SuperAdminController extends Controller
     //home
     
     public function index(){
-        $beritas = Berita::select('judul','wadah')->orderBy('created_at','desc')->distinct('wadah')->take('4')->get();
+        //$beritas = Berita::select('judul','wadah')->orderBy('created_at','desc')->distinct('wadah')->take('4')->get();
         $absens = Absen::select('jenis','tanggal')->orderBy('tanggal','DESC')->distinct('tanggal','jenis')->take('5')->get();
-        $tanggalDB = Absen::select('tanggal')->distinct('tanggal')->orderBy('tanggal','DESC')->take('6')->get();
+        $tanggalDB = Absen::select('tanggal')->distinct('tanggal')->orderBy('tanggal','DESC')->take('6')->get()->toArray();
+        $this->selesaiProcess('ibadah1');
+        $this->selesaiProcess('ibadah2');
+
         $arrayTanggal = array();
 
         foreach($tanggalDB as $key => $dataTanggal){
@@ -46,10 +49,9 @@ class SuperAdminController extends Controller
             array_push($jumlahIbadah2,$data->jumlah);
         }
         
-        //$absens = DB::table('absens')->select('tanggal',DB::raw('count(id) as total'))->orderBy('tanggal','asc')->groupBy('tanggal')->get();
         $birthday = $this->getBirthdayThisWeek();
-       
-        return view('superadmin.index' , ['beritas' => $beritas , 'absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
+    
+        return view('superadmin.index' , ['absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
     }
 
     public function tarikDataPage(){
@@ -77,7 +79,6 @@ class SuperAdminController extends Controller
         }
         foreach($tempArrayGetPeople as $key => $dataAbsen){
             array_push($arrayGetPeople ,$dataAbsen['user_id']);           
-
         }
 
         $arraydiff = array_diff($arrayGetAllPeople,$arrayGetPeople);
@@ -106,31 +107,29 @@ class SuperAdminController extends Controller
       
 
     public function getBirthdayThisWeek(){
-        $curDate = date("Y-m-d");
-        $curYear = date("Y");
-        $date = new DateTime($curDate);
-        $week = $date->format("W");
-        $week_array = $this->getStartAndEndDate($week,$curYear);
+        // $curDate = date("Y-m-d");
+        // $curYear = date("Y");
+        // $date = new DateTime($curDate);
+        // $week = $date->format("W");
+        // $week_array = $this->getStartAndEndDate($week,$curYear);
 
         //set
-        $start_date = $week_array["day_start"] ;
-        $end_date = $week_array["day_end"];
-        $cur_month = $week_array["month"];
+        // $start_date = $week_array["day_start"] ;
+        // $end_date = $week_array["day_end"];
+        // $cur_month = $week_array["month"];
         
         //$users = User::whereMonth("tanggal_lahir","=",$cur_month)->whereDay("tanggal_lahir",">=",$start_date)->whereDay("tanggal_lahir","<=",$end_date)->select("name","tanggal_lahir")->orderBy("tanggal_lahir")->get();
-        $users = User::select("name","tanggal_lahir")->whereRaw('WEEKOFYEAR(tanggal_lahir) = WEEKOFYEAR(curdate())')->get();
-        
-        foreach($users as $user){
-            $user->tanggal_lahir = date("m-d",strtotime($user->tanggal_lahir));
+        $users = User::select("name","nomor_telepon",DB::raw("DATE_FORMAT(tanggal_lahir,'%d-%m') as tanggal_lahir"))->whereRaw('WEEKOFYEAR(tanggal_lahir) = WEEKOFYEAR(curdate())')->get()->toArray();
+        $tempUsers = ($users);
+        $tempArray = array();
+        foreach($tempUsers as $tempUser){
+            $tempArray[$tempUser['name']] = $tempUser['tanggal_lahir'].";".$tempUser["nomor_telepon"];
         }
-      
-        $arr = json_decode($users,true);
+        asort($tempArray);
+        //var_dump($tempArray);
+        //die("");
         
-        usort($arr,array($this,'date_compare'));
-        
-        // dd($arr);
-        // die("");
-        return ($users);
+        return ($tempArray);
     }
 
     function date_compare($element1, $element2) {
@@ -209,15 +208,15 @@ class SuperAdminController extends Controller
         return view('superadmin.absendetail' , ['datas' => $datas, 'ibadah' => $ibadah , 'tanggal' => $tanggal]);
     }
 
-    public function selesaiProcess($jenis,$tanggal){
-        $count = Absen::where('jenis',$jenis)->where('tanggal',$tanggal)->distinct('user_id')->count();
-        $checkCount = Counter::where('jenis',$jenis)->where('tanggal',$tanggal)->exists();
+    public function selesaiProcess($jenis){
+        $getLastInserted = Absen::select("tanggal")->orderBy("created_at","desc")->first()->toArray();
+        $count = Absen::where('jenis',$jenis)->where('tanggal',$getLastInserted['tanggal'])->distinct('user_id')->count();
+        $checkCount = Counter::where('jenis',$jenis)->where('tanggal',$getLastInserted['tanggal'])->exists();
        
         if($checkCount == false){
-            
             $data = new Counter;
             $data->jenis = $jenis;
-            $data->tanggal = $tanggal;
+            $data->tanggal = $getLastInserted['tanggal'];
             $data->jumlah = $count;
     
             $data->save();
@@ -226,11 +225,8 @@ class SuperAdminController extends Controller
             $dataUpdate = array(
                 'jumlah' => $count
             );
-           Counter::where('jenis',$jenis)->where('tanggal',$tanggal)->update($dataUpdate);
+           Counter::where('jenis',$jenis)->where('tanggal',$getLastInserted['tanggal'])->update($dataUpdate);
         }
-     
-
-        return redirect()->back();
     }
       
     //end of absen
@@ -302,7 +298,7 @@ class SuperAdminController extends Controller
         $username = $request->input('jemaat');
         
         if(!is_null($username)){
-            $datas = User::where('name' , 'LIKE' , $username.'%')->where('nama_panggilan' , 'LIKE' , $username.'%')->get();
+            $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->where('name' , 'LIKE' , $username.'%')->orWhere('nama_panggilan' , 'LIKE' , $username.'%')->get();
             return $datas;
         }
       

@@ -50,47 +50,47 @@
         </div>
     </div>
 
-    <script>
-
-            $(document).ready(function(){
-            
-                $('#search').keyup(function(event){
-                    var name = $('#search').val();
-                
-                    $.ajax({
-                        url: "/absen/api/searchjemaat",
-                        datatype: "application/x-www-form-urlencoded",
-                        method:"POST",
-                        data:{
-                            jemaat: name
-                        },
-                        success: function(data)
-                        {
-                            $(".default-table").hide();
-                            $('.row-table').remove();
-                                for(var i = 0; i < data.length ; i++){
-                                    if(data[i].foto == null){
-                                        var photo = "";
-                                    }
-                                    else{
-                                        var photo = 'http://localhost/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
-
-                                    }
-                                    $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+data[i].nomor_telepon+'</td><td>'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
-                                }
-                                if(data == ""){
-                                    $(".default-table").show();
-                                }
-                        },
-                    });
-                    
-                });
-            });
-
-    </script>
+  
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('script'); ?>
+    <script>
+        $(document).ready(function(){
 
+            $('#search').keyup(function(event){
+                var name = $('#search').val();
+            
+                $.ajax({
+                    url: "/absen/api/searchjemaat",
+                    datatype: "application/x-www-form-urlencoded",
+                    method:"POST",
+                    data:{
+                        jemaat: name
+                    },
+                    success: function(data)
+                    {
+                        $(".default-table").hide();
+                        $('.row-table').remove();
+                            for(var i = 0; i < data.length ; i++){
+                                if(data[i].foto == null){
+                                    var photo = "";
+                                }
+                                else{
+                                    var photo = 'http://localhost/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
+
+                                }
+                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+data[i].nama_panggilan  +'</td><td>'+data[i].nomor_telepon+'</td><td>'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
+                            }
+                            if(data == ""){
+                                $(".default-table").show();
+                            }
+                    },
+                });
+                
+            });
+        });
+    </script>
+<?php $__env->stopSection(); ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>

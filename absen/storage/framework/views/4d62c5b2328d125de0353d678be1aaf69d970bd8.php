@@ -99,7 +99,7 @@
                             <form action="<?php echo e(url('/delete/jemaat')); ?>" id="deleteuser">
                                 <?php echo csrf_field(); ?>
                                 <input type="hidden" value="<?php echo e($datas->id); ?>" name="id">
-                                <a class="btn btn-danger" onclick="submitform()" id="button-delete" style="color:white;width:100%;border-radius:.5em;">Delete</a>
+                                <!-- <a class="btn btn-danger" onclick="submitform()" id="button-delete" style="color:white;width:100%;border-radius:.5em;">Delete</a> -->
 
                             </form>
                         </div>
@@ -125,14 +125,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
-    <script>
-            
-        var form = document.getElementById('deleteuser').value;
-        console.log(form);
+    <script type="javascript">
+       
         function submitform(){
             document.getElementById('deleteuser').submit();
-
-           // document.getElementById('deleteuser').submit();
         }
     </script>
 
