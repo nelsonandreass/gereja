@@ -58,20 +58,22 @@
                                 <div class="feed-widget">
                                     <ul class="list-style-none feed-body m-0 p-b-20">
                                         
-                                        <?php $no = 1;?>
-                                        @foreach($birthdays as $birthday)
+                                    <?php $no = 1;?>
+                                        @foreach($birthdays as $birthdayKey => $birthdayDate)
+                                            <?php $explodeBirthdayDate = explode(";",$birthdayDate);?>
                                             @if($loop->odd)
                                                 <li class="feed-item">
-                                                   {{$no}}. {{$birthday->name}}.<span class="ms-auto font-12 text-muted">{{$birthday->tanggal_lahir}}</span>
+                                                   {{$no}}. {{$birthdayKey}}.<span class="ms-auto font-12 text-muted">{{$explodeBirthdayDate[0]}}</span>
                                                 </li>
                                             @else
                                                 <li class="feed-item">
-                                                    {{$no}}. {{$birthday->name}}.<span class="ms-auto font-12 text-muted">{{$birthday->tanggal_lahir}}</span>
+                                                    {{$no}}. {{$birthdayKey}}.<span class="ms-auto font-12 text-muted">{{$explodeBirthdayDate[0]}}</span>
                                                 </li>
                                             @endif
                                             <?php $no += 1;?>
                                         @endforeach
-                                      
+                                        
+                                       
                                     </ul>
                                 </div>
                             </div>
