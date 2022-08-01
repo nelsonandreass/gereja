@@ -24,7 +24,7 @@ class RoleMiddleware
             return $next($request);
         }
         else{
-            return redirect()->back();
+            return redirect('/login');
         }
         
     }

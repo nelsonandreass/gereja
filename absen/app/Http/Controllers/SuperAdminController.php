@@ -27,16 +27,19 @@ class SuperAdminController extends Controller
     public function index(){
         $absens = Absen::select('jenis','tanggal')->orderBy('tanggal','DESC')->distinct('tanggal','jenis')->take('5')->get();
         $tanggalDB = Absen::select('tanggal')->distinct('tanggal')->orderBy('tanggal','DESC')->take('6')->get()->toArray();
-       
+    
+        
         $this->selesaiProcess('ibadah1');
         $this->selesaiProcess('ibadah2');
 
         $arrayTanggal = array();
-
+            
+        
         foreach($tanggalDB as $dataTanggal){
             array_push($arrayTanggal,$dataTanggal['tanggal']);
         }
         sort($arrayTanggal);
+       
       
         $ibadah1 = Counter::select('jumlah' , 'tanggal')->where('jenis' , 'ibadah1')->whereIn('tanggal' , $arrayTanggal)->get()->toJson();
         $jumlahIbadah1 = array();
@@ -53,6 +56,8 @@ class SuperAdminController extends Controller
     
         return view('superadmin.index' , ['absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
     }
+
+  
 
     public function tarikDataPage(){
         $getDate = Absen::select('tanggal')->orderBy('tanggal','DESC')->distinct('tanggal')->get();
@@ -83,7 +88,7 @@ class SuperAdminController extends Controller
 
         $arraydiff = array_diff($arrayGetAllPeople,$arrayGetPeople);
         $notAbsen = User::select("name",'nomor_telepon','alamat')->whereIn('kartu',$arraydiff)->orWhere('kartu','=',null)->get();
-        //dd($notAbsen);
+        
         return response([
             'data' => $notAbsen
         ]);
@@ -94,31 +99,7 @@ class SuperAdminController extends Controller
         return view('superadmin.absen' , ['absens' => $absens]);
     }
 
-    function getStartAndEndDate($week, $year) {
-        $dto = new DateTime();
-        $dto->setISODate($year, $week);
-        $ret['day_start'] = $dto->format('d');
-        $dto->modify('+6 days');
-        $ret['day_end'] = $dto->format('d');
-        $ret['month'] = $dto->format('m');
-        return $ret;
-      }
-      
-      
-
     public function getBirthdayThisWeek(){
-        // $curDate = date("Y-m-d");
-        // $curYear = date("Y");
-        // $date = new DateTime($curDate);
-        // $week = $date->format("W");
-        // $week_array = $this->getStartAndEndDate($week,$curYear);
-
-        //set
-        // $start_date = $week_array["day_start"] ;
-        // $end_date = $week_array["day_end"];
-        // $cur_month = $week_array["month"];
-        
-        //$users = User::whereMonth("tanggal_lahir","=",$cur_month)->whereDay("tanggal_lahir",">=",$start_date)->whereDay("tanggal_lahir","<=",$end_date)->select("name","tanggal_lahir")->orderBy("tanggal_lahir")->get();
         $users = User::select("name","nomor_telepon",DB::raw("DATE_FORMAT(tanggal_lahir,'%d-%m') as tanggal_lahir"))->whereRaw('WEEKOFYEAR(tanggal_lahir) = WEEKOFYEAR(curdate())')->get()->toArray();
         $tempUsers = ($users);
         $tempArray = array();
@@ -126,18 +107,9 @@ class SuperAdminController extends Controller
             $tempArray[$tempUser['name']] = $tempUser['tanggal_lahir'].";".$tempUser["nomor_telepon"];
         }
         asort($tempArray);
-        //var_dump($tempArray);
-        //die("");
         
         return ($tempArray);
     }
-
-    function date_compare($element1, $element2) {
-        $datetime1 = strtotime($element1['tanggal_lahir']);
-        $datetime2 = strtotime($element2['tanggal_lahir']);
-       
-        return $datetime1 - $datetime2;
-    } 
 
     //end of home
 
@@ -201,10 +173,6 @@ class SuperAdminController extends Controller
     public function absenDetail($ibadah,$tanggal){
         $datas = Absen::with('users')->select('user_id','jenis','tanggal')->where('jenis',$ibadah)->where('tanggal',$tanggal)->distinct('user_id')->get();
     
-        // $absen = DB::table('absens as a')->select('a.user_id','a.jenis','a.tanggal')->join('users as u' , 'u.kartu' , '=' , 'a.user_id')->where('jenis' , '=' , $ibadah)->where('tanggal' , '=' , $tanggal)->distinct('user_id')->get();
-        
-        // var_dump(json_encode($absen));
-        // die("");
         return view('superadmin.absendetail' , ['datas' => $datas, 'ibadah' => $ibadah , 'tanggal' => $tanggal]);
     }
 
@@ -242,11 +210,9 @@ class SuperAdminController extends Controller
 
     //jemaat
     public function listjemaat(){
-        //$users = User::where('role' , 'user')->orderBy('name','asc')->paginate(50);
-        //$users = User::where('role' , 'user')->where('name' , 'LIKE' , 'y%')->orderBy('name','asc')->get();
-        $users = User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->orderBy('name','asc')->paginate(100);
-
-      
+        $users = cache()->remember('users-key' ,60*60*24,function(){
+            return User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->orderBy('name','asc')->get();
+        }); 
         return view('superadmin.listjemaat' , ['users' => $users, 'json' => json_encode($users)]);
     }
 
@@ -257,6 +223,7 @@ class SuperAdminController extends Controller
     }
 
     public function updatejemaat(Request $request){
+        cache()->forget('users-key');
         $id = $request->input('id');
         $email = $request->input('email');
         $telepon = $request->input('telepon');
@@ -271,7 +238,6 @@ class SuperAdminController extends Controller
         
      
         if(!is_null($foto)){
-            //$namafoto = $foto->getClientOriginalName();
             $namafoto = $name.'.' . $foto->getClientOriginalExtension();
             $save = Storage::putFileAs('public',$foto, $namafoto);
             $array = array(
@@ -317,6 +283,7 @@ class SuperAdminController extends Controller
         return view('superadmin.jemaatbaru');
     }
     public function savejemaatbaru(Request $request){
+        cache()->forget('users-key');
         $email = $request->input('email');
         $telepon = $request->input('telepon');
         $alamat = $request->input('alamat');
@@ -328,10 +295,14 @@ class SuperAdminController extends Controller
         $nama_panggilan = $request->input('nama_panggilan');
         $jenisKelamin = $request->input('jenis_kelamin');
         $foto = $request->file('foto');
-        $date = date("d-m-Y");
-        $namaFoto = $name.$date.'.' . $foto->getClientOriginalExtension();
-        $saveFoto = Storage::putFileAs('public',$foto, $namaFoto);
-
+        if(!is_null($foto)){
+            $date = date("d-m-Y");
+            $namaFoto = $name.$date.'.' . $foto->getClientOriginalExtension();
+            $saveFoto = Storage::putFileAs('public',$foto, $namaFoto);
+        }
+        else{
+            $namaFoto = "";
+        }
         $user = new User();
         $user->name = $name;
         $user->nama_panggilan = $nama_panggilan;

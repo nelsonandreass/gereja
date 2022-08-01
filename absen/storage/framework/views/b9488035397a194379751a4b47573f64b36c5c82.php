@@ -1,6 +1,5 @@
-@extends('layout.layoutsuperadmin')
  
-@section('content') 
+<?php $__env->startSection('content'); ?> 
     <div class="page-wrapper">
         <div class="container-fluid">
            
@@ -28,22 +27,22 @@
                         </thead>
                         <tbody id="body-table">
 
-                            @php $i = 1; @endphp
-                            @foreach($users as $user)
+                            <?php $i = 1; ?>
+                            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr class="default-table">
-                                    <td>{{$i}}</td>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->nama_panggilan}}</td>
-                                    <td>{{$user->nomor_telepon}}</td>
-                                    <td>{{$user->alamat}}</td>
-                                    <td>{{$user->kartu}}</td>
-                                    <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
+                                    <td><?php echo e($i); ?></td>
+                                    <td><?php echo e($user->name); ?></td>
+                                    <td><?php echo e($user->nama_panggilan); ?></td>
+                                    <td><?php echo e($user->nomor_telepon); ?></td>
+                                    <td><?php echo e($user->alamat); ?></td>
+                                    <td><?php echo e($user->kartu); ?></td>
+                                    <td><img src="<?php echo e(asset('/absen/storage/app/public/'.$user->foto)); ?>" class="icon" alt="<?php echo e($user->foto); ?>"></td>
                                     <td>
-                                        <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Edit</a>
+                                        <a href="<?php echo e(url('/showjemaat', $user->id)); ?>" class="btn btn-primary">Edit</a>
                                     </td>
                                 </tr>
-                                @php $i += 1; @endphp
-                            @endforeach
+                                <?php $i += 1; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                 </table>
             </div>
@@ -51,9 +50,9 @@
     </div>
 
   
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
     <script>
         $(document).ready(function(){
 
@@ -90,7 +89,8 @@
             });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+<?php echo $__env->make('layout.layoutsuperadmin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\absen\absen\resources\views/superadmin/listjemaat.blade.php ENDPATH**/ ?>

@@ -1,6 +1,6 @@
-﻿@extends('layout.layoutsuperadmin')
+﻿
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="page-wrapper ">
             <!-- <div class="page-breadcrumb">
                 <div class="row align-items-center">
@@ -34,12 +34,12 @@
                                     <div class="col-md-10">
                                         Tarik data
                                     </div>
-                                    <input type="hidden" id="tanggal" value={{$tanggal}}>
-                                    <input type="hidden" id="ibadah1" value={{$ibadah1}}>
-                                    <input type="hidden" id="ibadah2" value={{$ibadah2}}>
+                                    <input type="hidden" id="tanggal" value=<?php echo e($tanggal); ?>>
+                                    <input type="hidden" id="ibadah1" value=<?php echo e($ibadah1); ?>>
+                                    <input type="hidden" id="ibadah2" value=<?php echo e($ibadah2); ?>>
 
                                     <div class="col-md-2">
-                                        <a href="{{url('/tarikdata')}}"class="">Detail</a>
+                                        <a href="<?php echo e(url('/tarikdata')); ?>"class="">Detail</a>
                                     </div>
                                 </div>
                                     
@@ -59,19 +59,19 @@
                                     <ul class="list-style-none feed-body m-0 p-b-20">
                                         
                                     <?php $no = 1;?>
-                                        @foreach($birthdays as $birthdayKey => $birthdayDate)
+                                        <?php $__currentLoopData = $birthdays; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $birthdayKey => $birthdayDate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <?php $explodeBirthdayDate = explode(";",$birthdayDate);?>
-                                            @if($loop->odd)
+                                            <?php if($loop->odd): ?>
                                                 <li class="feed-item">
-                                                   {{$no}}. {{$birthdayKey}}.<span class="ms-auto font-12 text-muted">{{$explodeBirthdayDate[0]}}</span>
+                                                   <?php echo e($no); ?>. <?php echo e($birthdayKey); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($explodeBirthdayDate[0]); ?></span>
                                                 </li>
-                                            @else
+                                            <?php else: ?>
                                                 <li class="feed-item">
-                                                    {{$no}}. {{$birthdayKey}}.<span class="ms-auto font-12 text-muted">{{$explodeBirthdayDate[0]}}</span>
+                                                    <?php echo e($no); ?>. <?php echo e($birthdayKey); ?>.<span class="ms-auto font-12 text-muted"><?php echo e($explodeBirthdayDate[0]); ?></span>
                                                 </li>
-                                            @endif
+                                            <?php endif; ?>
                                             <?php $no += 1;?>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         
                                        
                                     </ul>
@@ -113,25 +113,27 @@
                                     </thead>
                                     <tbody>
                                         <?php $i = 1;?>
-                                        @foreach($absens as $absen)
+                                        <?php $__currentLoopData = $absens; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $absen): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    {{$i}}
+                                                    <?php echo e($i); ?>
+
                                                 </td>
-                                                <td>{{$absen->jenis}}</td>
+                                                <td><?php echo e($absen->jenis); ?></td>
                                                 <td>
-                                                    {{$absen->tanggal}}
+                                                    <?php echo e($absen->tanggal); ?>
+
                                                 </td>
-                                                <td><a href="{{url('/absenlist',[$absen->jenis,$absen->tanggal])}}" class="btn btn-primary">Detail</a></td>
+                                                <td><a href="<?php echo e(url('/absenlist',[$absen->jenis,$absen->tanggal])); ?>" class="btn btn-primary">Detail</a></td>
                                                
                                             </tr>
                                             <?php $i++?>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         
                                     </tbody>
                                 </table>
                                 <div class="col-6 px-3 pt-2 pb-3">
-                                    <a href="{{url('/allabsen')}}">Lihat</a>
+                                    <a href="<?php echo e(url('/allabsen')); ?>">Lihat</a>
                                 </div>
                                 
                             </div>
@@ -276,9 +278,9 @@
             </div>
            
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -340,4 +342,5 @@
             config
         );
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.layoutsuperadmin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\absen\absen\resources\views/superadmin/index.blade.php ENDPATH**/ ?>

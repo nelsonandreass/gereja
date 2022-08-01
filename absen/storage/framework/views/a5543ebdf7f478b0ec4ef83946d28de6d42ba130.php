@@ -1,6 +1,4 @@
-@extends('layout.layoutsuperadmin')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
    
     <div class="page-wrapper ">
         <div class="container-fluid" id="container-fluid">
@@ -10,7 +8,7 @@
                 <div class="row">&nbsp;</div>
                 <div class="row">&nbsp;</div>
                    <form action="" class="col-5" method="POST" id="option">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <label for="" class="text-center">Jenis Ibadah</label>
                         <select name="jenis" id="option-ibadah" class="form-control" onchange="change()">
                             <option value="default" style="color: #DBDBDB">Pilih jenis ibadah...</option>    
@@ -21,10 +19,10 @@
                         </select>
                         <button class="btn btn-primary mt-3" id="btn">Lanjutkan</button>
                    </form>
-                    @php
+                    <?php
                         $tanggal;
-                    @endphp
-                    <input type="hidden" id="tanggal" value='{{$tanggal}}'>
+                    ?>
+                    <input type="hidden" id="tanggal" value='<?php echo e($tanggal); ?>'>
                    <center id="absen" style="display:none;">
                         <div class="row">
                             <div class="col-10">&nbsp;</div>
@@ -47,7 +45,7 @@
                         <div class="row">
                             <div class="col-4"></div>
                             <div class="col-4">
-                                <img class="col-12" style="width: 85%;heigth:40vd;" src="{{asset('/assets/img/user-black.png')}}" id="foto-jemaat" alt="">
+                                <img class="col-12" style="width: 85%;heigth:40vd;" src="<?php echo e(asset('/assets/img/user-black.png')); ?>" id="foto-jemaat" alt="">
                             </div>
                             <div class="col-4"></div>
                             
@@ -119,7 +117,7 @@
                 if(userid.length >= 7){
                     var http = new XMLHttpRequest();
                     var url = '/absen/absenprocess';
-                    var params = 'user_id='+userid+'&jenis='+$("#option-ibadah").val()+'&_token={{csrf_token()}}';
+                    var params = 'user_id='+userid+'&jenis='+$("#option-ibadah").val()+'&_token=<?php echo e(csrf_token()); ?>';
                     http.open('POST', url, true);
                     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     http.send(params);
@@ -165,5 +163,7 @@
         }
        
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('layout.layoutsuperadmin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\absen\absen\resources\views/superadmin/ibadah.blade.php ENDPATH**/ ?>
