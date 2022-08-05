@@ -10,6 +10,7 @@ use App\Absen;
 Use App\Ibadah;
 Use App\Berita;
 Use App\Counter;
+Use App\wa_sent_flags;
 
 use App\Imports\UsersImport;
 use Illuminate\Foundation\Auth\User as AuthUser;
@@ -18,12 +19,106 @@ use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use DateTime;
+use Session;
 
 
 class SuperAdminController extends Controller
 {
     //home
     
+    public function curl($url,$method,$request,$contentType){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30000,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => $request ,
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/".$contentType
+            ),
+        ));
+        
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        
+        curl_close($curl);
+        
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            return $response;
+        }
+    }
+   
+    public function getQr(Request $request){
+        $id = $request->input('id');
+        $requestBody = "id=".$id."&isLegacy=false";
+        $curl = $this->curl('http://127.0.0.1:8000/sessions/add','POST',$requestBody,"x-www-form-urlencoded");
+        return $curl;
+    }
+
+    public function isWaConnected(Request $request){
+        
+        $isWaConnected = $this->curl("http://127.0.0.1:8000/sessions/status/Login","GET","","json");
+        return $isWaConnected;
+    }
+
+    public function sendMessage($id){
+        $getUser = User::select("name","tanggal_lahir","jenis_kelamin")->where("nomor_telepon","LIKE",$id)->first();
+        $now = date("Y-m-d");
+        $umur = date_diff(date_create($now),date_create($getUser->tanggal_lahir));
+        $umur = $umur->format("%y");
+        $salute="";
+        if($getUser->jenis_kelamin == "Pria" && $umur >= 25){
+            $salute = "Bapak";
+        }
+        else if($getUser->jenis_kelamin == "Wanita" && $umur >= 25){
+            $salute = "Ibu";
+        }
+        $requestBody = array(
+            "receiver" => $id,
+            "message" => array(
+                "text" => "Selamat Ulang Tahun ".$salute." ".$getUser->name
+            ),
+        );
+        $sendMessage = json_decode($this->curl("http://127.0.0.1:8000/chats/send?id=Login","POST",json_encode($requestBody),"json"));
+        //$sendMessage = json_decode($this->curl("","POST",json_encode($requestBody),"json"));
+      
+        if($sendMessage->success){ 
+            $flaggingSentBody = array(
+                'phone' => $id,
+                'year' => date("Y"),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s"),
+            ); 
+            $insertFlaggingSent = wa_sent_flags::insert($flaggingSentBody);
+            return redirect()->back();
+        }
+        else{
+            return redirect()->back();
+        }
+    }
+
+    public function getWaFlag(Request $request){
+        $phone = $request->input("phone");
+        $year = date("Y");
+     
+        $isSent = wa_sent_flags::where('phone',$phone)->where('year',$year)->first();
+       
+        if(!is_null($isSent)){
+            $response = array("success"=>true);
+            return json_encode($response);
+        }
+        else{
+            $response = array("success"=>false);
+            return json_encode($response);
+        }
+    }
+
     public function index(){
         $absens = Absen::select('jenis','tanggal')->orderBy('tanggal','DESC')->distinct('tanggal','jenis')->take('5')->get();
         $tanggalDB = Absen::select('tanggal')->distinct('tanggal')->orderBy('tanggal','DESC')->take('6')->get()->toArray();
@@ -52,12 +147,11 @@ class SuperAdminController extends Controller
             array_push($jumlahIbadah2,$data->jumlah);
         }
         
-        $birthday = $this->getBirthdayThisWeek();
-    
+        //$birthday = $this->getBirthdayThisWeek();
+        $birthday = array("nelson"=>"08-19;+6287888088201");
+     
         return view('superadmin.index' , ['absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
     }
-
-  
 
     public function tarikDataPage(){
         $getDate = Absen::select('tanggal')->orderBy('tanggal','DESC')->distinct('tanggal')->get();
@@ -100,7 +194,7 @@ class SuperAdminController extends Controller
     }
 
     public function getBirthdayThisWeek(){
-        $users = User::select("name","nomor_telepon",DB::raw("DATE_FORMAT(tanggal_lahir,'%d-%m') as tanggal_lahir"))->whereRaw('WEEKOFYEAR(tanggal_lahir) = WEEKOFYEAR(curdate())')->get()->toArray();
+        $users = User::select("name","nomor_telepon",DB::raw("DATE_FORMAT(tanggal_lahir,'%m-%d') as tanggal_lahir"))->whereRaw('WEEKOFYEAR(tanggal_lahir) = WEEKOFYEAR(curdate())')->get()->toArray();
         $tempUsers = ($users);
         $tempArray = array();
         foreach($tempUsers as $tempUser){
@@ -121,7 +215,6 @@ class SuperAdminController extends Controller
 
     public function absenProcess(Request $request){
         $user_id = $request->input('user_id');
-        $user_name = $request->input('user_name');
         $jenis = $request->input('jenis');
         $date = date('Y-m-d');
 
@@ -135,7 +228,6 @@ class SuperAdminController extends Controller
             //if(is_null($checkAbsen)){
                 $data = new Absen();
                 $data->user_id = $checkUser['kartu'];
-                $data->user_name = $user_name;
                 $data->jenis = $jenis;
                 $data->tanggal = $date;
                 $data->save();
@@ -205,7 +297,22 @@ class SuperAdminController extends Controller
            Counter::where('jenis',$jenis)->where('tanggal',$getLastInserted['tanggal'])->update($dataUpdate);
         }
     }
-      
+    
+    public function removeDuplicate(){
+        //$absens = Absen::select("user_id")->distinct("user_id","tanggal","jenis")->get()->toArray();
+        $duplicated =DB::table('absens')
+        ->select('user_id', DB::raw('count(`user_id`) as occurences'))
+        ->groupBy('user_id','tanggal','jenis')
+        ->having('occurences', '>', 1)
+        ->get();
+        //dd($duplicated);
+        foreach ($duplicated as $duplicate) {
+            Absen::where('user_id', $duplicate->user_id)->delete();
+        }
+        return redirect()->back();
+    }
+
+
     //end of absen
 
     //jemaat
@@ -322,8 +429,8 @@ class SuperAdminController extends Controller
     }
 
     public function deleteJemaat($id){
-        var_dump($id);
-        die("");
+        cache()->forget('users-key');
+       
         User::where('id',$id)->delete();
         return redirect()->back();
     }

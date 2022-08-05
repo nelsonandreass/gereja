@@ -40,6 +40,8 @@
                                     <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
                                     <td>
                                         <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Edit</a>
+                                        <a href="{{url('/delete', $user->id)}}" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a>
+
                                     </td>
                                 </tr>
                                 @php $i += 1; @endphp

@@ -17,3 +17,8 @@ use App\User;
 Route::post('/searchjemaat' , 'SuperAdminController@searchJemaat');
 Route::post('/tarikdataprocess' , 'SuperAdminController@tarikDataProcess');
 Route::post('/absenprocess' , 'SuperAdminController@absenProcess');
+
+Route::post('/getqr','SuperAdminController@getQr');
+Route::get('/checkconnected','SuperAdminController@isWaConnected');
+Route::get('/sendmessage/{id}','SuperAdminController@sendMessage');
+Route::post('/getwaflag' , 'SuperAdminController@getWaFlag');

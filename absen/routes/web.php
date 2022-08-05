@@ -16,10 +16,9 @@ Route::resource('/loginadmin' , 'AdminLoginController');
 Route::resource('/registeradmin' , 'AdminRegisterController');
 Route::get('/logout' , 'LogoutController@logout');
 Route::get('/get' ,'LogoutController@check' );
-// Route::group(['middleware' => ['checklogin']],function(){
-//     Route::resource('/login' ,'LoginController');
-//     Route::resource('/register' ,'RegisterController');
-// });
+
+Route::get('/cleaning','SuperAdminController@removeDuplicate');
+
 Route::resource('/login' ,'LoginController');
 Route::resource('/register' ,'RegisterController');
 
@@ -50,12 +49,16 @@ route::post('/uploadkartuprocess','SuperAdminController@uploadkartuprocess');
 route::get('/deleteuser' , function(){
     User::where('id' , '>=' , 453)->delete();
 });
+route::get('/clearcache' , function(){
+   cache()->forget('users-keys');
+});
 
 Route::group(['middleware' => 'role'],function(){
     //home
     Route::get('/adminhome' , 'SuperAdminController@index');
     Route::get('/allabsen' , 'SuperAdminController@getAllAbsen');
     Route::get('/birthday' , 'SuperAdminController@getBirthdayThisWeek');
+
     //absen
     Route::get('/ibadah' , 'SuperAdminController@ibadah');
     Route::post('/absenprocess' , 'SuperAdminController@absenProcess');
@@ -71,7 +74,7 @@ Route::group(['middleware' => 'role'],function(){
     Route::post('/searchjemaat' , 'SuperAdminController@searchJemaat');
     Route::get('/jemaatbaru' , 'SuperAdminController@jemaatbaru');
     Route::post('/savejemaatbaru' , 'SuperAdminController@savejemaatbaru');
-    Route::post('/delete/jemaat' , 'SuperAdminController@deleteJemaat');
+    Route::get('/delete/{id}' , 'SuperAdminController@deleteJemaat');
 
     //berita
     Route::get('/berita' , 'SuperAdminController@berita');

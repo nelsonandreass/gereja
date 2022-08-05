@@ -13,13 +13,13 @@
     <meta name="robots" content="noindex,nofollow">
     <title>GPdI Sahabat Allah</title>
 
-    <link rel="canonical" href="https://www.wrappixel.com/templates/xtreme-admin-lite/" />
+    <!-- <link rel="canonical" href="https://www.wrappixel.com/templates/xtreme-admin-lite/" /> -->
     <!-- Favicon icon -->
     <link rel="icon" type="image/x-icon" href="<?php echo e(asset('assets/img/favicons/favicon-32x32.png')); ?>">
     <!-- Custom CSS -->
     <!-- <link href="<?php echo e(asset('superadmin/libs/chartist/dist/chartist.min.css')); ?>" rel="stylesheet"> -->
     <!-- Custom CSS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.4/popper.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.4/popper.js"></script> -->
     <!-- poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="<?php echo e(asset('dist/css/custom.css')); ?>">
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 
   
 <style>
@@ -168,8 +168,8 @@
     <?php echo $__env->yieldContent('script'); ?>
 
     
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="<?php echo e(asset('superadmin/libs/jquery/dist/jquery.min.js')); ?>"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="<?php echo e(asset('superadmin/libs/bootstrap/dist/js/bootstrap.bundle.min.js')); ?>"></script>

@@ -29,7 +29,6 @@
                             </div>
                             <div>
                                
-                                <a href="{{url('/selesai',[$ibadah,$tanggal])}}" class="btn btn-primary">Selesai</a>
                             </div>
                         </div>
                         <!-- title -->

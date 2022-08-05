@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAbsensTable extends Migration
+class CreateWaSentFlags extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAbsensTable extends Migration
      */
     public function up()
     {
-        Schema::create('absens', function (Blueprint $table) {
+        Schema::create('wa_sent_flags', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('ibadah_id');
-            $table->string('user_name')->nullable();
-            $table->string('jenis');
-            $table->string('tanggal');
+            $table->string('phone');
+            $table->string('year');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateAbsensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('absens');
+        Schema::dropIfExists('wa_sent_flags');
     }
 }
