@@ -1,6 +1,4 @@
-@extends('layout.layoutsuperadmin')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="page-wrapper p-3">  
     <div class="row">
         <!-- column -->
@@ -18,15 +16,15 @@
                     </div>
                     <!-- title -->
 
-                    <form action="{{url('/absen/tarikdataprocess')}}" method="get">
+                    <form action="<?php echo e(url('/absen/tarikdataprocess')); ?>" method="get">
                      
                         <div class="row">
                             <div class="col-6">
                                 <select name="tanggal" id="tanggal" onchange="change()" class="form-control">
                                     <option value="default" style="color: #DBDBDB">Pilih Tanggal...</option>    
-                                    @foreach($dates as $date)
-                                        <option value="{{$date->tanggal}}">{{$date->tanggal}}</option>
-                                    @endforeach
+                                    <?php $__currentLoopData = $dates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($date->tanggal); ?>"><?php echo e($date->tanggal); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                             <div class="col-2">
@@ -60,10 +58,10 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@section('script')
+<?php $__env->startSection('script'); ?>
     <script>
         var tanggal;   
 
@@ -113,4 +111,5 @@
             })
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.layoutsuperadmin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\absen\absen\resources\views/superadmin/tarikdata.blade.php ENDPATH**/ ?>

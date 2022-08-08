@@ -72,7 +72,7 @@
         </div>
     </div>
     <script> 
-        
+       
         
         function change(){
             var jenisibadah = $("#option-ibadah").val();
@@ -80,7 +80,12 @@
        
 
         $(document).ready(function(){
-           
+            var myFunction = function() {
+                $("#userid").focus();
+            };
+
+            myFunction();
+            setInterval(myFunction, 1000);
 
             $("#btn").click(function(e){
                 e.preventDefault();
