@@ -62,7 +62,6 @@ class SuperAdminController extends Controller
     }
 
     public function isWaConnected(Request $request){
-        
         $isWaConnected = $this->curl("http://127.0.0.1:8000/sessions/status/Login","GET","","json");
         return $isWaConnected;
     }
@@ -82,7 +81,7 @@ class SuperAdminController extends Controller
         $requestBody = array(
             "receiver" => $id,
             "message" => array(
-                "text" => "Selamat Ulang Tahun ".$salute."".$getUser->name."\n"."Dari GPdI Sahabat Allah"
+                "text" => "Selamat Ulang Tahun ".$salute."".$getUser->name."\n"."'Kiranya diberikan-Nya kepadamu apa yang kaukehendaki dan dijadikan-Nya berhasil apa yang kaurancangkan.'(Maz 20:5) "."\n"."Dari GPdI Sahabat Allah"
             ),
         );
         $sendMessage = json_decode($this->curl("http://127.0.0.1:8000/chats/send?id=Login","POST",json_encode($requestBody),"json"));
@@ -147,8 +146,8 @@ class SuperAdminController extends Controller
             array_push($jumlahIbadah2,$data->jumlah);
         }
         
-        $birthday = $this->getBirthdayThisWeek();
-        //$birthday = array("nelson"=>"08-19;+6287888088201");
+        //$birthday = $this->getBirthdayThisWeek();
+        $birthday = array("nelson"=>"08-19;+6287888088201");
      
         return view('superadmin.index' , ['absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
     }
