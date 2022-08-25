@@ -23,6 +23,8 @@ Route::resource('/login' ,'LoginController');
 Route::resource('/register' ,'RegisterController');
 
 
+Route::get("/getuser" , 'Controller@getUser');
+
 Route::group(['middleware' => ['authweb']],function(){
     Route::resource('/home' , 'HomeController');
     Route::resource('/berita' , 'BeritaController');
@@ -61,7 +63,7 @@ Route::group(['middleware' => 'role'],function(){
 
     //absen
     Route::get('/ibadah' , 'SuperAdminController@ibadah');
-    Route::post('/absenprocess' , 'SuperAdminController@absenProcess');
+   // Route::post('/absenprocess' , 'SuperAdminController@absenProcess');
     Route::get('/getabsen' , 'SuperAdminController@getAbsen');
     Route::get('/absenlist/{ibadah}/{tanggal}','SuperAdminController@absenDetail');
     Route::get('/tarikdata' , 'SuperAdminController@tarikDataPage');
@@ -75,6 +77,9 @@ Route::group(['middleware' => 'role'],function(){
     Route::get('/jemaatbaru' , 'SuperAdminController@jemaatbaru');
     Route::post('/savejemaatbaru' , 'SuperAdminController@savejemaatbaru');
     Route::get('/delete/{id}' , 'SuperAdminController@deleteJemaat');
+    Route::get('/ulangtahun' , 'SuperAdminController@ulangtahun');
+
+
 
     //berita
     Route::get('/berita' , 'SuperAdminController@berita');

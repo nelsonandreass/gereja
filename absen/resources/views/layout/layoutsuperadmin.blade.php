@@ -149,9 +149,12 @@
                                  <a class="sidebar-link waves-effect waves-dark " href="{{url('/listjemaat')}}" aria-expanded="false"><img class="col-1" src="{{asset('/assets/img/user-black.png')}}"></img>
                                  <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jemaat </span> 
                                 </a> 
-                               
                             </li>
-                         
+                            <li class="sidebar-item"> 
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/ulangtahun')}}" aria-expanded="false"><img class="col-1" src="{{asset('/assets/img/user-black.png')}}"></img>
+                                 <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ulang Tahun </span> 
+                                </a> 
+                            </li>
                         </div>
                       
                         

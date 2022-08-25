@@ -180,8 +180,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  
-
     var tanggal = document.getElementById('tanggal').value;
     var ibadah1 = document.getElementById('ibadah1').value;
     var ibadah2 = document.getElementById('ibadah2').value;
@@ -191,9 +189,7 @@
     tanggal = tanggal.replace(']','');
     tanggal = tanggal.replace(/[^a-zA-Z0-9,:;\-.?! ]/g,"");
     var tanggalsplit = tanggal.split(',');
-    // tanggalsplit.forEach(element => {
-    //     dateFormat(element,'dd-MM-yyyy');
-    // });
+   
 
     ibadah1 = ibadah1.replace('[','');
     ibadah1 = ibadah1.replace(']','');
