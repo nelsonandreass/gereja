@@ -62,7 +62,6 @@ class SuperAdminController extends Controller
     }
 
     public function isWaConnected(Request $request){
-        
         $isWaConnected = $this->curl("http://127.0.0.1:8000/sessions/status/Login","GET","","json");
         return $isWaConnected;
     }
@@ -82,7 +81,7 @@ class SuperAdminController extends Controller
         $requestBody = array(
             "receiver" => $id,
             "message" => array(
-                "text" => "Selamat Ulang Tahun ".$salute."".$getUser->name."\n"."Dari GPdI Sahabat Allah"
+                "text" => "Selamat Ulang Tahun ".$salute."".$getUser->name."\n"."'Kiranya diberikan-Nya kepadamu apa yang kaukehendaki dan dijadikan-Nya berhasil apa yang kaurancangkan.'(Maz 20:5) "."\n"."Dari GPdI Sahabat Allah"
             ),
         );
         $sendMessage = json_decode($this->curl("http://127.0.0.1:8000/chats/send?id=Login","POST",json_encode($requestBody),"json"));
@@ -147,8 +146,8 @@ class SuperAdminController extends Controller
             array_push($jumlahIbadah2,$data->jumlah);
         }
         
-        $birthday = $this->getBirthdayThisWeek();
-        //$birthday = array("nelson"=>"08-19;+6287888088201");
+        //$birthday = $this->getBirthdayThisWeek();
+        $birthday = array("nelson"=>"08-19;+6287888088201");
      
         return view('superadmin.index' , ['absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
     }
@@ -224,33 +223,27 @@ class SuperAdminController extends Controller
       
         $response="";
         if(!is_null($checkUser)){
-            // $checkAbsen = Absen::where('user_id', $checkUser['kartu'])->where('jenis' , $jenis)->where('tanggal' , $date)->first();
-            //if(is_null($checkAbsen)){
+            $checkAbsen = Absen::where('user_id', $checkUser['kartu'])->where('jenis' , $jenis)->where('tanggal' , $date)->first();
+            if(is_null($checkAbsen)){
                 $data = new Absen();
                 $data->user_id = $checkUser['kartu'];
                 $data->jenis = $jenis;
                 $data->tanggal = $date;
                 $data->save();
-                $user = Absen::with(['users'])->where('user_id',$checkUser['kartu'])->first();
-                
-               
-                foreach($user->users as $userdata){
-                    $response = array(
-                        "error_code" => '0000',
-                        "error_message" => "Success",
-                        "name" => $userdata->name,
-                        "foto" => $userdata->foto,
-                        "greet" => "Selamat Beribadah"
-                    );
-                }
-            //}
-            // else{
-            //     $response = array(
-            //         "error_code" => '0001',
-            //         "error_message" => "Failed",
-            //         "greet" => "Sudah Absen"
-            //     );
-            // }
+            }
+            $user = Absen::with(['users'])->where('user_id',$checkUser['kartu'])->first();
+            
+            
+            foreach($user->users as $userdata){
+                $response = array(
+                    "error_code" => '0000',
+                    "error_message" => "Success",
+                    "name" => $userdata->name,
+                    "foto" => $userdata->foto,
+                    "greet" => "Selamat Beribadah"
+                );
+            }
+            
         }
         else{
             $response = array(
@@ -433,6 +426,17 @@ class SuperAdminController extends Controller
        
         User::where('id',$id)->delete();
         return redirect()->back();
+    }
+
+    public function ulangtahun(){
+        $month = date('m');
+        $datas = User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , DB::raw("DATE_FORMAT(tanggal_lahir,'%m-%d-%Y') as tanggal_lahir") , 'foto' , 'nama_panggilan')->whereMonth('tanggal_lahir',$month)->orderBy('tanggal_lahir','asc')->get();
+        return view('superadmin.ulangtahun' , ['users' => $datas]);
+    }
+    public function searchulangtahun(Request $request){
+        $month = $request->input('month');
+        $datas = User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , DB::raw("DATE_FORMAT(tanggal_lahir,'%m-%d-%Y') as tanggal_lahir") , 'foto' , 'nama_panggilan')->whereMonth('tanggal_lahir',$month)->orderBy('tanggal_lahir','asc')->get();
+        return $datas;
     }
     //end of jemaat
 
