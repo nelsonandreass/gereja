@@ -317,8 +317,7 @@ class SuperAdminController extends Controller
     }
 
     public function showjemaat($id){
-        $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto','nama_panggilan')->find($id);
-
+        $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kecamatan' , 'kelurahan' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto','nama_panggilan')->find($id);
         return view('superadmin.showjemaat' , ['datas' => $data]);
     }
 
@@ -328,6 +327,8 @@ class SuperAdminController extends Controller
         $email = $request->input('email');
         $telepon = $request->input('telepon');
         $alamat = $request->input('alamat');
+        $kecamatan = $request->input('kecamatan');
+        $kelurahan = $request->input('kelurahan');
         $nokartu = $request->input('nokartu');
         $tanggallahir = $request->input('tgllahir');
         $status_pernikahan = $request->input('status_pernikahan');
@@ -344,6 +345,8 @@ class SuperAdminController extends Controller
                 'email' => $email,
                 'nomor_telepon' => $telepon,
                 'alamat' => $alamat,
+                'kecamatan' => $kecamatan,
+                'kelurahan' => $kelurahan,
                 'kartu' => $nokartu,
                 'foto' => $namafoto,
                 'tanggal_lahir' => $tanggallahir,
@@ -357,6 +360,8 @@ class SuperAdminController extends Controller
                 'email' => $email,
                 'nomor_telepon' => $telepon,
                 'alamat' => $alamat,
+                'kecamatan' => $kecamatan,
+                'kelurahan' => $kelurahan,
                 'kartu' => $nokartu,
                 'tanggal_lahir' => $tanggallahir,
                 'tempat_lahir' => $tempatlahir,
@@ -387,8 +392,10 @@ class SuperAdminController extends Controller
         $email = $request->input('email');
         $telepon = $request->input('telepon');
         $alamat = $request->input('alamat');
+        $kecamatan = $request->input('kecamatan');
+        $kelurahan = $request->input('kelurahan');
         $nokartu = $request->input('nokartu');
-        $tanggallahir = $request->input('tgllahir');
+        $tanggallahir = $request->input('tgllahir'); 
         $status_pernikahan = $request->input('status_pernikahan');
         $tempatlahir = $request->input('tempatlahir');
         $name = $request->input('name');
@@ -414,6 +421,8 @@ class SuperAdminController extends Controller
         $user->tempat_lahir = $tempatlahir;
         $user->nomor_telepon = $telepon;
         $user->alamat = $alamat;
+        $user->kecamatan = $kecamatan;
+        $user->kelurahan = $kelurahan;
         $user->kartu = $nokartu;
         
         $user->save();

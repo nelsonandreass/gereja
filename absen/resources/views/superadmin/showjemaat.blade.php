@@ -62,6 +62,19 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">Kecamatan</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" name="kecamatan"  value="{{$datas->kecamatan}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">Kelurahan</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" name="kelurahan"  value="{{$datas->kelurahan}}">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="" class="col-sm-2 col-form-label">Nomor Kartu</label>
                     <div class="col-sm-10">
                     <input type="text" class="form-control" name="nokartu"  value="{{$datas->kartu}}">
@@ -69,7 +82,7 @@
                 </div>
                 @php    
 
-                    if(is_null($datas->foto)){
+                    if($datas->foto == '' || is_null($datas->foto)){
                         echo ('
                         <div class="form-group row">
                             <label for="" class="col-sm-2 col-form-label">Foto</label>

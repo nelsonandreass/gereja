@@ -4,7 +4,7 @@
     <div class="page-wrapper">
         <div class="container-fluid">
            
-            <div class="card p-3">  
+            <div class="card p-3 ">  
                     <div class="row mb-3" >
                         <div class="col-2">
                             <a href="/absen/jemaatbaru" class="btn btn-secondary ml-auto"><span class="mdi mdi-account-multiple-plus"> Tambah Jemaat</span></a>
@@ -15,39 +15,41 @@
                         </div>
                     </div>
 
-                <table class="table table-striped">
-                        <thead>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Panggilan</th>
-                            <th>No Telepon</th>
-                            <th>Alamat</th>
-                            <th>No Kartu</th>
-                            <th>Foto</th>
-                            <th>Action</th>
-                        </thead>
-                        <tbody id="body-table">
+                <div class="table-responsive">
+                    <table class="table table-striped ">
+                            <thead>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Panggilan</th>
+                                <th>No Telepon</th>
+                                <th>Alamat</th>
+                                <th>No Kartu</th>
+                                <th>Foto</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody id="body-table">
 
-                            @php $i = 1; @endphp
-                            @foreach($users as $user)
-                                <tr class="default-table">
-                                    <td>{{$i}}</td>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->nama_panggilan}}</td>
-                                    <td>{{$user->nomor_telepon}}</td>
-                                    <td>{{$user->alamat}}</td>
-                                    <td>{{$user->kartu}}</td>
-                                    <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
-                                    <td>
-                                        <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Edit</a>
-                                        <a href="{{url('/delete', $user->id)}}" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a>
+                                @php $i = 1; @endphp
+                                @foreach($users as $user)
+                                    <tr class="default-table">
+                                        <td>{{$i}}</td>
+                                        <td>{{$user->name}}</td>
+                                        <td>{{$user->nama_panggilan}}</td>
+                                        <td>{{$user->nomor_telepon}}</td>
+                                        <td>{{$user->alamat}}</td>
+                                        <td>{{$user->kartu}}</td>
+                                        <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
+                                        <td>
+                                            <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Edit</a>
+                                            <a href="{{url('/delete', $user->id)}}" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a>
 
-                                    </td>
-                                </tr>
-                                @php $i += 1; @endphp
-                            @endforeach
-                        </tbody>
-                </table>
+                                        </td>
+                                    </tr>
+                                    @php $i += 1; @endphp
+                                @endforeach
+                            </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

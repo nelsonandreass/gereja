@@ -8,13 +8,13 @@
                 <div class="form-group row">
                     <label for="" class="col-sm-2 col-form-label">Nama</label>
                     <div class="col-sm-10">
-                    <input type="text"  class="form-control" name="name" >
+                    <input type="text"  class="form-control" name="name" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="" class="col-sm-2 col-form-label">Nama Panggilan</label>
                     <div class="col-sm-10">
-                    <input type="text"  class="form-control" name="nama_panggilan" >
+                    <input type="text"  class="form-control" name="nama_panggilan" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -69,6 +69,18 @@
                     <label for="" class="col-sm-2 col-form-label">Alamat</label>
                     <div class="col-sm-10">
                     <input type="text" class="form-control" name="alamat"  >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">Kecamatan</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" name="kecamatan"  >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">Kelurahan</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" name="kelurahan"  >
                     </div>
                 </div>
                 <div class="form-group row">
