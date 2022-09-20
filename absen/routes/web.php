@@ -61,8 +61,13 @@ Route::group(['middleware' => 'role'],function(){
     Route::post('/savejemaatbaru' , 'SuperAdminController@savejemaatbaru');
     Route::get('/delete/{id}' , 'SuperAdminController@deleteJemaat');
     Route::get('/ulangtahun' , 'SuperAdminController@ulangtahun');
-    Route::resource('tempuser' , 'TempUserController');
 
+    //jemaat baru
+    Route::resource('tempuser' , 'TempUserController');
+    Route::get('/publish' , 'TempUserController@publishJemaatBaruVIew');
+    Route::post('/publishprocess' , 'TempUserController@publishJemaatBaru');
+
+    //end of jemaat baru
 
     //berita
     Route::get('/berita' , 'SuperAdminController@berita');

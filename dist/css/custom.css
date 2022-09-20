@@ -37,6 +37,11 @@ body{
     max-height: 30px !important;
     max-width: 50px !important;
 }
+
+.foto{
+    max-height: 40vh !important;
+    max-width: 30vh !important;
+}
 .text-color-primary{
     font-family: 'Poppins', sans-serif !important;
     color:  #055C9D !important;

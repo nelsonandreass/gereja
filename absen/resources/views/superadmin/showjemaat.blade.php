@@ -104,20 +104,10 @@
 
                     </div>
                 </div>
+                
                 <center>
-                    <div class="row">
-                        <div class="col-4">
-                            <button class="btn btn-primary">Simpan</button>
-                        </div>
-                        <div class="col-1">&nbsp;</div>
-                        <div class="col-4">
-                            <form action="{{url('/delete/jemaat')}}" id="deleteuser">
-                                @csrf
-                                <input type="hidden" value="{{$datas->id}}" name="id">
-                                <!-- <a class="btn btn-danger" onclick="submitform()" id="button-delete" style="color:white;width:100%;border-radius:.5em;">Delete</a> -->
-
-                            </form>
-                        </div>
+                    <div class="col-4">
+                        <button class="btn btn-primary">Simpan</button>
                     </div>
                 </center>
             </form>

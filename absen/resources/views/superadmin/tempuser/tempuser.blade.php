@@ -3,8 +3,13 @@
 @section('content') 
     <div class="page-wrapper">
         <div class="container-fluid">
-           
+            
             <div class="card p-3">  
+                <div class="row mb-3">
+                    <div class="col-4"></div>
+                    <div class="col-5"></div>
+                    <div class="col-3"><a href="{{url('/publish')}}" class="btn btn-primary">Publish</a></div>
+                </div>
                 <table class="table table-striped w-auto small">
                             <thead>
                                 <th>No</th>

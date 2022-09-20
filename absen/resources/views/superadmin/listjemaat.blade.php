@@ -6,17 +6,17 @@
            
             <div class="card p-3 ">  
                     <div class="row mb-3" >
-                        <div class="col-3">
+                        <div class="col-2">
                             <a href="/absen/jemaatbaru" class="btn btn-secondary ml-auto"><span class="mdi mdi-account-multiple-plus"> Tambah Jemaat</span></a>
                         </div>
-                        <div class="col-5">&nbsp;</div>
+                        <div class="col-6">&nbsp;</div>
                         <div class="col-4"> 
                             <input type="input" class="form-control rounded" placeholder="Search" id="search"  autocomplete="off"/>
                         </div>
                     </div>
 
-                
-                    <table class="table table-striped">
+                <div class="table-responsive">
+                    <table class="table table-striped ">
                             <thead>
                                 <th>No</th>
                                 <th>Nama</th>
@@ -49,7 +49,7 @@
                                 @endforeach
                             </tbody>
                     </table>
-                
+                </div>
             </div>
         </div>
     </div>

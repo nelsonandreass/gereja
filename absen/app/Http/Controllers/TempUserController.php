@@ -156,5 +156,16 @@ class TempUserController extends Controller
         return redirect()->back();
     }
 
+    public function publishJemaatBaruVIew(){
+        $users = TempUser::select('id' , 'name' , 'foto' , 'created_at' )->get();
+        return view('superadmin.tempuser.publishtempuser' , ['users' => $users]);
+    }
+    public function publishJemaatBaru(Request $request){
+        $ids = $request->input('id');
+        $arrayId = explode(',',$ids);
+        $users = TempUser::select('id' , 'name' , 'foto' )->whereIn('id',$arrayId)->get();
+
+        return view('superadmin.tempuser.publishtempuserlayout' , ['users' => $users]);
+    }
    
 }
