@@ -37,7 +37,7 @@
                         </div>
                     </div>
 
-                <table class="table table-striped">
+                <table class="table table-striped w-auto small">
                         <thead>
                             <th>No</th>
                             <th>Nama</th>

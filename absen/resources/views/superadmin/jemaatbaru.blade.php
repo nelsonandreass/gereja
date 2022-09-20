@@ -3,7 +3,8 @@
 <div class="page-wrapper">
     <div class="container-fluid">
         
-            <form action="{{url('/savejemaatbaru')}}" method="post" enctype="multipart/form-data">
+            <!-- <form action="{{url('/savejemaatbaru')}}" method="post" enctype="multipart/form-data"> -->
+            <form action="{{route('tempuser.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
                 <div class="form-group row">
                     <label for="" class="col-sm-2 col-form-label">Nama</label>

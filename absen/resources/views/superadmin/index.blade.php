@@ -26,7 +26,7 @@
                 <!-- Sales chart -->
                 <!-- ============================================================== -->
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="card">
                             <div class="card-body">
                                 
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
@@ -66,7 +66,7 @@
                                         @endif
                                     </div>
                                     <div class="col-4">
-                                        <a id='connect-wa' class='btn btn-primary mb-2' style='color:white;border-radius:.5rem'>Connect WA</a>  
+                                        <a id='connect-wa' class='btn btn-primary mb-2 smalsl' style='color:white;border-radius:.5rem'>Connect WA</a>  
                                     </div>
                                    
                                 </div>
@@ -80,10 +80,10 @@
                                                     $phone = substr($explodeBirthdayDate[1],1);
                                                 ?>
 
-                                                <div class="col-7 pt-2">{{$no}}.&nbsp;&nbsp;{{$birthdayKey}}</div>
-                                                <div class="col-2 pt-2">{{$explodeBirthdayDate[0]}}</div>
+                                                <div class="col-6 pt-2">{{$no}}.&nbsp;&nbsp;{{$birthdayKey}}</div>
+                                                <div class="col-3 pt-2">{{$explodeBirthdayDate[0]}}</div>
                                                 <div class="col-3 btn-send">
-                                                    <a href="{{url('/api/sendmessage',$explodeBirthdayDate[1])}}" id="phone-{{$phone}}" style="color:white;border-radius:.5rem" class="btn btn-success w-100">Kirim</a>
+                                                    <a href="{{url('/api/sendmessage',$explodeBirthdayDate[1])}}" id="phone-{{$phone}}" style="color:white;border-radius:.5rem" class="btn btn-success w-100 small">Kirim</a>
                                                 </div>
                                                 <?php $no += 1;?>
                                             </div>
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
                 <!-- ============================================================== -->
                 <!-- Sales chart -->
                 <!-- ============================================================== -->

@@ -4,27 +4,16 @@
     <div class="page-wrapper">
         <div class="container-fluid">
            
-            <div class="card p-3 ">  
-                    <div class="row mb-3" >
-                        <div class="col-3">
-                            <a href="/absen/jemaatbaru" class="btn btn-secondary ml-auto"><span class="mdi mdi-account-multiple-plus"> Tambah Jemaat</span></a>
-                        </div>
-                        <div class="col-5">&nbsp;</div>
-                        <div class="col-4"> 
-                            <input type="input" class="form-control rounded" placeholder="Search" id="search"  autocomplete="off"/>
-                        </div>
-                    </div>
-
-                
-                    <table class="table table-striped">
+            <div class="card p-3">  
+                <table class="table table-striped w-auto small">
                             <thead>
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Panggilan</th>
                                 <th>No Telepon</th>
                                 <th>Alamat</th>
-                                <th>No Kartu</th>
                                 <th>Foto</th>
+                                <th>Tanggal Masuk</th>
                                 <th>Action</th>
                             </thead>
                             <tbody id="body-table">
@@ -36,20 +25,26 @@
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->nama_panggilan}}</td>
                                         <td>{{$user->nomor_telepon}}</td>
-                                        <td>{{$user->alamat}}</td>
-                                        <td>{{$user->kartu}}</td>
+                                        <td>{{$user->alamat}}</td>>
                                         <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
+                                        <td>{{$user->created_at}}</td>
                                         <td>
-                                            <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Edit</a>
-                                            <a href="{{url('/delete', $user->id)}}" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a>
+                                            <a href="{{route('tempuser.show', $user->id)}}" class="btn btn-primary mb-2">Tetap</a>
+                                            
+                                            <form action="{{route('tempuser.destroy' , $user->id)}}" method="post">
+                                                @method('DELETE')    
+                                                @csrf
+                                                <button class="btn btn-danger w-100" style="color:white;border-radius:.5rem">Delete</button>
+                                            </form>
+                                            
+                                            <!-- <a href="{{route('tempuser.destroy', $user->id)}}" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a> -->
 
                                         </td>
                                     </tr>
                                     @php $i += 1; @endphp
                                 @endforeach
                             </tbody>
-                    </table>
-                
+                </table>
             </div>
         </div>
     </div>

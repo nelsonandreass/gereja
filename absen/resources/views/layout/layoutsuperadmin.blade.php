@@ -24,7 +24,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
- 
+    <!-- CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/fontawesome.min.css" />  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" />  
+    <!-- end of CDN -->
 
     <link href="{{asset('superadmin/dist/css/style.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('dist/css/custom.css')}}">
@@ -136,22 +139,27 @@
                         <div id="wrapper-sidebar">
                           
                              <li class="sidebar-item"> 
-                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/adminhome')}}" aria-expanded="false"><img class="col-1" src="{{asset('/assets/img/011-house-black.png')}}"></img>
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/adminhome')}}" aria-expanded="false"><i class="fa-solid fa-house-user"></i>
                                  <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dashboard</span>
                                 </a> 
                             </li>
                             <li class="sidebar-item"> 
-                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/ibadah')}}" aria-expanded="false"><img class="col-1" src="{{asset('/assets/img/050-edition-black.png')}}"></img>
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/ibadah')}}" aria-expanded="false"><i class="fa-regular fa-pen-to-square"></i>
                                  <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Absen</span>
                                 </a> 
                             </li>
                             <li class="sidebar-item"> 
-                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/listjemaat')}}" aria-expanded="false"><img class="col-1" src="{{asset('/assets/img/user-black.png')}}"></img>
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/listjemaat')}}" aria-expanded="false"><i class="fa-regular fa-user col-1"></i>
                                  <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jemaat </span> 
                                 </a> 
                             </li>
                             <li class="sidebar-item"> 
-                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/ulangtahun')}}" aria-expanded="false"><img class="col-1" src="{{asset('/assets/img/user-black.png')}}"></img>
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{route('tempuser.index')}}" aria-expanded="false"><i class="fa-regular fa-user col-1"></i>
+                                 <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jemaat Baru </span> 
+                                </a> 
+                            </li>
+                            <li class="sidebar-item"> 
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/ulangtahun')}}" aria-expanded="false"><i class="fa-solid fa-cake-candles col-1 m-0 p-0"></i></img>
                                  <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ulang Tahun </span> 
                                 </a> 
                             </li>

@@ -1,0 +1,143 @@
+//berita
+    public function berita(){
+        $datas = Berita::get();
+        return view('superadmin.berita' , ['datas' => $datas]);
+    }
+
+    public function createBerita(){
+        return view('superadmin.createberita');
+    }
+
+    public function createBeritaProcess(Request $request){
+        $judul = $request->input('judul');
+        $berita = $request->input('berita');
+        $wadah = $request->input('wadah');
+
+        $data = new Berita();
+        $data->judul = $judul;
+        $data->berita = $berita;
+        $data->wadah = $wadah;
+        $data->save();
+
+        return redirect('/berita');
+    }
+
+    public function updateBerita($id){
+        $data = Berita::where('id', $id)->first();
+        return view('superadmin.updateberita', ['berita' => $data]);
+    }
+
+    public function updateBeritaProcess(Request $request){
+        $id = $request->input('id');
+        $judul = $request->input('judul');
+        $berita = $request->input('berita');
+        $wadah = $request->input('wadah');
+        $data = Berita::where('id',$id)->update([
+            'judul' => $judul,
+            'berita' => $berita,
+            'wadah' => $wadah
+        ]);
+        return redirect('/berita');
+    }
+    //end of berita
+
+
+    public function test(){
+        $absen = Absen::with(['users'])->get();
+        return view('superadmin.kartu');
+    }
+
+    public function testprocess(Request $request){
+        $kartu = $request->input('kartu');
+
+        $absen = Absen::with('users')->where('user_id',$kartu)->first();
+        foreach($absen->users as $key =>  $data){
+            $response = array(
+                "name" => $data->name,
+                "foto" =>$data->foto,
+                "greet" => "Selamat Beribadah"
+            );
+        }
+        
+        echo json_encode($response);
+
+    }
+    
+    public function getAbsen(){
+        $datas = DB::table('absens')->select('tanggal',DB::raw('count(id) as total'))->orderBy('tanggal','asc')->groupBy('tanggal')->get();
+        dd($datas);
+    }
+
+    public function upload(){
+        return view('superadmin.upload');
+    }
+    
+    public function uploadprocess(Request $request){
+        $excel = $request->file('excel');
+        $rows = Excel::toArray(new UsersImport,$excel);
+
+        
+        for($i = 0 ; $i < sizeof($rows[0]) ; $i++){
+           
+            if(!is_null($rows[0][$i][6])){
+                $ttl = explode("," , $rows[0][$i][6]);
+            }
+       
+            
+            $user = new User();
+            $user->name = $rows[0][$i][0];
+            $user->kartu = $rows[0][$i][2];
+            $user->email = $rows[0][$i][0].$ttl[1].'@gmail.com';
+            $user->password = $rows[0][$i][0];
+            $user->jenis_kelamin = $rows[0][$i][4];
+            $user->status_pernikahan = $rows[0][$i][5];
+            $user->alamat = $rows[0][$i][7];
+            if(!is_null($rows[0][$i][6])){
+                $tanggal = str_replace(' ','',$ttl[1]);
+                $tanggal = str_replace('/','-',$tanggal);
+    
+                $user->tanggal_lahir = date('Y-m-d', strtotime($tanggal));        
+                $user->tempat_lahir = $ttl[0];
+            }
+            $user->nomor_telepon = $rows[0][$i][8];
+            $user->save();
+        }
+       
+    }
+
+    public function uploadkartu(){
+        return view('superadmin.uploadkartu');
+    }
+
+    public function uploadkartuprocess(Request $request){
+        $excel = $request->file('excel');
+        $rows = Excel::toArray(new UsersImport,$excel);
+
+       
+        
+        for($i = 0 ; $i < sizeof($rows[0]) ; $i++){
+            if(!is_null($rows[0][$i][3])){
+                $array = array(
+                    'kartu' => $rows[0][$i][3]
+                );
+                $user = User::where('name', $rows[0][$i][0])->update($array);
+            }
+
+           
+        }
+    }
+
+    public function uploadfoto(){
+        return view('superadmin.uploadfoto');
+    }
+
+    public function uploadfotoprocess(Request $request){
+        $foto = $request->file('foto');
+        $name = $foto->getClientOriginalName();
+        $save = Storage::putFileAs('public',$foto, $name);
+
+        $data = User::where('email' , 'nelson@gmail.com')->update([
+            'foto' => $name
+        ]);
+
+    }

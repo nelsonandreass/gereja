@@ -6,7 +6,7 @@ use App\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
-|--------------------------------------------------------------------------
+-----------------------------
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
@@ -14,11 +14,19 @@ use App\User;
 |
 */
 
-Route::post('/searchjemaat' , 'SuperAdminController@searchJemaat');
-Route::post('/tarikdataprocess' , 'SuperAdminController@tarikDataProcess');
-Route::post('/absenprocess' , 'SuperAdminController@absenProcess');
+
+
+//Jemaat section
+Route::post('/searchjemaat' , 'JemaatController@searchJemaat');
+Route::post('/tarikdataprocess' , 'AbsenController@tarikDataProcess');
+Route::post('/absenprocess' , 'AbsenController@absenProcess');
+Route::post('/searchulangtahun' , 'JemaatController@searchulangtahun');
+//end of Jemaat section
+
+// WA Connection
 Route::post('/getqr','SuperAdminController@getQr');
-Route::get('/checkconnected','SuperAdminController@isWaConnected');
-Route::get('/sendmessage/{id}','SuperAdminController@sendMessage');
-Route::post('/getwaflag' , 'SuperAdminController@getWaFlag');
-Route::post('/searchulangtahun' , 'SuperAdminController@searchulangtahun');
+Route::get('/checkconnected','WaController@isWaConnected');
+Route::get('/sendmessage/{id}','WaController@sendMessage');
+Route::post('/getwaflag' , 'WaController@getWaFlag');
+//end of WA Connection
+

@@ -17,13 +17,10 @@ Route::resource('/registeradmin' , 'AdminRegisterController');
 Route::get('/logout' , 'LogoutController@logout');
 Route::get('/get' ,'LogoutController@check' );
 
-Route::get('/cleaning','SuperAdminController@removeDuplicate');
-
 Route::resource('/login' ,'LoginController');
 Route::resource('/register' ,'RegisterController');
 
 
-Route::get("/getuser" , 'Controller@getUser');
 
 Route::group(['middleware' => ['authweb']],function(){
     Route::resource('/home' , 'HomeController');
@@ -32,25 +29,11 @@ Route::group(['middleware' => ['authweb']],function(){
     Route::resource('/profile' , 'ProfileController');
 });
 
-route::get('/count' ,  function(){
-    //$count = User::whereRaw('LENGTH(kartu) >= 7')->count();
-    $countuser = User::count();
-    $count = User::where('kartu' , '!=' , null)->count();
-    $countnull = User::where('kartu' ,  null)->count();
-    var_dump($countuser);
-    var_dump($count);
-    var_dump($countnull);
-
-});
-
-
 route::get('/uploadkartu','SuperAdminController@uploadkartu');
 
 route::post('/uploadkartuprocess','SuperAdminController@uploadkartuprocess');
 
-route::get('/deleteuser' , function(){
-    User::where('id' , '>=' , 453)->delete();
-});
+
 route::get('/clearcache' , function(){
    cache()->forget('users-keys');
 });
@@ -78,7 +61,7 @@ Route::group(['middleware' => 'role'],function(){
     Route::post('/savejemaatbaru' , 'SuperAdminController@savejemaatbaru');
     Route::get('/delete/{id}' , 'SuperAdminController@deleteJemaat');
     Route::get('/ulangtahun' , 'SuperAdminController@ulangtahun');
-
+    Route::resource('tempuser' , 'TempUserController');
 
 
     //berita
