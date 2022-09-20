@@ -70,7 +70,6 @@ class WaController extends Controller
             ),
         );
         $sendMessage = json_decode($this->curl("http://127.0.0.1:8000/chats/send?id=Login","POST",json_encode($requestBody),"json"));
-        //$sendMessage = json_decode($this->curl("","POST",json_encode($requestBody),"json"));
       
         if($sendMessage->success){ 
             $flaggingSentBody = array(
