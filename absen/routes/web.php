@@ -66,15 +66,14 @@ Route::group(['middleware' => 'role'],function(){
     Route::resource('tempuser' , 'TempUserController');
     Route::get('/publish' , 'TempUserController@publishJemaatBaruVIew');
     Route::post('/publishprocess' , 'TempUserController@publishJemaatBaru');
-
     //end of jemaat baru
 
-    //berita
-    Route::get('/berita' , 'SuperAdminController@berita');
-    Route::get('/createberita' , 'SuperAdminController@createBerita');
-    Route::post('/createberitaprocess' , 'SuperAdminController@createBeritaProcess');
-    Route::get('/updateberita/{id}' , 'SuperAdminController@updateBerita');
-    Route::post('/updateberitaprocess' , 'SuperAdminController@updateBeritaProcess');
+    // komsel
+    Route::resource('komsel' , 'KomselController');
+    Route::resource('komseldetail' , 'KomselMemberController');
+
+
+    // end of komsel
 
     
 

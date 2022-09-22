@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords"
+    <!-- <meta name="keywords"
         content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Xtreme lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Xtreme admin lite design, Xtreme admin lite dashboard bootstrap 5 dashboard template">
     <meta name="description"
         content="Xtreme Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
-    <meta name="robots" content="noindex,nofollow">
+    <meta name="robots" content="noindex,nofollow"> -->
     <title>GPdI Sahabat Allah</title>
 
     <!-- <link rel="canonical" href="https://www.wrappixel.com/templates/xtreme-admin-lite/" /> -->
@@ -159,8 +159,13 @@
                                 </a> 
                             </li>
                             <li class="sidebar-item"> 
-                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/ulangtahun')}}" aria-expanded="false"><i class="fa-solid fa-cake-candles col-1 m-0 p-0"></i></img>
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{url('/ulangtahun')}}" aria-expanded="false"><i class="fa-solid fa-cake-candles col-1 m-0 p-0"></i>
                                  <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ulang Tahun </span> 
+                                </a> 
+                            </li>
+                            <li class="sidebar-item"> 
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{route('komsel.index')}}" aria-expanded="false"><i class="fa-solid fa-user-group"></i>
+                                 <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Komsel </span> 
                                 </a> 
                             </li>
                         </div>
@@ -186,16 +191,14 @@
     <script src="{{asset('superadmin/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('superadmin/dist/js/app-style-switcher.js')}}"></script>
     <!--Wave Effects -->
-    <script src="{{asset('superadmin/dist/js/waves.js')}}"></script>
+    <!-- <script src="{{asset('superadmin/dist/js/waves.js')}}"></script> -->
     <!--Menu sidebar -->
     <script src="{{asset('superadmin/dist/js/sidebarmenu.js')}}"></script>
     <!--Custom JavaScript -->
     <script src="{{asset('superadmin/dist/js/custom.js')}}"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
-    <!-- <script src="{{asset('superadmin/libs/chartist/dist/chartist.min.js')}}"></script>
-    <script src="{{asset('superadmin/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
-    <script src="{{asset('superadmin/dist/js/pages/dashboards/dashboard1.js')}}"></script> -->
+    
     <script src="{{asset('dist/js/bootstrap.min.js')}}"></script>
     <script>
         function hideleft(){

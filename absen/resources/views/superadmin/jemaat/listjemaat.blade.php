@@ -3,58 +3,53 @@
 @section('content') 
     <div class="page-wrapper">
         <div class="container-fluid">
-            
-            <div class="card p-3">  
-                <div class="row mb-3">
-                    <div class="col-4"></div>
-                    <div class="col-5"></div>
-                    <div class="col-3"><a href="{{url('/publish')}}" class="btn btn-primary " style="<?php if(is_null($users)) print 'display:none !important;' ?>">Publish</a></div>
-                </div>
-                <table class="table table-striped w-auto small">
+           
+            <div class="card p-3 ">  
+                    <div class="row mb-3" >
+                        <div class="col-2">
+                            <a href="/absen/jemaatbaru" class="btn btn-secondary ml-auto"><span class="mdi mdi-account-multiple-plus"> Tambah Jemaat</span></a>
+                        </div>
+                        <div class="col-6">&nbsp;</div>
+                        <div class="col-4"> 
+                            <input type="input" class="form-control rounded" placeholder="Search" id="search"  autocomplete="off"/>
+                        </div>
+                    </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped ">
                             <thead>
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Panggilan</th>
                                 <th>No Telepon</th>
-                                <th>Alamat</th>
+                                <th class="w-25">Alamat</th>
+                                <th>No Kartu</th>
                                 <th>Foto</th>
-                                <th>Tanggal Masuk</th>
                                 <th>Action</th>
                             </thead>
                             <tbody id="body-table">
 
                                 @php $i = 1; @endphp
-                                @forelse($users as $user)
+                                @foreach($users as $user)
                                     <tr class="default-table">
                                         <td>{{$i}}</td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->nama_panggilan}}</td>
                                         <td>{{$user->nomor_telepon}}</td>
-                                        <td>{{$user->alamat}}</td>>
+                                        <td>{{$user->alamat}}</td>
+                                        <td>{{$user->kartu}}</td>
                                         <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
-                                        <td>{{$user->created_at}}</td>
                                         <td>
-                                            <a href="{{route('tempuser.show', $user->id)}}" class="btn btn-primary mb-2">Tetap</a>
-                                            
-                                            <form action="{{route('tempuser.destroy' , $user->id)}}" method="post">
-                                                @method('DELETE')    
-                                                @csrf
-                                                <button class="btn btn-danger w-100" style="color:white;border-radius:.5rem">Delete</button>
-                                            </form>
-                                            
-                                            <!-- <a href="{{route('tempuser.destroy', $user->id)}}" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a> -->
+                                            <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Edit</a>
+                                            <a href="{{url('/delete', $user->id)}}" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a>
 
                                         </td>
                                     </tr>
                                     @php $i += 1; @endphp
-
-                                @empty
-                                    <tr>
-                                        <td colspan="8" class="text-center">Kosong</td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -88,7 +83,7 @@
                                     var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
 
                                 }
-                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td>'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
+                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
                             }
                             if(data == ""){
                                 $(".default-table").show();

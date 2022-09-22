@@ -13,14 +13,19 @@
                             <th>Tanggal Masuk</th>
                         </thead>
                         <tbody id="body-table">
-                            @foreach($users as $user)
+                            @forelse($users as $user)
                                 <tr class="default-table">
                                     <td><input type="checkbox" name="user" value="{{$user->id}}"></td>
                                     <td>{{$user->name}}</td>
                                     <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
                                     <td>{{$user->created_at}}</td>
                                 </tr>
-                            @endforeach
+
+                            @empty 
+                                <tr>
+                                    <td colspan="8" class="text-center">Kosong</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                 </table>
                 <div class="row mt-3">

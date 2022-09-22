@@ -267,7 +267,6 @@
                 });
             }
             
-     
             $.ajax({
                     url: "/absen/api/checkconnected",
                     datatype: "application/x-www-form-urlencoded",

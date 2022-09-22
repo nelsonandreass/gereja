@@ -30,20 +30,17 @@ class SuperAdminController extends Controller
     public function index(){
         $absens = Absen::select('jenis','tanggal')->orderBy('tanggal','DESC')->distinct('tanggal','jenis')->take('5')->get();
         $tanggalDB = Absen::select('tanggal')->distinct('tanggal')->orderBy('tanggal','DESC')->take('6')->get()->toArray();
-    
         
         $this->selesaiProcess('ibadah1');
         $this->selesaiProcess('ibadah2');
 
         $arrayTanggal = array();
-            
         
         foreach($tanggalDB as $dataTanggal){
             array_push($arrayTanggal,$dataTanggal['tanggal']);
         }
         sort($arrayTanggal);
        
-      
         $ibadah1 = Counter::select('jumlah' , 'tanggal')->where('jenis' , 'ibadah1')->whereIn('tanggal' , $arrayTanggal)->get()->toJson();
         $jumlahIbadah1 = array();
         foreach(json_decode($ibadah1) as $data){
@@ -63,14 +60,12 @@ class SuperAdminController extends Controller
 
     public function tarikDataPage(){
         $getDate = Absen::select('tanggal')->orderBy('tanggal','DESC')->distinct('tanggal')->get();
-
-        return view('superadmin.tarikdata' , ['dates' => $getDate]);
-    
+        return view('superadmin.absen.tarikdata' , ['dates' => $getDate]);
     }
 
     public function getAllAbsen(){
         $absens = Absen::select('jenis','tanggal')->distinct('tanggal','jenis')->orderBy('tanggal',"desc")->get();
-        return view('superadmin.absen' , ['absens' => $absens]);
+        return view('superadmin.absen.absen' , ['absens' => $absens]);
     }
 
     public function getBirthdayThisWeek(){
@@ -90,13 +85,13 @@ class SuperAdminController extends Controller
 
     //absen
     public function ibadah(){
-        return view('superadmin.ibadah', ['tanggal' => date('Y-m-d')]);
+        return view('superadmin.absen.ibadah', ['tanggal' => date('Y-m-d')]);
     }
 
     public function absenDetail($ibadah,$tanggal){
         $datas = Absen::with('users')->select('user_id','jenis','tanggal')->where('jenis',$ibadah)->where('tanggal',$tanggal)->distinct('user_id')->get();
     
-        return view('superadmin.absendetail' , ['datas' => $datas, 'ibadah' => $ibadah , 'tanggal' => $tanggal]);
+        return view('superadmin.absen.absendetail' , ['datas' => $datas, 'ibadah' => $ibadah , 'tanggal' => $tanggal]);
     }
 
     public function selesaiProcess($jenis){
@@ -131,20 +126,25 @@ class SuperAdminController extends Controller
     //end of absen
 
     //jemaat
+
+    public function clearcache(){
+        cache()->forget('users-key');
+    }
+
     public function listjemaat(){
         $users = cache()->remember('users-key' ,60*60*24,function(){
             return User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->orderBy('name','asc')->get();
         }); 
-        return view('superadmin.listjemaat' , ['users' => $users, 'json' => json_encode($users)]);
+        return view('superadmin.jemaat.listjemaat' , ['users' => $users, 'json' => json_encode($users)]);
     }
 
     public function showjemaat($id){
         $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kecamatan' , 'kelurahan' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto','nama_panggilan')->find($id);
-        return view('superadmin.showjemaat' , ['datas' => $data]);
+        return view('superadmin.jemaat.showjemaat' , ['datas' => $data]);
     }
 
     public function updatejemaat(Request $request){
-        cache()->forget('users-key');
+        $this->clearcache();
         $id = $request->input('id');
         $email = $request->input('email');
         $telepon = $request->input('telepon');
@@ -197,11 +197,11 @@ class SuperAdminController extends Controller
     }
 
     public function jemaatbaru(){
-        return view('superadmin.jemaatbaru');
+        return view('superadmin.jemaat.jemaatbaru');
     }
 
     public function savejemaatbaru(Request $request){
-        cache()->forget('users-key');
+        $this->clearcache();
         $email = $request->input('email');
         $telepon = $request->input('telepon');
         $alamat = $request->input('alamat');
@@ -244,7 +244,7 @@ class SuperAdminController extends Controller
     }
 
     public function deleteJemaat($id){
-        cache()->forget('users-key');
+        $this->clearcache();
         $user = User::find($id);
         $image_path = '/public/'.$user->foto;
         if(Storage::exists($image_path)){
@@ -260,7 +260,7 @@ class SuperAdminController extends Controller
     public function ulangtahun(){
         $month = date('m');
         $datas = User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , DB::raw("DATE_FORMAT(tanggal_lahir,'%m-%d-%Y') as tanggal_lahir") , 'foto' , 'nama_panggilan')->whereMonth('tanggal_lahir',$month)->orderBy('tanggal_lahir','asc')->get();
-        return view('superadmin.ulangtahun' , ['users' => $datas]);
+        return view('superadmin.jemaat.ulangtahun' , ['users' => $datas]);
     }
    
     //end of jemaat
