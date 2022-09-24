@@ -159,39 +159,36 @@ class SuperAdminController extends Controller
         $nama_panggilan = $request->input('nama_panggilan');
         $foto = $request->file('foto');
         
-     
+        $array = array(
+            'email' => $email,
+            'nomor_telepon' => $telepon,
+            'alamat' => $alamat,
+            'kecamatan' => $kecamatan,
+            'kelurahan' => $kelurahan,
+            'kartu' => $nokartu,
+            'tanggal_lahir' => $tanggallahir,
+            'tempat_lahir' => $tempatlahir,
+            'status_pernikahan' => $status_pernikahan,
+            'nama_panggilan' => $nama_panggilan
+        );
         if(!is_null($foto)){
             $namafoto = $name.'.' . $foto->getClientOriginalExtension();
             $save = Storage::putFileAs('public',$foto, $namafoto);
-            $array = array(
-                'email' => $email,
-                'nomor_telepon' => $telepon,
-                'alamat' => $alamat,
-                'kecamatan' => $kecamatan,
-                'kelurahan' => $kelurahan,
-                'kartu' => $nokartu,
-                'foto' => $namafoto,
-                'tanggal_lahir' => $tanggallahir,
-                'tempat_lahir' => $tempatlahir,
-                'status_pernikahan' => $status_pernikahan,
-                'nama_panggilan' => $nama_panggilan
-            );
+            $array['foto'] = $namafoto;
+            // $array = array(
+            //     'email' => $email,
+            //     'nomor_telepon' => $telepon,
+            //     'alamat' => $alamat,
+            //     'kecamatan' => $kecamatan,
+            //     'kelurahan' => $kelurahan,
+            //     'kartu' => $nokartu,
+            //     'foto' => $namafoto,
+            //     'tanggal_lahir' => $tanggallahir,
+            //     'tempat_lahir' => $tempatlahir,
+            //     'status_pernikahan' => $status_pernikahan,
+            //     'nama_panggilan' => $nama_panggilan
+            // );
         }
-        else{
-            $array = array(
-                'email' => $email,
-                'nomor_telepon' => $telepon,
-                'alamat' => $alamat,
-                'kecamatan' => $kecamatan,
-                'kelurahan' => $kelurahan,
-                'kartu' => $nokartu,
-                'tanggal_lahir' => $tanggallahir,
-                'tempat_lahir' => $tempatlahir,
-                'status_pernikahan' => $status_pernikahan,
-                'nama_panggilan' => $nama_panggilan
-            );
-        }
-   
         $user = User::where('id', $id)->update($array);
         return redirect('/listjemaat');
     }
@@ -200,48 +197,48 @@ class SuperAdminController extends Controller
         return view('superadmin.jemaat.jemaatbaru');
     }
 
-    public function savejemaatbaru(Request $request){
-        $this->clearcache();
-        $email = $request->input('email');
-        $telepon = $request->input('telepon');
-        $alamat = $request->input('alamat');
-        $kecamatan = $request->input('kecamatan');
-        $kelurahan = $request->input('kelurahan');
-        $nokartu = $request->input('nokartu');
-        $tanggallahir = $request->input('tgllahir'); 
-        $status_pernikahan = $request->input('status_pernikahan');
-        $tempatlahir = $request->input('tempatlahir');
-        $name = $request->input('name');
-        $nama_panggilan = $request->input('nama_panggilan');
-        $jenisKelamin = $request->input('jenis_kelamin');
-        $foto = $request->file('foto');
-        if(!is_null($foto)){
-            $date = date("d-m-Y");
-            $namaFoto = $name.$date.'.' . $foto->getClientOriginalExtension();
-            $saveFoto = Storage::putFileAs('public',$foto, $namaFoto);
-        }
-        else{
-            $namaFoto = "";
-        }
-        $user = new User();
-        $user->name = $name;
-        $user->nama_panggilan = $nama_panggilan;
-        $user->email = $email;
-        $user->foto = $namaFoto;
-        $user->jenis_kelamin = $jenisKelamin;
-        $user->status_pernikahan = $status_pernikahan;
-        $user->tanggal_lahir = $tanggallahir;
-        $user->tempat_lahir = $tempatlahir;
-        $user->nomor_telepon = $telepon;
-        $user->alamat = $alamat;
-        $user->kecamatan = $kecamatan;
-        $user->kelurahan = $kelurahan;
-        $user->kartu = $nokartu;
+    // public function savejemaatbaru(Request $request){
+    //     $this->clearcache();
+    //     $email = $request->input('email');
+    //     $telepon = $request->input('telepon');
+    //     $alamat = $request->input('alamat');
+    //     $kecamatan = $request->input('kecamatan');
+    //     $kelurahan = $request->input('kelurahan');
+    //     $nokartu = $request->input('nokartu');
+    //     $tanggallahir = $request->input('tgllahir'); 
+    //     $status_pernikahan = $request->input('status_pernikahan');
+    //     $tempatlahir = $request->input('tempatlahir');
+    //     $name = $request->input('name');
+    //     $nama_panggilan = $request->input('nama_panggilan');
+    //     $jenisKelamin = $request->input('jenis_kelamin');
+    //     $foto = $request->file('foto');
+    //     if(!is_null($foto)){
+    //         $date = date("d-m-Y");
+    //         $namaFoto = $name.$date.'.' . $foto->getClientOriginalExtension();
+    //         $saveFoto = Storage::putFileAs('public',$foto, $namaFoto);
+    //     }
+    //     else{
+    //         $namaFoto = "";
+    //     }
+    //     $user = new User();
+    //     $user->name = $name;
+    //     $user->nama_panggilan = $nama_panggilan;
+    //     $user->email = $email;
+    //     $user->foto = $namaFoto;
+    //     $user->jenis_kelamin = $jenisKelamin;
+    //     $user->status_pernikahan = $status_pernikahan;
+    //     $user->tanggal_lahir = $tanggallahir;
+    //     $user->tempat_lahir = $tempatlahir;
+    //     $user->nomor_telepon = $telepon;
+    //     $user->alamat = $alamat;
+    //     $user->kecamatan = $kecamatan;
+    //     $user->kelurahan = $kelurahan;
+    //     $user->kartu = $nokartu;
         
-        $user->save();
-        return redirect('/listjemaat');
+    //     $user->save();
+    //     return redirect('/listjemaat');
         
-    }
+    // }
 
     public function deleteJemaat($id){
         $this->clearcache();

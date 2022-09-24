@@ -97,11 +97,11 @@
                     
 
                 @endphp
-                <div class="form-group row" style="">
-                    <label for="" class="col-sm-2 col-form-label" style="<?php if(!is_null($datas->foto ) ?  print('display: block;') : print('display: none;') )?>">Foto</label>
+                <div class="form-group row <?php if($datas->foto == "" ?  print('hide') : print('') )?>" >
+                    <label for="" class="col-sm-2 col-form-label" style="<?php if($datas->foto != "" ?  print('display: block;') : print('display: none;') )?>">Foto</label>
                     <div class="col-sm-10 h-50">
-                        <img class="col-12 no-absen " style="width: 30%;<?php if(!is_null($datas->foto ) ?  print('display: block;') : print('display: none;') )?>" src="{{asset('/absen/storage/app/public/'.$datas->foto)}}" id="foto-jemaat" alt="{{$datas->foto}}">
-
+                        <img class="col-12 no-absen " style="width: 30%;<?php if($datas->foto != "" ?  print('display: block;') : print('display: none;') )?>" src="{{asset('/absen/storage/app/public/'.$datas->foto)}}" id="foto-jemaat" alt="{{$datas->foto}}">
+                        <input type="file" class="form-control mt-3 w-50" name="foto">
                     </div>
                 </div>
                 
