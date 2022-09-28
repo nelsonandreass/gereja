@@ -78,7 +78,7 @@ class TempUserController extends Controller
         $user->kartu = $nokartu;
         $user->save();
         
-        return redirect('/listjemaat');
+        return redirect('/tempuser');
     }
 
     /**
@@ -150,9 +150,8 @@ class TempUserController extends Controller
         $image_path = '/public/'.$user->foto;
         if(Storage::exists($image_path)){
             Storage::delete($image_path);
-            $user->delete();
-            return redirect()->back();
         } 
+        $user->delete();
         return redirect()->back();
     }
 

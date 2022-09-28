@@ -7,7 +7,7 @@
             <div class="card p-3 ">  
                     <div class="row mb-3" >
                         <div class="col-2">
-                            <a href="/absen/jemaatbaru" class="btn btn-secondary ml-auto"><span class="mdi mdi-account-multiple-plus"> Tambah Jemaat</span></a>
+                            <!-- <a href="/absen/jemaatbaru" class="btn btn-secondary ml-auto"><span class="mdi mdi-account-multiple-plus"> Tambah Jemaat</span></a> -->
                         </div>
                         <div class="col-6">&nbsp;</div>
                         <div class="col-4"> 

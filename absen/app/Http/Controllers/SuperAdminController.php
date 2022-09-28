@@ -246,12 +246,13 @@ class SuperAdminController extends Controller
         $image_path = '/public/'.$user->foto;
         if(Storage::exists($image_path)){
             Storage::delete($image_path);
-            $user->delete();
-            return redirect()->back();
+           
         } 
         else{
             die("Failed");
         }
+        $user->delete();
+        return redirect()->back();
     }
 
     public function ulangtahun(){
