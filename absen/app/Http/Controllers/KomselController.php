@@ -17,7 +17,11 @@ class KomselController extends Controller
     public function index()
     {
         $komsels = Komsel::with(['user'])->get();
-        return view('superadmin.komsel.komsel' , ['komsels' => $komsels]);
+        $users = cache()->remember('users-key' ,60*60*24,function(){
+            return User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->orderBy('name','asc')->get();
+        }); 
+        $kecamatan = User::where('kecamatan','!=',"NULL")->select('kecamatan')->orderBy('kecamatan','asc')->distinct()->get();
+        return view('superadmin.komsel.komsel' , ['komsels' => $komsels , 'users' => $users, 'kecamatan' => $kecamatan]);
     }
 
     /**

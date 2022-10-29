@@ -25,5 +25,38 @@ class JemaatController extends Controller
         return $datas;
     }
 
+    public function sortByKecamatan(Request $request){
+        $kecamatan = $request->input('kecamatan');
+        if($kecamatan == "semua"){
+            $datas = cache()->remember('users-key' ,60*60*24,function(){
+                User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->get();
+            });
+        }
+        else{
+            $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->where('kecamatan', $kecamatan)->get();
+        }
+        return $datas;
+    }
+
+    public function sortByUmur(Request $request){
+        $dariumur = $request->input('dariumur');
+        $sampaiumur = $request->input('sampaiumur');
+        $res = array();
+        if(($dariumur == NULL || $dariumur == "") || $sampaiumur == NULL || $sampaiumur == ""){
+            $res = cache()->remember('users-key' ,60*60*24,function(){
+                User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->get();
+            });
+        }
+        else{
+            $users = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan','tanggal_lahir', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
+            foreach($users as $user){
+                $user->umur = floor($user->umur/365);
+                if($user->umur >= $dariumur && $user->umur <= $sampaiumur){
+                    array_push($res,$user);
+                }
+            }
+        }
+        return $res;
+    }
    
 }

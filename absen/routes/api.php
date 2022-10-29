@@ -21,6 +21,10 @@ Route::post('/searchjemaat' , 'JemaatController@searchJemaat');
 Route::post('/tarikdataprocess' , 'AbsenController@tarikDataProcess');
 Route::post('/absenprocess' , 'AbsenController@absenProcess');
 Route::post('/searchulangtahun' , 'JemaatController@searchulangtahun');
+Route::post('/sortjemaat' , 'JemaatController@sortByKecamatan');
+Route::post('/sortjemaatbyumur' , 'JemaatController@sortByUmur');
+
+
 //end of Jemaat section
 
 // WA Connection

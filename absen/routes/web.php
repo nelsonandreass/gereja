@@ -20,7 +20,17 @@ Route::get('/get' ,'LogoutController@check' );
 Route::resource('/login' ,'LoginController');
 Route::resource('/register' ,'RegisterController');
 
-
+Route::get("/testumur" , function(){
+    $users = User::select('tanggal_lahir',DB::raw('curdate() as tanggal'), DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
+    $res = array();
+    foreach($users as $user){
+        $user->umur = floor($user->umur/365);
+        if($user->umur >= 0 && $user->umur <= 30){
+            array_push($res,$user);
+        }
+    }
+    dd($res) ;
+});
 
 Route::group(['middleware' => ['authweb']],function(){
     Route::resource('/home' , 'HomeController');

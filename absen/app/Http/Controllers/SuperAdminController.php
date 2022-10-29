@@ -135,7 +135,8 @@ class SuperAdminController extends Controller
         $users = cache()->remember('users-key' ,60*60*24,function(){
             return User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->orderBy('name','asc')->get();
         }); 
-        return view('superadmin.jemaat.listjemaat' , ['users' => $users, 'json' => json_encode($users)]);
+        $kecamatan = User::where('kecamatan','!=',"NULL")->select('kecamatan')->orderBy('kecamatan','asc')->distinct()->get();
+        return view('superadmin.jemaat.listjemaat' , ['users' => $users, 'json' => json_encode($users) , 'kecamatan' => $kecamatan]);
     }
 
     public function showjemaat($id){
