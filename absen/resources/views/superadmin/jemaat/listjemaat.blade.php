@@ -7,19 +7,6 @@
             <div class="card p-3 ">  
                 <div class="row mb-3" >
                     <div class="col-3">
-                        <div class="row px-2">
-                                <b>Umur</b>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <input type="number" name="dariumur" id="dariumur" class="form-control" placeholder="Dari Umur">
-                                </div>
-                                <div class="col-6">
-                                    <input type="number" name="sampaiumur" id="sampaiumur" class="form-control"placeholder="Sampai Umur">
-                                </div>
-                            </div>
-                        </div>
-                    <div class="col-3">
                         <div class="row">
                             <b>Kecamatan</b>
                         </div>
@@ -32,6 +19,20 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-3">
+                        <div class="row px-2">
+                                <b>Umur</b>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="number" name="dariumur" id="dariumur" class="form-control" placeholder="Dari Umur">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" name="sampaiumur" id="sampaiumur" class="form-control"placeholder="Sampai Umur">
+                                </div>
+                            </div>
+                        </div>
+                   
                     <div class="col-2 mx-2"> 
                         <div class="row">
                             <b>Nama</b>
