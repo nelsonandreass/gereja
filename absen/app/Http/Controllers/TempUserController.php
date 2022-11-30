@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\Storage;
 use App\TempUser;
 use App\User;
 
-
+use App\Services\JemaatService;
 class TempUserController extends Controller
 {
+
+    protected $jemaat_service;
+    public function __construct(JemaatService $jemaatService){
+        $this->jemaat_service = $jemaatService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,7 @@ class TempUserController extends Controller
      */
     public function index()
     {
-        $users = TempUser::select('id' , 'name' , 'nama_panggilan' , 'nomor_telepon' , 'alamat' , 'foto' , 'created_at')->get();
+        $users = $this->jemaat_service->JemaatBaru();
         return view('superadmin.tempuser.tempuser' , ['users' => $users]);
     }
 

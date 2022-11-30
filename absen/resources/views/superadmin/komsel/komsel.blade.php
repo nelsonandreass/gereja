@@ -96,6 +96,7 @@
                         <th>Panggilan</th>
                         <th>No Telepon</th>
                         <th class="w-25">Alamat</th>
+                        <th>Umur</th>
                         <th>Foto</th>
                     </thead>
                     <tbody id="body-table-komsel">
@@ -107,6 +108,7 @@
                                 <td>{{$user->nama_panggilan}}</td>
                                 <td>{{$user->nomor_telepon}}</td>
                                 <td>{{$user->alamat}}</td>
+                                <td>{{$user->umur}}</td>
                                 <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
                                
                             </tr>
@@ -218,7 +220,7 @@
                                     var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
 
                                 }
-                                $('#body-table-komsel').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td><img class="icon" src='+photo+'></td></tr>');
+                                $('#body-table-komsel').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].umur+'</td><td><img class="icon" src='+photo+'></td></tr>');
                             }
                             if(data == ""){
                                 $(".default-table").show();
@@ -249,7 +251,7 @@
                                     var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
 
                                 }
-                                $('#body-table-komsel').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td><img class="icon" src='+photo+'></td></tr>');
+                                $('#body-table-komsel').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].umur+'</td><td><img class="icon" src='+photo+'></td></tr>');
                             }
                             if(data == ""){
                                 $(".default-table").show();

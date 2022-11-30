@@ -29,7 +29,7 @@ Route::get("/testumur" , function(){
             array_push($res,$user);
         }
     }
-    dd($res) ;
+    var_dump($res) ;
 });
 
 Route::group(['middleware' => ['authweb']],function(){

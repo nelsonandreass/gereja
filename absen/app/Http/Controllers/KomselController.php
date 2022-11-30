@@ -7,8 +7,16 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Komsel;
 
+use App\Services\JemaatService;
+
+
 class KomselController extends Controller
 {
+
+    protected $jemaat_service;
+    public function __construct(JemaatService $jemaatServices){
+        $this->jemaat_service = $jemaatServices;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,10 +25,8 @@ class KomselController extends Controller
     public function index()
     {
         $komsels = Komsel::with(['user'])->get();
-        $users = cache()->remember('users-key' ,60*60*24,function(){
-            return User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->orderBy('name','asc')->get();
-        }); 
-        $kecamatan = User::where('kecamatan','!=',"NULL")->select('kecamatan')->orderBy('kecamatan','asc')->distinct()->get();
+        $users = $this->jemaat_service->getAllJemaat();
+        $kecamatan = $this->jemaat_service->getKecamatan();
         return view('superadmin.komsel.komsel' , ['komsels' => $komsels , 'users' => $users, 'kecamatan' => $kecamatan]);
     }
 

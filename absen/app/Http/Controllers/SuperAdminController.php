@@ -22,11 +22,21 @@ use Illuminate\Support\Facades\Storage;
 use DateTime;
 use Session;
 
+use App\Services\AbsenService;
+use App\Services\JemaatService;
+
 
 class SuperAdminController extends Controller
 {
-    //home
-    
+    protected $absen_service;
+    protected $jemaat_service;
+   
+    public function __construct(AbsenService $absenServices,JemaatService $jemaatServices){
+        $this->absen_service = $absenServices;
+        $this->jemaat_service = $jemaatServices;
+
+    }
+     //home
     public function index(){
         $absens = Absen::select('jenis','tanggal')->orderBy('tanggal','DESC')->distinct('tanggal','jenis')->take('5')->get();
         $tanggalDB = Absen::select('tanggal')->distinct('tanggal')->orderBy('tanggal','DESC')->take('6')->get()->toArray();
@@ -132,15 +142,13 @@ class SuperAdminController extends Controller
     }
 
     public function listjemaat(){
-        $users = cache()->remember('users-key' ,60*60*24,function(){
-            return User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->orderBy('name','asc')->get();
-        }); 
-        $kecamatan = User::where('kecamatan','!=',"NULL")->select('kecamatan')->orderBy('kecamatan','asc')->distinct()->get();
+        $users = $this->jemaat_service->getAllJemaat();
+        $kecamatan = $this->jemaat_service->getKecamatan();
         return view('superadmin.jemaat.listjemaat' , ['users' => $users, 'json' => json_encode($users) , 'kecamatan' => $kecamatan]);
     }
 
     public function showjemaat($id){
-        $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kecamatan' , 'kelurahan' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto','nama_panggilan')->find($id);
+        $data = $this->jemaat_service->showJemaat($id);
         return view('superadmin.jemaat.showjemaat' , ['datas' => $data]);
     }
 
@@ -197,49 +205,6 @@ class SuperAdminController extends Controller
     public function jemaatbaru(){
         return view('superadmin.jemaat.jemaatbaru');
     }
-
-    // public function savejemaatbaru(Request $request){
-    //     $this->clearcache();
-    //     $email = $request->input('email');
-    //     $telepon = $request->input('telepon');
-    //     $alamat = $request->input('alamat');
-    //     $kecamatan = $request->input('kecamatan');
-    //     $kelurahan = $request->input('kelurahan');
-    //     $nokartu = $request->input('nokartu');
-    //     $tanggallahir = $request->input('tgllahir'); 
-    //     $status_pernikahan = $request->input('status_pernikahan');
-    //     $tempatlahir = $request->input('tempatlahir');
-    //     $name = $request->input('name');
-    //     $nama_panggilan = $request->input('nama_panggilan');
-    //     $jenisKelamin = $request->input('jenis_kelamin');
-    //     $foto = $request->file('foto');
-    //     if(!is_null($foto)){
-    //         $date = date("d-m-Y");
-    //         $namaFoto = $name.$date.'.' . $foto->getClientOriginalExtension();
-    //         $saveFoto = Storage::putFileAs('public',$foto, $namaFoto);
-    //     }
-    //     else{
-    //         $namaFoto = "";
-    //     }
-    //     $user = new User();
-    //     $user->name = $name;
-    //     $user->nama_panggilan = $nama_panggilan;
-    //     $user->email = $email;
-    //     $user->foto = $namaFoto;
-    //     $user->jenis_kelamin = $jenisKelamin;
-    //     $user->status_pernikahan = $status_pernikahan;
-    //     $user->tanggal_lahir = $tanggallahir;
-    //     $user->tempat_lahir = $tempatlahir;
-    //     $user->nomor_telepon = $telepon;
-    //     $user->alamat = $alamat;
-    //     $user->kecamatan = $kecamatan;
-    //     $user->kelurahan = $kelurahan;
-    //     $user->kartu = $nokartu;
-        
-    //     $user->save();
-    //     return redirect('/listjemaat');
-        
-    // }
 
     public function deleteJemaat($id){
         $this->clearcache();

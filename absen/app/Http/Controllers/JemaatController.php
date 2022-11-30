@@ -14,7 +14,10 @@ class JemaatController extends Controller
     public function searchJemaat(Request $request){
         $username = $request->input('jemaat');
         if(!is_null($username)){
-            $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->where('name' , 'LIKE' , $username.'%')->orWhere('nama_panggilan' , 'LIKE' , $username.'%')->get();
+            $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->where('name' , 'LIKE' , $username.'%')->orWhere('nama_panggilan' , 'LIKE' , $username.'%')->get();
+            foreach($datas as $data){
+                $data->umur = floor($data->umur/365);
+            }
             return $datas;
         }
     }
@@ -29,11 +32,14 @@ class JemaatController extends Controller
         $kecamatan = $request->input('kecamatan');
         if($kecamatan == "semua"){
             $datas = cache()->remember('users-key' ,60*60*24,function(){
-                User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->get();
+                User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
             });
         }
         else{
-            $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->where('kecamatan', $kecamatan)->get();
+            $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan' , DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->where('kecamatan', $kecamatan)->get();
+        }
+        foreach($datas as $data){
+            $data->umur = floor($data->umur/365);
         }
         return $datas;
     }
