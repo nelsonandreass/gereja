@@ -57,6 +57,7 @@
                                 <th>No Telepon</th>
                                 <th class="w-25">Alamat</th>
                                 <th>No Kartu</th>
+                                <th>Umur</th>
                                 <th>Foto</th>
                                 <th>Action</th>
                             </thead>
@@ -71,6 +72,7 @@
                                         <td>{{$user->nomor_telepon}}</td>
                                         <td>{{$user->alamat}}</td>
                                         <td>{{$user->kartu}}</td>
+                                        <td>{{$user->umur}}</td>
                                         <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
                                         <td>
                                             <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Edit</a>
@@ -167,7 +169,7 @@
                                     var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
 
                                 }
-                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
+                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td>'+data[i].umur+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
                             }
                             if(data == ""){
                                 $(".default-table").show();
@@ -198,7 +200,7 @@
                                     var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
 
                                 }
-                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
+                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td>'+data[i].umur+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a></td></tr>');
                             }
                             if(data == ""){
                                 $(".default-table").show();
