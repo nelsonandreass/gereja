@@ -72,8 +72,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2"> 
+                    <div class="col-2">
                         <div class="row">
+                            <b>Komsel</b>
+                        </div>
+                        <div class="row">
+                            <select class="form-control" name="" id="komsellist">
+                                <option value="semua">--Pilih--</option>
+                                @foreach($komsels as $komsel)
+                                    <option value="{{$komsel->id}}">{{$komsel->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-2 mx-2"> 
+                        <div class="row ">
                             <b>Nama</b>
                         </div>
                         <div class="row">
@@ -174,7 +187,7 @@
                                     var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
 
                                 }
-                                $('#body-table-komsel').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td><img class="icon" src='+photo+'></td></tr>');
+                                $('#body-table-komsel').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].umur+'</td><td><img class="icon" src='+photo+'></td></tr>');
                             }
                             if(data == ""){
                                 $(".default-table").show();
@@ -233,7 +246,7 @@
             $('#kecamatan').change(function(event){
                 var datakecamatan = $('#kecamatan').val();
                 $.ajax({
-                    url: "/absen/api/sortjemaat",
+                    url: "/absen/api/sortjemaatbykecamatan",
                     datatype: "application/x-www-form-urlencoded",
                     method:"POST",
                     data:{
@@ -259,6 +272,36 @@
                     },
                 });
                 
+            });
+
+            $('#komsellist').change(function(event){
+                var komsel = $('#komsellist').val();
+                $.ajax({
+                    url: "/absen/api/sortkomsel",
+                    datatype: "application/x-www-form-urlencoded",
+                    method:"POST",
+                    data:{
+                        id: komsel
+                    },
+                    success: function(data)
+                    {
+                        $(".default-table").hide();
+                        $('.row-table').remove();
+                            for(var i = 0; i < data.length ; i++){
+                                if(data[i].foto == null){
+                                    var photo = "";
+                                }
+                                else{
+                                    var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
+
+                                }
+                                $('#body-table-komsel').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].umur+'</td><td><img class="icon" src='+photo+'></td></tr>');
+                            }
+                            if(data == ""){
+                                $(".default-table").show();
+                            }
+                    },
+                });
             });
         });
     </script>

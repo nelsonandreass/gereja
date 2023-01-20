@@ -12,4 +12,7 @@ class KomselMember extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+    public function users(){
+        return $this->hasMany(User::class,'id','user_id');
+    }
 }

@@ -14,11 +14,8 @@ class JemaatRepository
         $users = TempUser::select('id' , 'name' , 'nama_panggilan' , 'nomor_telepon' , 'alamat' , 'foto' , 'created_at')->get();
         return $users;
     }
-
+ 
     public function getAllJemaat(){
-        // $users = cache()->remember('users-key' ,60*60*24,function(){
-        //     return User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan','tanggal_lahir', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->orderBy('name','asc')->get();
-        // }); 
         $res = array();
         $users =  User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan','tanggal_lahir', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->orderBy('name','asc')->get();
         foreach($users as $user){
@@ -36,6 +33,43 @@ class JemaatRepository
         $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kecamatan' , 'kelurahan' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto','nama_panggilan')->find($id);
         return $data;
     }
+
+    public function sortJemaat($request){
+
+    }
+
+    public function searchJemaat($request){
+        $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->where('name' , 'LIKE' , $request.'%')->orWhere('nama_panggilan' , 'LIKE' , '$username%')->get();
+        return $datas;
+    }
     
+    public function searchulangtahun($request){
+        $datas = User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , DB::raw("DATE_FORMAT(tanggal_lahir,'%m-%d-%Y') as tanggal_lahir") , 'foto' , 'nama_panggilan')->whereMonth('tanggal_lahir',$month)->orderBy('tanggal_lahir','asc')->get();
+        return $datas;
+    }
+
+    public function sortByKecamatanCache($request){
+        $datas = cache()->remember('users-key' ,60*60*24,function(){
+            User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
+        });
+        return $datas;
+    }
+    
+    public function sortByKecamatan($request){
+        $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan' , DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->where('kecamatan', $request)->get();
+        return $datas;
+    }
+
+    public function sortByUmurCache(){
+        $datas = cache()->remember('users-key' ,60*60*24,function(){
+            User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan')->get();
+        });
+        return $datas;
+    }
+
+    public function sortByUmur(){
+        $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan','tanggal_lahir', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
+        return $datas;
+    }
 }
 

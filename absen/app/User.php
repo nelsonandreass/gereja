@@ -40,4 +40,8 @@ class User extends Authenticatable
     public function absen(){
         return $this->belongsTo(Absen::class,'kartu','user_id');
     }
+
+    public function komsel(){
+        return $this->belongsTo(KomselMember::class,'id','user_id');
+    }
 }

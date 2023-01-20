@@ -183,7 +183,7 @@
             $('#kecamatan').change(function(event){
                 var datakecamatan = $('#kecamatan').val();
                 $.ajax({
-                    url: "/absen/api/sortjemaat",
+                    url: "/absen/api/sortjemaatbykecamatan",
                     datatype: "application/x-www-form-urlencoded",
                     method:"POST",
                     data:{

@@ -21,8 +21,10 @@ Route::post('/searchjemaat' , 'JemaatController@searchJemaat');
 Route::post('/tarikdataprocess' , 'AbsenController@tarikDataProcess');
 Route::post('/absenprocess' , 'AbsenController@absenProcess');
 Route::post('/searchulangtahun' , 'JemaatController@searchulangtahun');
-Route::post('/sortjemaat' , 'JemaatController@sortByKecamatan');
+Route::post('/sortjemaatbykecamatan' , 'JemaatController@sortByKecamatan');
 Route::post('/sortjemaatbyumur' , 'JemaatController@sortByUmur');
+//Route::post('/sortjemaat' , 'JemaatController@sortJemaat'); unknown effect
+Route::post('/sortkomsel' , 'KomselController@sortKomsel');
 
 
 //end of Jemaat section

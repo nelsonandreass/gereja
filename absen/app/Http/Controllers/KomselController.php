@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Komsel;
+use App\KomselMember;
 
 use App\Services\JemaatService;
 
@@ -29,6 +30,8 @@ class KomselController extends Controller
         $kecamatan = $this->jemaat_service->getKecamatan();
         return view('superadmin.komsel.komsel' , ['komsels' => $komsels , 'users' => $users, 'kecamatan' => $kecamatan]);
     }
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -104,5 +107,31 @@ class KomselController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function sortKomsel(Request $request){
+        $id = $request->input('id');
+        $komselmember = KomselMember::with(['users'])->where('komsel_id', $id)->get();
+        $komsel = Komsel::with(['user'])->where("id" , $id)->first();
+        
+        $datas = array();
+        $user_data = array();
+        
+        array_push($user_data,$komsel->user);
+        
+        foreach($komselmember as $member){
+            foreach($member->users as $key => $user){
+                array_push($user_data,$user);
+            }
+            
+        }
+
+        foreach($user_data as $data){
+            $days = (date_diff(date_create($data->tanggal_lahir),date_create(date("Y-m-d"))));
+            $days = $days->format("%a");
+            $data["umur"] = floor($days/365);
+        }
+        return $user_data;
     }
 }
