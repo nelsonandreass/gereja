@@ -32,7 +32,7 @@
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->nama_panggilan}}</td>
                                         <td>{{$user->nomor_telepon}}</td>
-                                        <td>{{$user->alamat}}</td>>
+                                        <td>{{$user->alamat}}</td>
                                         <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
                                         <td>{{$user->created_at}}</td>
                                         <td>

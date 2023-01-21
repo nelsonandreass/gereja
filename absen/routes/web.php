@@ -56,21 +56,19 @@ Route::group(['middleware' => 'role'],function(){
 
     //absen
     Route::get('/ibadah' , 'SuperAdminController@ibadah');
-   // Route::post('/absenprocess' , 'SuperAdminController@absenProcess');
     Route::get('/getabsen' , 'SuperAdminController@getAbsen');
     Route::get('/absenlist/{ibadah}/{tanggal}','SuperAdminController@absenDetail');
     Route::get('/tarikdata' , 'SuperAdminController@tarikDataPage');
     Route::post('/tarikdataprocess' , 'SuperAdminController@tarikDataProcess');
     Route::get('/selesai/{jenis}/{tanggal}' , 'SuperAdminController@selesaiProcess');
+    
     //jemaat
-    Route::get('/listjemaat' , 'SuperAdminController@listjemaat');
-    Route::get('/showjemaat/{id}' , 'SuperAdminController@showjemaat' );
-    Route::post('/update/jemaat' , 'SuperAdminController@updatejemaat');
-    Route::post('/searchjemaat' , 'SuperAdminController@searchJemaat');
-    Route::get('/jemaatbaru' , 'SuperAdminController@jemaatbaru');
-    Route::post('/savejemaatbaru' , 'SuperAdminController@savejemaatbaru');
-    Route::get('/delete/{id}' , 'SuperAdminController@deleteJemaat');
-    Route::get('/ulangtahun' , 'SuperAdminController@ulangtahun');
+    Route::get('/listjemaat' , 'JemaatController@listjemaat');
+    Route::get('/showjemaat/{id}' , 'JemaatController@showjemaat' );
+    Route::post('/update/jemaat' , 'JemaatController@updatejemaat');
+    Route::get('/jemaatbaru' , 'JemaatController@jemaatbaru');
+    Route::get('/delete/{id}' , 'JemaatController@deleteJemaat');
+    Route::get('/ulangtahun' , 'JemaatController@ulangtahun');
 
     //jemaat baru
     Route::resource('tempuser' , 'TempUserController');

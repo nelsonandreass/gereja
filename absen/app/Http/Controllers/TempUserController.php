@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\TempUser;
 use App\User;
 
-use App\Services\JemaatService;
+use App\Http\Services\JemaatService;
 class TempUserController extends Controller
 {
 

@@ -8,7 +8,7 @@ use App\User;
 use App\Komsel;
 use App\KomselMember;
 
-use App\Services\JemaatService;
+use App\Http\Services\JemaatService;
 
 
 class KomselController extends Controller

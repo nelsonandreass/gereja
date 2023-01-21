@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\Storage;
 use DateTime;
 use Session;
 
-use App\Services\AbsenService;
-use App\Services\JemaatService;
+use App\Http\Services\AbsenService;
+use App\Http\Services\JemaatService;
 
 
 class SuperAdminController extends Controller
@@ -134,100 +134,6 @@ class SuperAdminController extends Controller
     
 
     //end of absen
-
-    //jemaat
-
-    public function clearcache(){
-        cache()->forget('users-key');
-    }
-
-    public function listjemaat(){
-        $users = $this->jemaat_service->getAllJemaat();
-        $kecamatan = $this->jemaat_service->getKecamatan();
-        return view('superadmin.jemaat.listjemaat' , ['users' => $users, 'json' => json_encode($users) , 'kecamatan' => $kecamatan]);
-    }
-
-    public function showjemaat($id){
-        $data = $this->jemaat_service->showJemaat($id);
-        return view('superadmin.jemaat.showjemaat' , ['datas' => $data]);
-    }
-
-    public function updatejemaat(Request $request){
-        $this->clearcache();
-        $id = $request->input('id');
-        $email = $request->input('email');
-        $telepon = $request->input('telepon');
-        $alamat = $request->input('alamat');
-        $kecamatan = $request->input('kecamatan');
-        $kelurahan = $request->input('kelurahan');
-        $nokartu = $request->input('nokartu');
-        $tanggallahir = $request->input('tgllahir');
-        $status_pernikahan = $request->input('status_pernikahan');
-        $tempatlahir = $request->input('tempatlahir');
-        $name = $request->input('name');
-        $nama_panggilan = $request->input('nama_panggilan');
-        $foto = $request->file('foto');
-        
-        $array = array(
-            'email' => $email,
-            'nomor_telepon' => $telepon,
-            'alamat' => $alamat,
-            'kecamatan' => $kecamatan,
-            'kelurahan' => $kelurahan,
-            'kartu' => $nokartu,
-            'tanggal_lahir' => $tanggallahir,
-            'tempat_lahir' => $tempatlahir,
-            'status_pernikahan' => $status_pernikahan,
-            'nama_panggilan' => $nama_panggilan
-        );
-        if(!is_null($foto)){
-            $namafoto = $name.'.' . $foto->getClientOriginalExtension();
-            $save = Storage::putFileAs('public',$foto, $namafoto);
-            $array['foto'] = $namafoto;
-            // $array = array(
-            //     'email' => $email,
-            //     'nomor_telepon' => $telepon,
-            //     'alamat' => $alamat,
-            //     'kecamatan' => $kecamatan,
-            //     'kelurahan' => $kelurahan,
-            //     'kartu' => $nokartu,
-            //     'foto' => $namafoto,
-            //     'tanggal_lahir' => $tanggallahir,
-            //     'tempat_lahir' => $tempatlahir,
-            //     'status_pernikahan' => $status_pernikahan,
-            //     'nama_panggilan' => $nama_panggilan
-            // );
-        }
-        $user = User::where('id', $id)->update($array);
-        return redirect('/listjemaat');
-    }
-
-    public function jemaatbaru(){
-        return view('superadmin.jemaat.jemaatbaru');
-    }
-
-    public function deleteJemaat($id){
-        $this->clearcache();
-        $user = User::find($id);
-        $image_path = '/public/'.$user->foto;
-        if(Storage::exists($image_path)){
-            Storage::delete($image_path);
-           
-        } 
-        else{
-            die("Failed");
-        }
-        $user->delete();
-        return redirect()->back();
-    }
-
-    public function ulangtahun(){
-        $month = date('m');
-        $datas = User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , DB::raw("DATE_FORMAT(tanggal_lahir,'%m-%d-%Y') as tanggal_lahir") , 'foto' , 'nama_panggilan')->whereMonth('tanggal_lahir',$month)->orderBy('tanggal_lahir','asc')->get();
-        return view('superadmin.jemaat.ulangtahun' , ['users' => $datas]);
-    }
-   
-    //end of jemaat
 
     
 }
