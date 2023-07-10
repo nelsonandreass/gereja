@@ -30,9 +30,13 @@ Route::post('/sortkomsel' , 'KomselController@sortKomsel');
 //end of Jemaat section
 
 // WA Connection
-Route::post('/getqr','SuperAdminController@getQr');
+Route::post('/getqr','WaController@getQr');
 Route::get('/checkconnected','WaController@isWaConnected');
 Route::get('/sendmessage/{id}','WaController@sendMessage');
 Route::post('/getwaflag' , 'WaController@getWaFlag');
+Route::get('/sendqr/{id}','WaController@sendQrCodeUser');
+
+
+
 //end of WA Connection
 

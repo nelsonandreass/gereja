@@ -18,7 +18,6 @@ class CreateCountersTable extends Migration
             $table->string('jenis')->nullable();
             $table->string('tanggal')->nullable();
             $table->integer('jumlah')->nullable();
-
             $table->timestamps();
         });
     }

@@ -62,8 +62,8 @@ class SuperAdminController extends Controller
             array_push($jumlahIbadah2,$data->jumlah);
         }
         
-        //$birthday = $this->getBirthdayThisWeek();
-        $birthday = array("nelson"=>"08-19;+6287888088201");
+        $birthday = $this->getBirthdayThisWeek();
+        //$birthday = array("nelson"=>"08-19;+6287888088201");
      
         return view('superadmin.index' , ['absens' => $absens, 'tanggal' => json_encode($arrayTanggal), 'ibadah1' => json_encode($jumlahIbadah1) , 'ibadah2' => json_encode($jumlahIbadah2), 'birthdays' => $birthday]);
     }
@@ -132,6 +132,17 @@ class SuperAdminController extends Controller
         }
     }
     
+    public function createQrId(){
+        $users = User::select('id')->where('role' , 'user')->get();
+        foreach($users as $user){
+            $kartu = date('y') . substr(microtime(),2,3) . date('mdis')  . substr(microtime(),5,3);
+            $array = array(
+                'barcode' => $kartu
+            );
+            User::where('id' , $user->id)->update($array);
+        }
+        return redirect()->back();
+    }
 
     //end of absen
 

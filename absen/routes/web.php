@@ -11,6 +11,7 @@ use App\User;
 |
 */
 
+
 Route::get('/', 'Controller@index');
 Route::resource('/loginadmin' , 'AdminLoginController');
 Route::resource('/registeradmin' , 'AdminRegisterController');
@@ -48,6 +49,9 @@ route::get('/clearcache' , function(){
    cache()->forget('users-keys');
 });
 
+//use this for delete wa session
+Route::get('/deletewa' , 'WaController@delete');
+
 Route::group(['middleware' => 'role'],function(){
     //home
     Route::get('/adminhome' , 'SuperAdminController@index');
@@ -79,11 +83,16 @@ Route::group(['middleware' => 'role'],function(){
     // komsel
     Route::resource('komsel' , 'KomselController');
     Route::resource('komseldetail' , 'KomselMemberController');
-
-
     // end of komsel
 
-    
+    // BIC
+    Route::resource('bic' , 'BicController');
+    Route::get('/createqrid','SuperAdminController@createQrId');
+    // end of BIC
+  
+    // Youth
+    Route::resource('youth' , 'YouthController');
+    //end of Youth
 
     Route::get('/upload' , 'SuperAdminController@upload');
     Route::post('/uploadprocess' , 'SuperAdminController@uploadprocess');
@@ -95,6 +104,7 @@ Route::group(['middleware' => 'role'],function(){
 
     Route::get('/test' , 'SuperAdminController@test');
     Route::post('/testprocess' , 'SuperAdminController@testprocess');
+    
 
 });
 Route::group(['middleware' => 'role'],function(){

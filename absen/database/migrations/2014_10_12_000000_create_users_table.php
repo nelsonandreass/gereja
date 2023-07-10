@@ -32,7 +32,10 @@ class CreateUsersTable extends Migration
             $table->string('role')->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
-           
+            $table->string('fingerprint')->nullable();
+            $table->string('nama_panggilan')->nullable();
+            $table->string('kelurahan')->nullable();
+            $table->string('kecamatan')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

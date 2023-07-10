@@ -84,6 +84,7 @@
                                                 <div class="col-3 pt-2">{{$explodeBirthdayDate[0]}}</div>
                                                 <div class="col-3 btn-send">
                                                     <a href="{{url('/api/sendmessage',$explodeBirthdayDate[1])}}" id="phone-{{$phone}}" style="color:white;border-radius:.5rem" class="btn btn-success w-100 small">Kirim</a>
+                                                    <!-- <a href="{{url('/api/sendqr',$explodeBirthdayDate[1])}}" id="phone-{{$phone}}" style="color:white;border-radius:.5rem" class="btn btn-success w-100 small">Kirim</a> -->
                                                 </div>
                                                 <?php $no += 1;?>
                                             </div>

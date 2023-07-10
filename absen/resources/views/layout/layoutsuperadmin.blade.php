@@ -168,6 +168,16 @@
                                  <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Komsel </span> 
                                 </a> 
                             </li>
+                            <li class="sidebar-item"> 
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{route('bic.index')}}" aria-expanded="false"><i class="fa-solid fa-user-group"></i>
+                                 <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BIC </span> 
+                                </a> 
+                            </li>
+                            <li class="sidebar-item"> 
+                                 <a class="sidebar-link waves-effect waves-dark " href="{{route('youth.index')}}" aria-expanded="false"><i class="fa-solid fa-user-group"></i>
+                                 <span class="hide-menu">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Youth </span> 
+                                </a> 
+                            </li>
                         </div>
                       
                         

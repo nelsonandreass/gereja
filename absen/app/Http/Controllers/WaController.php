@@ -46,6 +46,11 @@ class WaController extends Controller
         return $curl;
     }
 
+    public function delete(){
+        $curl = $this->curl('http://127.0.0.1:8000/sessions/delete/Login','DELETE',null,"x-www-form-urlencoded");
+        return $curl;
+    }
+
     public function isWaConnected(Request $request){
         $isWaConnected = $this->curl("http://127.0.0.1:8000/sessions/status/Login","GET","","json");
         return $isWaConnected;
@@ -89,8 +94,8 @@ class WaController extends Controller
     public function getWaFlag(Request $request){
         $phone = $request->input("phone");
         $year = date("Y");
-     
-        $isSent = wa_sent_flags::where('phone',$phone)->where('year',$year)->first();
+
+        $isSent = wa_sent_flags::where('phone','like','%'.$phone)->where('year',$year)->first();
        
         if(!is_null($isSent)){
             $response = array("success"=>true);
@@ -101,4 +106,19 @@ class WaController extends Controller
             return json_encode($response);
         }
     }
+
+    public function sendQrCodeUser($id){
+    $getUser = User::select("name","tanggal_lahir","jenis_kelamin","kartu")->where("nomor_telepon","LIKE",$id)->first();
+        $requestBody = array(
+            "receiver" => $id,
+            "message" => array(
+                "image" => array(
+                    "url" => "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=".$getUser->kartu 
+                ),
+                "caption" => "test"
+            ),
+        );
+        $sendMessage = json_decode($this->curl("http://127.0.0.1:8000/chats/send?id=Login","POST",json_encode($requestBody),"json"));
+    }
 }
+// "http://localhost/absen/absen/storage/app/public/NELSON%20ANDREAS.png"

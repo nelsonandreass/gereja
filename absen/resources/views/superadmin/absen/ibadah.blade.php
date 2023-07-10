@@ -200,7 +200,7 @@
                                     $("#greeting").show();
                                     setInterval(function(){
                                         $("#greeting").hide();
-                                    }, 5000);
+                                    }, 3000);
                                 }
                         },
                     })

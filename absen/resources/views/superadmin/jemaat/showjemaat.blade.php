@@ -3,7 +3,7 @@
 @section('content')
     <div class="page-wrapper">
         <div class="container-fluid">
-        
+
             <form action="{{url('/update/jemaat')}}" method="post" enctype="multipart/form-data">
             @csrf
                 <input type="hidden" value="{{$datas->id}}" name="id">
@@ -80,8 +80,7 @@
                     <input type="text" class="form-control" name="nokartu"  value="{{$datas->kartu}}">
                     </div>
                 </div>
-                @php    
-
+                @php
                     if($datas->foto == '' || is_null($datas->foto)){
                         echo ('
                         <div class="form-group row">
@@ -91,16 +90,27 @@
                             </div>
                         </div>
                         ');
-                      
-
                     }
-                    
-
                 @endphp
+                <div class="row">
+                    <div class="col-2"><label for="">Wadah</label></div>
+                    <div class="col-5">
+                        <label class="form-check-label" for="BIC">
+                            BIC
+                        </label>
+                        <input class="form-check-input" type="checkbox" name="bic" value="BIC" id="BIC" <?php if($datas->isBic == "Y" ?  print('checked') : print('') )?>>
+                    
+                        <label class="form-check-label" for="Youth">
+                            Youth
+                        </label>
+                        <input class="form-check-input" type="checkbox" name="youth" value="Youth" id="Youth" <?php if($datas->isYouth == "Y" ?  print('checked') : print('') )?>>
+                    </div>
+                </div>
+                
                 <div class="form-group row <?php if($datas->foto == "" ?  print('hide') : print('') )?>" >
                     <label for="" class="col-sm-2 col-form-label" style="<?php if($datas->foto != "" ?  print('display: block;') : print('display: none;') )?>">Foto</label>
                     <div class="col-sm-10 h-50">
-                        <img class="col-12 no-absen " style="width: 30%;<?php if($datas->foto != "" ?  print('display: block;') : print('display: none;') )?>" src="{{asset('/absen/storage/app/public/'.$datas->foto)}}" id="foto-jemaat" alt="{{$datas->foto}}">
+                        <img class="col-12 no-absen " style="width: 20%;<?php if($datas->foto != "" ?  print('display: block;') : print('display: none;') )?>" src="{{asset('/absen/storage/app/public/'.$datas->foto)}}" id="foto-jemaat" alt="{{$datas->foto}}">
                         <input type="file" class="form-control mt-3 w-50" name="foto">
                     </div>
                 </div>

@@ -45,7 +45,7 @@ class AbsenController extends Controller
 
         $cardshort = substr($user_id,1,strlen($user_id));
     
-        $checkUser = User::where('kartu','LIKE',"%$cardshort%")->orWhere('fingerprint','LIKE',"%$cardshort%")->first();
+        $checkUser = User::where('kartu','LIKE',"%$cardshort%")->orWhere('fingerprint','LIKE',"%$cardshort%")->orWhere('barcode','LIKE',"%$cardshort%")->first();
       
         $response="";
         if(!is_null($checkUser)){

@@ -44,4 +44,8 @@ class User extends Authenticatable
     public function komsel(){
         return $this->belongsTo(KomselMember::class,'id','user_id');
     }
+
+    public function bic(){
+        return $this->hasOne(Bic::class,'user_id','kartu');
+    }
 }

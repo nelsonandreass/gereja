@@ -26,7 +26,10 @@
                                     <td>1</td>
                                     <td>{{$ketua->user->name}}</td>
                                     <td>{{$ketua->user->nomor_telepon}}</td>
-                                    <td></td>
+                                    <td style="width:10rem !important">
+                                        <a href="" class="w-25 btn btn-primary">Edit</a>
+                                        <a href="" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a>
+                                    </td>
                                 </tr>
                                 @php $i=2; @endphp
                                 @foreach($members as $member)
@@ -34,7 +37,10 @@
                                         <td>{{$i}}</td>
                                         <td>{{$member->user->name}}</td>
                                         <td>{{$member->user->nomor_telepon}}</td>
-                                        <td></td>
+                                        <td style="width:10rem !important">
+                                            <a href="" class="btn btn-primary">Edit</a>
+                                            <a href="" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a>
+                                        </td>
                                     </tr>
                                     @php $i++; @endphp
                                 @endforeach

@@ -25,7 +25,8 @@ class JemaatController extends Controller
     public function listjemaat(){
         $users = $this->jemaat_service->getAllJemaat();
         $kecamatan = $this->jemaat_service->getKecamatan();
-        return view('superadmin.jemaat.listjemaat' , ['users' => $users, 'json' => json_encode($users) , 'kecamatan' => $kecamatan]);
+        $genderCounter = $this->jemaat_service->genderCounter();
+        return view('superadmin.jemaat.listjemaat' , ['users' => $users, 'json' => json_encode($users) , 'kecamatan' => $kecamatan , 'gender' => $genderCounter]);
     }
 
     public function showjemaat($id){
