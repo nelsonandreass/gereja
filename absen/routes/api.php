@@ -17,6 +17,9 @@ use App\User;
 
 
 //Jemaat section
+Route::get('/get' , function(){
+    return User::get();
+});
 Route::post('/searchjemaat' , 'JemaatController@searchJemaat');
 Route::post('/tarikdataprocess' , 'AbsenController@tarikDataProcess');
 Route::post('/absenprocess' , 'AbsenController@absenProcess');

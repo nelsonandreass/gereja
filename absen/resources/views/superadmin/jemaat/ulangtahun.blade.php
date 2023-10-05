@@ -36,8 +36,12 @@
                             <!-- <input type="input" class="form-control rounded" placeholder="Search" id="search"  autocomplete="off"/> -->
                         </div>
                     </div>
-
-                <table class="table table-striped w-auto">
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <button class="btn btn-success" id="print" style="color:white;border-radius:.5rem">print</button>
+                    </div>
+                </div>
+                <table class="table table-striped w-auto" id="sortedtable">
                         <thead>
                             <th>No</th>
                             <th>Nama</th>
@@ -59,9 +63,9 @@
                                     <td>{{$user->alamat}}</td>
                                     <td>{{$user->tanggal_lahir}}</td>
                                     <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
-                                    <td>
+                                    <!-- <td>
                                         <a href="{{url('/showjemaat', $user->id)}}" class="btn btn-primary">Show</a>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 @php $i += 1; @endphp
                             @endforeach
@@ -76,6 +80,22 @@
 
 @section('script')
     <script>
+        function printData(){
+            var divToPrint = document.getElementById("#sortedtable");
+           
+            var htmlToPrint = '' +
+                '<style type="text/css">' +
+                'table th, table td {' +
+                'border:1px solid #000;' +
+                'padding:0.5em;' +
+                '}' +
+                '</style>';
+            htmlToPrint += divToPrint.outerHTML;
+            newWin = window.open("");
+            newWin.document.write(htmlToPrint);
+            newWin.print();
+            newWin.close();
+        }  	
         $(document).ready(function(){
             var date = new Date();
             var month = date.getMonth()+1;
@@ -101,7 +121,8 @@
                                     var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
 
                                 }
-                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td>'+data[i].alamat+'</td><td>'+data[i].tanggal_lahir+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Show</a></td></tr>');
+                                // $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td>'+data[i].alamat+'</td><td>'+data[i].tanggal_lahir+'</td><td><img class="icon" src='+photo+'></td><td><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Show</a></td></tr>');
+                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td>'+data[i].alamat+'</td><td>'+data[i].tanggal_lahir+'</td><td><img class="icon" src='+photo+'></td></tr>');
                             }
                             if(data == ""){
                                 $(".default-table").show();
@@ -109,6 +130,22 @@
                     },
                 });
                 
+            });
+
+            $('#print').click(function () {
+                console.log($('#sortedtable')[0].outerHTML);
+                var pageTitle = 'Page Title',
+                stylesheet = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css',
+                win = window.open('', 'Print', 'width=1000,height=1000');
+                win.document.write('<html><head><title>' + pageTitle + '</title>' +
+                '<link rel="stylesheet" href="' + stylesheet + '">' +
+                '<style type="text/css">'+'table th, table td {border:1px solid #000;padding:0.5em;} img{width:30px;height;30px}' +'</style>'+
+                '</head><body>' + $('#sortedtable')[0].outerHTML + '</body></html>');
+                win.setTimeout(function(){
+                    win.document.close();
+                    win.print();
+                    win.close();
+                } , 3500);
             });
         });
     </script>
