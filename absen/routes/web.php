@@ -1,5 +1,6 @@
 <?php
 use App\User;
+use App\Absen;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +32,38 @@ Route::get("/testumur" , function(){
         }
     }
     var_dump($res) ;
+});
+Route::get("/checkuser",function(){
+    $users = Absen::select('user_id','tanggal','jenis')
+    ->where('user_id','0573309913')
+    ->whereYear('tanggal', "2023")
+    ->distinct()
+    ->get();
+    foreach ($users as $user) {
+        # code...
+        echo($user->user_id." ".$user->jenis." ".$user->tanggal ."|");
+
+    }
+    //echo(sizeof($users));
+});
+Route::get("/testrank" , function(){
+    $year = 2023;
+    $result = array();
+    $absens = Absen::with('users')->select('user_id' , DB::raw('COUNT(*) as attendance_count'))
+        ->whereYear('tanggal', $year)
+        ->groupBy('user_id')
+        ->orderByDesc('attendance_count')
+        ->limit(10)
+        ->get()
+        ->toArray();
+    foreach ($absens as $absen) {
+        foreach ($absen['users'] as $user) {
+            # code...
+            array_push($result,['Nama' => $user['name'] , 'Kedatangan' => $absen['attendance_count'] , 'NoKartu' => $user['kartu']]);
+        }
+    }
+    var_dump(json_encode($result));
+    die();
 });
 
 Route::group(['middleware' => ['authweb']],function(){
@@ -65,6 +98,8 @@ Route::group(['middleware' => 'role'],function(){
     Route::get('/tarikdata' , 'SuperAdminController@tarikDataPage');
     Route::post('/tarikdataprocess' , 'SuperAdminController@tarikDataProcess');
     Route::get('/selesai/{jenis}/{tanggal}' , 'SuperAdminController@selesaiProcess');
+    Route::get('/rankingabsen','AbsenController@rankingPage');
+
     
     //jemaat
     Route::get('/listjemaat' , 'JemaatController@listjemaat');

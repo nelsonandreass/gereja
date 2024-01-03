@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\User;
 use App\Absen;
@@ -79,5 +80,30 @@ class AbsenController extends Controller
             );
         }
         return json_encode($response);
+    }
+
+    public function rankingAbsen(Request $request){
+        $year = $request->input('year');
+        $result = array();
+        $absens = Absen::with('users')
+        ->select('user_id', DB::raw('COUNT(DISTINCT tanggal) as attendance_count'))
+        ->whereYear('tanggal', $year)
+        ->groupBy('user_id')
+        ->orderByDesc('attendance_count')
+        ->limit(50)
+        ->get()
+        ->toArray();
+
+        foreach ($absens as $absen) {
+            foreach ($absen['users'] as $user) {
+                # code...
+                array_push($result,['nama' => $user['name'] , 'kedatangan' => $absen['attendance_count'] , 'kartu' => $user['kartu'] ,'foto' => $user['foto']]);
+            }
+        }
+        return $result;
+    }
+
+    public function rankingPage(){
+        return view('superadmin.absen.absenranking');
     }
 }
