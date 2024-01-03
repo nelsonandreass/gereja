@@ -34,8 +34,8 @@ body{
     max-height: 30rem !important;
 }
 .icon{
-    max-height: 30px !important;
-    max-width: 50px !important;
+    height: 100px !important;
+    width: 75px !important;
 }
 
 .foto{

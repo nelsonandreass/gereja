@@ -115,8 +115,8 @@
                                     <div>
                                         <h4 class="card-title">Absen</h4>
                                         <h5 class="card-subtitle">Detail absen</h5>
+                                        <h7><a href="{{url('/rankingabsen')}}">Peringkat Absen</a></h3>
                                     </div>
-                                    
                                 </div>
                                 <!-- title -->
                             </div>
