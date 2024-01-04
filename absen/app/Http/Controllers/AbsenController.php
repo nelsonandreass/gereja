@@ -57,18 +57,26 @@ class AbsenController extends Controller
                 $data->tanggal = $date;
                 $data->save();
             }
-            $user = Absen::with(['users'])->where('user_id',$checkUser['kartu'])->first();
+            //backup code 01/04/2024
+            //$user = Absen::with(['users'])->where('user_id',$checkUser['kartu'])->first();
             
-            
-            foreach($user->users as $userdata){
-                $response = array(
-                    "error_code" => '0000',
-                    "error_message" => "Success",
-                    "name" => $userdata->name,
-                    "foto" => $userdata->foto,
-                    "greet" => "Selamat Beribadah"
-                );
-            }
+            // foreach($user->users as $userdata){
+            //     $response = array(
+            //         "error_code" => '0000',
+            //         "error_message" => "Success",
+            //         "name" => $userdata->name,
+            //         "foto" => $userdata->foto,
+            //         "greet" => "Selamat Beribadah"
+            //     );
+            // }
+
+            $response = [
+                "error_code" => '0000',
+                "error_message" => "Success",
+                "name" => $checkUser->name,
+                "foto" => $checkUser->foto,
+                "greet" => "Selamat Beribadah"
+            ];
             
         }
         else{
