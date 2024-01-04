@@ -14,7 +14,8 @@ use App\User;
 |
 */
 
-
+//Absen Section
+Route::post('/ranking' , 'AbsenController@rankingAbsen');
 
 //Jemaat section
 Route::get('/get' , function(){
