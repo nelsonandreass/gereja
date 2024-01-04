@@ -98,7 +98,7 @@ class AbsenController extends Controller
         ->whereYear('tanggal', $year)
         ->groupBy('user_id')
         ->orderByDesc('attendance_count')
-        ->limit(50)
+        ->limit(20)
         ->get()
         ->toArray();
 

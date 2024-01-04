@@ -47,7 +47,7 @@
 $(document).ready(function(){
     var year = $('#tahun').val();
     $.ajax({
-        url: "/gereja/api/ranking",
+        url: "/absen/api/ranking",
         datatype: "application/x-www-form-urlencoded",
         method:"POST",
         data:{
@@ -62,7 +62,7 @@ $(document).ready(function(){
                             var photo = "";
                         }
                         else{
-                            var photo = '/gereja/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
+                            var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
                         }
                         $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].nama+'</td><td>'+data[i].kedatangan+'</td><td><img src='+photo+'></td></tr>');
                 }
@@ -74,7 +74,7 @@ $(document).ready(function(){
     $('#tahun').change(function(event){
         var year = $('#tahun').val();
         $.ajax({
-            url: "/gereja/api/ranking",
+            url: "/absen/api/ranking",
             datatype: "application/x-www-form-urlencoded",
             method:"POST",
             data:{
@@ -89,7 +89,7 @@ $(document).ready(function(){
                             var photo = "";
                         }
                         else{
-                            var photo = '/gereja/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
+                            var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
                         }
                         $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].nama+'</td><td>'+data[i].kedatangan+'</td><td><img src='+photo+'></td></tr>');
                     }
