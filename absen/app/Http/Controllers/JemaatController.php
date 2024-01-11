@@ -84,7 +84,15 @@ class JemaatController extends Controller
     }
 
     public function sortJemaat(Request $request){
-        $users = $this->jemaat_service->sortJemaat($request);
+        $requestArray = array(
+            'dariUmur' => $request->input('dariumur'),
+            'sampaiUmur' => $request->input('sampaiumur'),
+            'kecamatan' => $request->input('kecamatan'),
+            'nama' => $request->input('nama'),
+            'gender' => $request->input('gender')
+        );
+        $users = $this->jemaat_service->sortJemaat($requestArray);
+        return $users;
     }
    
 }

@@ -27,7 +27,7 @@ Route::post('/absenprocess' , 'AbsenController@absenProcess');
 Route::post('/searchulangtahun' , 'JemaatController@searchulangtahun');
 Route::post('/sortjemaatbykecamatan' , 'JemaatController@sortByKecamatan');
 Route::post('/sortjemaatbyumur' , 'JemaatController@sortByUmur');
-//Route::post('/sortjemaat' , 'JemaatController@sortJemaat'); unknown effect
+Route::post('/sortjemaat' , 'JemaatController@sortJemaat');
 Route::post('/sortkomsel' , 'KomselController@sortKomsel');
 
 

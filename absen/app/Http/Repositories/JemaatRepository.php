@@ -35,7 +35,18 @@ class JemaatRepository
     }
 
     public function sortJemaat($request){
-
+        if($request['kecamatan'] == "semua"){
+            $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan' , DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))
+            ->where('jenis_kelamin', $request['gender'])
+            ->get();
+        }else{
+            $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan' , DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))
+            ->where('jenis_kelamin', $request['gender'])
+            ->where('kecamatan',$request['kecamatan'])
+            ->get();
+        }
+       
+        return $datas;
     }
 
     public function searchJemaat($request){
@@ -50,7 +61,7 @@ class JemaatRepository
 
     public function sortByKecamatanCache($request){
         $datas = cache()->remember('users-key' ,60*60*24,function(){
-            User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
+            User::where('role' , 'user')->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->where('kecamatan', $request)->get();
         });
         return $datas;
     }

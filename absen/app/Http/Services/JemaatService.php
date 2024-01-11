@@ -42,8 +42,21 @@ class JemaatService
     }
 
     public function sortJemaat($request){
+        $res = array();
+        if($request['dariUmur'] == null || !isset($request['dariUmur'])){
+            $request['dariUmur'] = 0;
+        }
+        if($request['sampaiUmur'] == null || !isset($request['sampaiUmur'])){
+            $request['sampaiUmur'] = 9999;
+        }
         $users = $this->jemaat_repo->sortJemaat($request);
-        return $users;
+        foreach($users as $user){
+            $user->umur = floor($user->umur/365);
+            if($user->umur >= $request['dariUmur'] && $user->umur <= $request['sampaiUmur']){
+                array_push($res,$user);
+            }
+        }
+        return $res;
     }
 
     public function searchJemaat($request){

@@ -64,7 +64,7 @@ $(document).ready(function(){
                         else{
                             var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
                         }
-                        $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].nama+'</td><td>'+data[i].kedatangan+'</td><td><img src='+photo+'></td></tr>');
+                        $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].nama+'</td><td>'+data[i].kedatangan+'</td><td><img style="width:150px !important;height:200px !important" class="icon" src='+photo+'></td></tr>');
                 }
                 if(data == ""){
                     $(".default-table").show();
@@ -91,7 +91,7 @@ $(document).ready(function(){
                         else{
                             var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
                         }
-                        $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].nama+'</td><td>'+data[i].kedatangan+'</td><td><img src='+photo+'></td></tr>');
+                        $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].nama+'</td><td>'+data[i].kedatangan+'</td><td><img style="width:150px !important;height:200px !important" src='+photo+'></td></tr>');
                     }
                     if(data == ""){
                         $(".default-table").show();
