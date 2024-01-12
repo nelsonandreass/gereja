@@ -181,7 +181,7 @@
                                     var photo = '/absen/absen/storage/app/public/'+data[i].foto.split(" ").join('%20');
 
                                 }
-                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td>'+data[i].kartu+'</td><td>'+data[i].umur+'</td><td><img class="icon" src='+photo+'></td><td class="removeCol"><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a><a href="/absen/delete/'+data[i].id+'" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a></td></tr>');
+                                $('#body-table').append('<tr class="row-table"><td>'+(i+1)+'</td><td>'+data[i].name+'</td><td>'+(data[i].nama_panggilan === null ? "":data[i].nama_panggilan)+'</td><td>'+data[i].nomor_telepon+'</td><td class="w-25">'+data[i].alamat+'</td><td class="removeCol">'+data[i].kartu+'</td><td>'+data[i].umur+'</td><td><img class="icon" src='+photo+'></td><td class="removeCol"><a class="btn btn-primary" href=/absen/showjemaat/'+data[i].id+'>Edit</a><a href="/absen/delete/'+data[i].id+'" class="btn btn-danger w-100 mt-1" style="color:white;border-radius:.5rem">Delete</a></td></tr>');
                             }
                             if(data == ""){
                                 $(".default-table").show();
