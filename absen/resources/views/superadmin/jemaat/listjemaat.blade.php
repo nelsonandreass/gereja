@@ -95,7 +95,7 @@
                                 <th>Panggilan</th>
                                 <th>No Telepon</th>
                                 <th class="w-25">Alamat</th>
-                                <th>No Kartu</th>
+                                <th class="removeCol">No Kartu</th>
                                 <th>Umur</th>
                                 <th>Foto</th>
                                 <th class="removeCol">Action</th>
@@ -110,7 +110,7 @@
                                         <td>{{$user->nama_panggilan}}</td>
                                         <td>{{$user->nomor_telepon}}</td>
                                         <td>{{$user->alamat}}</td>
-                                        <td>{{$user->kartu}}</td>
+                                        <td class="removeCol">{{$user->kartu}}</td>
                                         <td>{{$user->umur}}</td>
                                         <td><img src="{{asset('/absen/storage/app/public/'.$user->foto)}}" class="icon" alt="{{$user->foto}}"></td>
                                         <td class="removeCol">
@@ -153,7 +153,6 @@
             });
 
             $('#sort').click(function(){
-                console.log("test");
                 var start = $('#dariumur').val();
                 var to = $('#sampaiumur').val();
                 var kecamatan = $('#kecamatan').val();
