@@ -12,6 +12,8 @@ Use App\Berita;
 Use App\Counter;
 Use App\wa_sent_flags;
 Use App\TempUser;
+use App\Keluarga;
+use App\KeluargaMember;
 
 use App\Imports\UsersImport;
 use Illuminate\Foundation\Auth\User as AuthUser;
@@ -146,6 +148,17 @@ class SuperAdminController extends Controller
 
     //end of absen
 
+    //Print Kartu Keluarga
+
+    public function printKartuKeluarga($id){
+        $keluarga = Keluarga::with(['user'])->where('id',$id)->first();
+        $users = $this->jemaat_service->getAllJemaat();
+        $anggotaKeluarga = KeluargaMember::with(['user'])->where('keluarga_id',$id)->get();
+
+        return view('superadmin.keluarga.printKeluarga' , ['keluarga' => $keluarga , 'users' => $users , 'anggotaKeluarga' => $anggotaKeluarga , "keluargaid" => $id]);
+    }
+
+    //End of Print Kartu Keluarga
     
 }
 

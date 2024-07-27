@@ -43,10 +43,10 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                    <input type="number" name="dariumur" id="dariumur" class="form-control" placeholder="Dari Umur">
+                                    <input type="number" name="dariumur" id="dariumur" class="form-control" placeholder="Dari Umur" min="0">
                             </div>
                             <div class="col-6">
-                                    <input type="number" name="sampaiumur" id="sampaiumur" class="form-control"placeholder="Sampai Umur">
+                                    <input type="number" name="sampaiumur" id="sampaiumur" class="form-control"placeholder="Sampai Umur" min="0">
                             </div>
                         </div>
                     </div>

@@ -35,17 +35,14 @@ class JemaatRepository
     }
 
     public function sortJemaat($request){
-        if($request['kecamatan'] == "semua"){
+        if(sizeof($request) == 0){
             $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan' , DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))
-            ->where('jenis_kelamin', $request['gender'])
             ->get();
         }else{
             $datas = User::select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan' , DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))
-            ->where('jenis_kelamin', $request['gender'])
-            ->where('kecamatan',$request['kecamatan'])
+            ->where($request)
             ->get();
         }
-       
         return $datas;
     }
 

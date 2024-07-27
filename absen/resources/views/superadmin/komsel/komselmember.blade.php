@@ -33,7 +33,7 @@
                                 </div>
 
                                 <div id="newRow"></div>
-                                <span id="addRow" type="button" class="btn btn-info" style="color:white; border-radius:.5rem;">Add Row</span>
+                                <span id="addRow" type="button" class="btn btn-info" style="color:white; border-radius:.5rem;">Tambah Anggota</span>
                             </div>
                         </div>
                         <input type="hidden" name="komsel_id" value="{{$komsel_id}}">

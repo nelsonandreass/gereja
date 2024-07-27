@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function bic(){
         return $this->hasOne(Bic::class,'user_id','kartu');
     }
+
+    public function keluarga(){
+        return $this->belongsTo(Keluarga::class,"id","anggota_id");
+    }
 }

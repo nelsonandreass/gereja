@@ -22,49 +22,49 @@ Route::get('/get' ,'LogoutController@check' );
 Route::resource('/login' ,'LoginController');
 Route::resource('/register' ,'RegisterController');
 
-Route::get("/testumur" , function(){
-    $users = User::select('tanggal_lahir',DB::raw('curdate() as tanggal'), DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
-    $res = array();
-    foreach($users as $user){
-        $user->umur = floor($user->umur/365);
-        if($user->umur >= 0 && $user->umur <= 30){
-            array_push($res,$user);
-        }
-    }
-    var_dump($res) ;
-});
-Route::get("/checkuser",function(){
-    $users = Absen::select('user_id','tanggal','jenis')
-    ->where('user_id','0573309913')
-    ->whereYear('tanggal', "2023")
-    ->distinct()
-    ->get();
-    foreach ($users as $user) {
-        # code...
-        echo($user->user_id." ".$user->jenis." ".$user->tanggal ."|");
+// Route::get("/testumur" , function(){
+//     $users = User::select('tanggal_lahir',DB::raw('curdate() as tanggal'), DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
+//     $res = array();
+//     foreach($users as $user){
+//         $user->umur = floor($user->umur/365);
+//         if($user->umur >= 0 && $user->umur <= 30){
+//             array_push($res,$user);
+//         }
+//     }
+//     var_dump($res) ;
+// });
+// Route::get("/checkuser",function(){
+//     $users = Absen::select('user_id','tanggal','jenis')
+//     ->where('user_id','0573309913')
+//     ->whereYear('tanggal', "2023")
+//     ->distinct()
+//     ->get();
+//     foreach ($users as $user) {
+//         # code...
+//         echo($user->user_id." ".$user->jenis." ".$user->tanggal ."|");
 
-    }
-    //echo(sizeof($users));
-});
-Route::get("/testrank" , function(){
-    $year = 2023;
-    $result = array();
-    $absens = Absen::with('users')->select('user_id' , DB::raw('COUNT(*) as attendance_count'))
-        ->whereYear('tanggal', $year)
-        ->groupBy('user_id')
-        ->orderByDesc('attendance_count')
-        ->limit(10)
-        ->get()
-        ->toArray();
-    foreach ($absens as $absen) {
-        foreach ($absen['users'] as $user) {
-            # code...
-            array_push($result,['Nama' => $user['name'] , 'Kedatangan' => $absen['attendance_count'] , 'NoKartu' => $user['kartu']]);
-        }
-    }
-    var_dump(json_encode($result));
-    die();
-});
+//     }
+//     //echo(sizeof($users));
+// });
+// Route::get("/testrank" , function(){
+//     $year = 2023;
+//     $result = array();
+//     $absens = Absen::with('users')->select('user_id' , DB::raw('COUNT(*) as attendance_count'))
+//         ->whereYear('tanggal', $year)
+//         ->groupBy('user_id')
+//         ->orderByDesc('attendance_count')
+//         ->limit(10)
+//         ->get()
+//         ->toArray();
+//     foreach ($absens as $absen) {
+//         foreach ($absen['users'] as $user) {
+//             # code...
+//             array_push($result,['Nama' => $user['name'] , 'Kedatangan' => $absen['attendance_count'] , 'NoKartu' => $user['kartu']]);
+//         }
+//     }
+//     var_dump(json_encode($result));
+//     die();
+// });
 
 Route::group(['middleware' => ['authweb']],function(){
     Route::resource('/home' , 'HomeController');
@@ -129,6 +129,13 @@ Route::group(['middleware' => 'role'],function(){
     Route::resource('youth' , 'YouthController');
     //end of Youth
 
+
+    // Keluarga
+    Route::resource('keluarga' , 'KeluargaController');
+    Route::resource('/keluargamember' , 'KeluargaMemberController');
+    Route::get('/printkeluarga/{id}' , 'SuperAdminController@printKartuKeluarga');
+    //end of Kelurga
+    
     Route::get('/upload' , 'SuperAdminController@upload');
     Route::post('/uploadprocess' , 'SuperAdminController@uploadprocess');
 

@@ -91,7 +91,17 @@ class JemaatController extends Controller
             'nama' => $request->input('nama'),
             'gender' => $request->input('gender')
         );
-        $users = $this->jemaat_service->sortJemaat($requestArray);
+        $requestArrayNotNull = array();
+        foreach ($requestArray as $key => $value) {
+            if($value != null){
+                if($key == "gender"){
+                    $key = "jenis_kelamin";
+                }if($value != "semua"){
+                    $requestArrayNotNull[$key] = $value;
+                }
+            }
+        }
+        $users = $this->jemaat_service->sortJemaat($requestArrayNotNull);
         return $users;
     }
    
