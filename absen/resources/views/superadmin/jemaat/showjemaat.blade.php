@@ -104,6 +104,16 @@
                             Youth
                         </label>
                         <input class="form-check-input" type="checkbox" name="youth" value="Youth" id="Youth" <?php if($datas->isYouth == "Y" ?  print('checked') : print('') )?>>
+
+                        <label class="form-check-label" for="Pria">
+                            Pria
+                        </label>
+                        <input class="form-check-input" type="checkbox" name="pria" value="Pria" id="Pria" <?php if($datas->isPria == "Y" ?  print('checked') : print('') )?>>
+
+                        <label class="form-check-label" for="BlessKids">
+                            Bless Kids
+                        </label>
+                        <input class="form-check-input" type="checkbox" name="blesskids" value="BlessKids" id="BlessKids" <?php if($datas->isGa == "Y" ?  print('checked') : print('') )?>>
                     </div>
                 </div>
                 

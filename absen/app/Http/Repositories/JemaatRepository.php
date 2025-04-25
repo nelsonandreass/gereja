@@ -30,7 +30,7 @@ class JemaatRepository
     }
 
     public function showJemaat($id){
-        $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kecamatan' , 'kelurahan' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto','nama_panggilan' , 'isBic' , 'isYouth')->find($id);
+        $data = User::select('id' , 'name' , 'nomor_telepon' , 'alamat' , 'kecamatan' , 'kelurahan' , 'kartu' , 'foto' ,'tempat_lahir', 'status_pernikahan', 'tanggal_lahir', 'jenis_kelamin' , 'email' , 'foto','nama_panggilan' , 'isBic' , 'isYouth', 'isPria', 'isGa')->find($id);
         return $data;
     }
 
@@ -111,6 +111,22 @@ class JemaatRepository
 
     public function isBic(){
         $users = User::where('role' , 'user')->where('isBic' , "=" , "Y")->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan','tanggal_lahir', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
+        foreach($users as $user){
+            $user->umur = floor($user->umur/365);
+        }
+        return $users;
+    }
+
+    public function isBlessKids(){
+        $users = User::where('role' , 'user')->where('isGa' , "=" , "Y")->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan','tanggal_lahir', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
+        foreach($users as $user){
+            $user->umur = floor($user->umur/365);
+        }
+        return $users;
+    }
+
+    public function isPria(){
+        $users = User::where('role' , 'user')->where('isPria' , "=" , "Y")->select('id','name' , 'nomor_telepon' , 'alamat' , 'kartu' , 'foto' , 'nama_panggilan','tanggal_lahir', DB::raw('ABS(DATEDIFF(tanggal_lahir, curdate())) as umur'))->get();
         foreach($users as $user){
             $user->umur = floor($user->umur/365);
         }

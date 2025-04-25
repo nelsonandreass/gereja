@@ -129,6 +129,13 @@ Route::group(['middleware' => 'role'],function(){
     Route::resource('youth' , 'YouthController');
     //end of Youth
 
+   // BlessKids
+   Route::resource('blesskids' , 'BlessKidsController');
+   //end of BlessKids
+
+    // Pria
+    Route::resource('pria' , 'PriaController');
+    //end of Pria
 
     // Keluarga
     Route::resource('keluarga' , 'KeluargaController');

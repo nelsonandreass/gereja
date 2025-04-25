@@ -130,6 +130,8 @@ class JemaatService
         $foto = $request->file('foto');
         $bic = $request->input('bic') == null ? "N" : "Y";
         $youth = $request->input('youth') == null ? "N" : "Y";
+        $pria = $request->input('pria') == null ? "N" : "Y";
+        $blesskids = $request->input('blesskids') == null ? "N" : "Y";
         $array = array(
             'email' => $email,
             'nomor_telepon' => $telepon,
@@ -142,7 +144,9 @@ class JemaatService
             'status_pernikahan' => $status_pernikahan,
             'nama_panggilan' => $nama_panggilan,
             'isBic' => $bic,
-            'isYouth' => $youth
+            'isYouth' => $youth,
+            'isPria' => $pria,
+            'isGA' => $blesskids
         );
         if(!is_null($foto)){
             $namafoto = $name.'.' . $foto->getClientOriginalExtension();
@@ -183,6 +187,14 @@ class JemaatService
 
     public function isBic(){
         return $this->jemaat_repo->isBic();
+    }
+
+    public function isBlessKids(){
+        return $this->jemaat_repo->isBic();
+    }
+
+    public function isPria(){
+        return $this->jemaat_repo->isPria();
     }
 }
 
